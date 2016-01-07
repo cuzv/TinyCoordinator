@@ -1,5 +1,5 @@
 //
-//  TCExtension.swift
+//  Array+Extension.swift
 //  TinyCoordinator
 //
 //  Created by Moch Xiao on 1/7/16.
@@ -25,6 +25,8 @@
 //
 
 import Foundation
+
+// MARK: - Array
 
 internal extension Array {
     internal mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {

@@ -27,20 +27,20 @@
 import Foundation
 
 /// The UITableView/UICollectionView data present.
-public struct TCGlobalDataMetric<T: Equatable> {
-    private var sectionDataMetrics: [TCSectionDataMetric<T>]
+public struct TCGlobalDataMetric<T: Equatable, O: Equatable> {
+    private var sectionDataMetrics: [TCSectionDataMetric<T, O>]
     /// UITableView only, return the table view header data.
     public private(set) var dataForHeader: Any!
     /// UITableView only, return the table view footer data.
     public private(set) var dataForFooter: Any!
     
     /// NSArray parameter must contains all instance kinda `TCSectionDataMetric`.
-    public init(sectionDataMetrics: [TCSectionDataMetric<T>]) {
+    public init(sectionDataMetrics: [TCSectionDataMetric<T, O>]) {
         self.sectionDataMetrics = sectionDataMetrics
     }
     
     /// UITableView only.
-    public init(sectionDataMetrics: [TCSectionDataMetric<T>], dataForHeader: Any, dataForFooter: Any) {
+    public init(sectionDataMetrics: [TCSectionDataMetric<T, O>], dataForHeader: Any, dataForFooter: Any) {
         self.init(sectionDataMetrics: sectionDataMetrics)
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
@@ -56,7 +56,7 @@ public extension TCGlobalDataMetric {
     }
 
     /// Each section items count.
-    public var allSectionDataMetrics: [TCSectionDataMetric<T>] {
+    public var allSectionDataMetrics: [TCSectionDataMetric<T, O>] {
         return self.sectionDataMetrics
     }
 
@@ -73,7 +73,10 @@ public extension TCGlobalDataMetric {
     /// The data which should configure for the indexPath.
     public func dataForItemAtIndexPath(indexPath: NSIndexPath) -> T? {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        if self.sectionDataMetrics.count <= section {
+            return nil
+        }
+        
         return self.sectionDataMetrics[section].dataAtIndex(indexPath.item)
     }
     
@@ -93,83 +96,83 @@ public extension TCGlobalDataMetric {
     
     /// UITableView only, return the specific section header title.
     public func titleForHeaderInSection(section: Int) -> String? {
-        if self.numberOfSections > section {
-            return self.sectionDataMetrics[section].titleForHeader
+        if self.numberOfSections <= section {
+            return nil
         }
         
-        return nil
+        return self.sectionDataMetrics[section].titleForHeader
     }
     
     /// UITableView only, return the specific section footer title.
     public func titleForFooterInSection(section: Int) -> String? {
-        if self.numberOfSections > section {
-            return self.sectionDataMetrics[section].titleForFooter
+        if self.numberOfSections <= section {
+            return nil
         }
         
-        return nil
+        return self.sectionDataMetrics[section].titleForFooter
     }
     
     /// UITableView only, return the specific section header data.
-    public func dataForHeaderInSection(section: Int) -> Any? {
-        if self.numberOfSections > section {
-            return self.sectionDataMetrics[section].dataForHeader
+    public func dataForHeaderInSection(section: Int) -> O? {
+        if self.numberOfSections <= section {
+            return nil
         }
-        
-        return nil
+
+        return self.sectionDataMetrics[section].dataForHeader
     }
     
     /// UITableView only, return the specific section header data.
-    public func dataForFooterInSection(section: Int) -> Any? {
-        if self.numberOfSections > section {
-            return self.sectionDataMetrics[section].dataForFooter
+    public func dataForFooterInSection(section: Int) -> O? {
+        if self.numberOfSections <= section {
+            return nil
         }
         
-        return nil
+        return self.sectionDataMetrics[section].dataForFooter
     }
 
     /// UITableView only, return the specific header index.
-    public func indexOfHeaderData(data: Any) -> Int? {
+    public func indexOfHeaderData(data: O) -> Int? {
         // TODO
         TCUnimplemented()
     }
     
     /// UITableView only, return the specific footer index.
-    public func indexOfFooterData(data: Any) -> Int? {
+    public func indexOfFooterData(data: O) -> Int? {
         // TODO
         TCUnimplemented()
     }
     
     /// UICollectionView only, the data for specific kind at indexPath.
-    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndexPath indexPath: NSIndexPath) -> Any? {
+    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndexPath indexPath: NSIndexPath) -> O? {
         let section = indexPath.section
-        if self.numberOfSections > section {
-            return self.sectionDataMetrics[section].dataForSupplementaryElementOfKind(kind, atIndex: indexPath.item)
+        if self.numberOfSections <= section {
+            return nil
         }
 
-        return nil
+        return self.sectionDataMetrics[section].dataForSupplementaryElementOfKind(kind, atIndex: indexPath.item)
     }
 }
 
 // MARK: - Modify
 
 public extension TCGlobalDataMetric {
-    /// Add single `TCSectionDataMetric` to last for current section.
-    public mutating func append(newElement: TCSectionDataMetric<T>) {
+    /// Append single `TCSectionDataMetric` to last for current section.
+    public mutating func append(newElement: TCSectionDataMetric<T, O>) {
         self.sectionDataMetrics.append(newElement)
     }
 
-    /// Add multiple `TCSectionDataMetric` collection to last for current section.
-    public mutating func appendContentsOf(newElements: [TCSectionDataMetric<T>]) {
+    /// Append multiple `TCSectionDataMetric` collection to last for current section.
+    public mutating func appendContentsOf(newElements: [TCSectionDataMetric<T, O>]) {
         self.sectionDataMetrics.appendContentsOf(newElements)
     }
     
-    /// Add single `TCSectionDataMetric` for current setion at specific index.
-    public mutating func insert(newElement: TCSectionDataMetric<T>, atIndex index: Int) {
+    /// Append single `TCSectionDataMetric` for current setion at specific index.
+    public mutating func insert(newElement: TCSectionDataMetric<T, O>, atIndex index: Int) {
         self.insertContentsOf([newElement], atIndex: index)
     }
     
-    /// Add multiple `TCSectionDataMetric` for current setion at specific index.
-    public mutating func insertContentsOf(newElements: [TCSectionDataMetric<T>], atIndex index: Int) {
+    /// Append multiple `TCSectionDataMetric` for current setion at specific index.
+    public mutating func insertContentsOf(newElements: [TCSectionDataMetric<T, O>], atIndex index: Int) {
         validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         self.sectionDataMetrics.insertContentsOf(newElements, at: index)
     }
@@ -212,14 +215,51 @@ public extension TCGlobalDataMetric {
     
     /// Insert single data to specific section & item data metric.
     public mutating func insert(newElement: T, atIndexPath indexPath: NSIndexPath) {
-        // TODO
-        TCUnimplemented()
+        let section = indexPath.section
+        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = self.sectionDataMetrics[section]
+        sectionDataMetric.insert(newElement, atIndex: indexPath.item)
+        self.sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
     }
     
     /// Insert multiple data to specific section & item data metric.
     public mutating func insertContentsOf(newElements: [T], atIndexPath indexPath: NSIndexPath) {
-        // TODO
-        TCUnimplemented()
+        let section = indexPath.section
+        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = self.sectionDataMetrics[section]
+        sectionDataMetric.insertContentsOf(newElements, atIndex: indexPath.item)
+        self.sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+
+    /// Remove the first section data metric.
+    public mutating func removeFirst() -> TCSectionDataMetric<T, O> {
+        return self.sectionDataMetrics.removeFirst()
+    }
+
+    /// Remove the last section data metric.
+    public mutating func removeLast() -> TCSectionDataMetric<T, O> {
+        return self.sectionDataMetrics.removeLast()
+    }
+    
+    /// Remove specific section data metric.
+    public mutating func removeAtIndex(index: Int) -> TCSectionDataMetric<T, O> {
+        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        return self.sectionDataMetrics.removeAtIndex(index)
+    }
+    
+    /// Remove specific data for indexPath.
+    public mutating func removeAtIndexPath(indexPath: NSIndexPath) -> T? {
+        let section = indexPath.section
+        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        return self.sectionDataMetrics[section].removeAtIndex(indexPath.item)
+    }
+    
+    /// Remove all data.
+    public mutating func removeAll() {
+        self.sectionDataMetrics.removeAll()
     }
 }
 
@@ -233,4 +273,13 @@ private extension TCGlobalDataMetric {
             TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
         }
     }
+    
+    private func validateArgumentSection(section: Int, item: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+        let count = self.numberOfSections
+        guard section < count else {
+            let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
+            TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
+        }
+    }
+
 }

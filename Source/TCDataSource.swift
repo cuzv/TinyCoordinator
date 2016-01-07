@@ -26,6 +26,6 @@
 
 import UIKit
 
-public struct TCDataSource {
+public class TCDataSource {
     
 }
