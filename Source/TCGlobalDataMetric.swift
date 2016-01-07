@@ -150,6 +150,79 @@ public extension TCGlobalDataMetric {
     }
 }
 
+// MARK: - Modify
+
+public extension TCGlobalDataMetric {
+    /// Add single `TCSectionDataMetric` to last for current section.
+    public mutating func append(newElement: TCSectionDataMetric<T>) {
+        self.sectionDataMetrics.append(newElement)
+    }
+
+    /// Add multiple `TCSectionDataMetric` collection to last for current section.
+    public mutating func appendContentsOf(newElements: [TCSectionDataMetric<T>]) {
+        self.sectionDataMetrics.appendContentsOf(newElements)
+    }
+    
+    /// Add single `TCSectionDataMetric` for current setion at specific index.
+    public mutating func insert(newElement: TCSectionDataMetric<T>, atIndex index: Int) {
+        self.insertContentsOf([newElement], atIndex: index)
+    }
+    
+    /// Add multiple `TCSectionDataMetric` for current setion at specific index.
+    public mutating func insertContentsOf(newElements: [TCSectionDataMetric<T>], atIndex index: Int) {
+        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        self.sectionDataMetrics.insertContentsOf(newElements, at: index)
+    }
+    
+    /// Append single data to last section data metric.
+    public mutating func append(newElement: T) {
+        if let section = self.sectionDataMetrics.last {
+            var _section = section
+            _section.append(newElement)
+            self.sectionDataMetrics.replaceLast(_section)
+        }
+    }
+
+    /// Append multiple data to last section data metric.
+    public mutating func appendContentsOf(newElements: [T]) {
+        if let section = self.sectionDataMetrics.last {
+            var _section = section
+            _section.appendContentsOf(newElements)
+            self.sectionDataMetrics.replaceLast(_section)
+        }
+    }
+
+    /// Append single data to specific section data metric.
+    public mutating func append(newElement: T, atIndex index: Int) {
+        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var section = self.sectionDataMetrics[index]
+        section.append(newElement)
+        self.sectionDataMetrics.replaceElementAtIndex(index, withElement: section)
+    }
+    
+    /// Append multiple data to specific section data metric.
+    public mutating func appendContentsOf(newElements: [T], atIndex index: Int) {
+        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+
+        var section = self.sectionDataMetrics[index]
+        section.appendContentsOf(newElements)
+        self.sectionDataMetrics.replaceElementAtIndex(index, withElement: section)
+    }
+    
+    /// Insert single data to specific section & item data metric.
+    public mutating func insert(newElement: T, atIndexPath indexPath: NSIndexPath) {
+        // TODO
+        TCUnimplemented()
+    }
+    
+    /// Insert multiple data to specific section & item data metric.
+    public mutating func insertContentsOf(newElements: [T], atIndexPath indexPath: NSIndexPath) {
+        // TODO
+        TCUnimplemented()
+    }
+}
+
 // MARK: - Helpers
 
 private extension TCGlobalDataMetric {

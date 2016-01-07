@@ -30,7 +30,7 @@ internal extension Array {
     internal mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
         let count = self.count
         if count <= index || count <= otherIndex  {
-            assertionFailure("Index beyond boundary.")
+            fatalError("Index beyond boundary.")
         }
         
         let firstItemData = self[index]
@@ -41,6 +41,22 @@ internal extension Array {
         
         self.replaceRange(firstRange, with: [secondaryItemData])
         self.replaceRange(secondaryRange, with: [firstItemData])
+    }
+    
+    internal mutating func replaceElementAtIndex(index: Int, withElement element: Element) {
+        if self.count <= index {
+            fatalError("Index beyond boundary.")
+        }
+        let range = Range(start: index, end: index+1)
+        self.replaceRange(range, with: [element])
+    }
+    
+    internal mutating func replaceLast(element: Element) {
+        self.replaceElementAtIndex(self.count-1, withElement: element)
+    }
+    
+    internal mutating func replaceFirst(element: Element) {
+        self.replaceElementAtIndex(0, withElement: element)
     }
     
     internal var prettyDebugDescription: String {

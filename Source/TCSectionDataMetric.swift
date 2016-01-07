@@ -102,13 +102,23 @@ public extension TCSectionDataMetric {
 // MARK: - Modify
 
 public extension TCSectionDataMetric {
+    /// Add single data for current section data metric.
+    public mutating func append(newElement: T) {
+        self.itemsData.append(newElement)
+    }
+    
     /// Add new data for current section data metric.
     public mutating func appendContentsOf(newElements: [T]) {
         self.itemsData.appendContentsOf(newElements)
     }
+
+    /// Add single data for current setion data metric at specific index.
+    public mutating func insert(newElement: T, adIndex index: Int) {
+        self.insertContentsOf([newElement], atIndex: index)
+    }
     
     /// Add new data for current setion data metric at specific index.
-    public mutating func insertContentsOf(newElements: [T], adIndex index: Int) {
+    public mutating func insertContentsOf(newElements: [T], atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         self.itemsData.insertContentsOf(newElements, at: index)
     }
