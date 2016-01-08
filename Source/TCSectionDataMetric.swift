@@ -30,7 +30,8 @@ import Foundation
 /// Note that, if you preferred inject data could modify keeep the same address as before,
 /// you should pass init params `NSObject` instance.
 public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
-    private var itemsData: [T]
+    /// The main cell data.
+    public private(set) var itemsData: [T]
     /// UITableView only, the section header title.
     public private(set) var titleForHeader: String!
     /// UITableView only, the section footer title.
@@ -74,26 +75,21 @@ public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
 public extension TCSectionDataMetric {
     /// Section data count
     public var numberOfItems: Int {
-        return self.itemsData.count
-    }
-
-    /// All data
-    public var allItemsData: [T] {
-        return self.itemsData
+        return itemsData.count
     }
 
     /// Return specific data
     public func dataAtIndex(index: Int) -> T? {
-        if self.numberOfItems <= index {
+        if numberOfItems <= index {
             return nil
         }
         
-        return self.itemsData[index]
+        return itemsData[index]
     }
     
     /// UICollectionView only, return specific supplementary element data.
     public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> O? {
-        guard let data = self.dataForSupplementaryElements[self.valueForCollectionElementKind(kind)]
+        guard let data = dataForSupplementaryElements[valueForCollectionElementKind(kind)]
             where data.count > index else { return nil }
 
         return data[index]
@@ -105,53 +101,53 @@ public extension TCSectionDataMetric {
 public extension TCSectionDataMetric {
     /// Append single data for current section data metric.
     public mutating func append(newElement: T) {
-        self.itemsData.append(newElement)
+        itemsData.append(newElement)
     }
     
     /// Append new data for current section data metric.
     public mutating func appendContentsOf(newElements: [T]) {
-        self.itemsData.appendContentsOf(newElements)
+        itemsData.appendContentsOf(newElements)
     }
 
     /// Append single data for current setion data metric at specific index.
     public mutating func insert(newElement: T, atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
-        self.insertContentsOf([newElement], atIndex: index)
+        insertContentsOf([newElement], atIndex: index)
     }
     
     /// Append new data for current setion data metric at specific index.
     public mutating func insertContentsOf(newElements: [T], atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
-        self.itemsData.insertContentsOf(newElements, at: index)
+        itemsData.insertContentsOf(newElements, at: index)
     }
     
     /// Remove first data.
     public mutating func removeFirst() -> T {
-        return self.itemsData.removeFirst()
+        return itemsData.removeFirst()
     }
     
     /// Remove last data.
     public mutating func removeLast() -> T {
-        return self.itemsData.removeLast()
+        return itemsData.removeLast()
     }
     
     /// Remove specific data at index.
     public mutating func removeAtIndex(index: Int) -> T? {
-        if self.numberOfItems <= index {
+        if numberOfItems <= index {
             return nil
         }
 
-        return self.itemsData.removeAtIndex(index)
+        return itemsData.removeAtIndex(index)
     }
     
     /// Remove all data.
     public mutating func removeAll() {
-        self.itemsData.removeAll()
+        itemsData.removeAll()
     }
     
     /// Exchange data.
     public mutating func exchangeDataAtIndex(index: Int, withDataIndex otherIndex: Int) {
-        self.itemsData.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
+        itemsData.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
     }
 }
 
@@ -185,7 +181,7 @@ public extension TCSectionDataMetric {
     }
     
     private func validateArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
-        let count = self.numberOfItems
+        let count = numberOfItems
         guard index < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
             TCInvalidArgument("index \(index) extends beyond bounds \(bounds)", method: method, file: file, line: line)
@@ -198,7 +194,7 @@ public extension TCSectionDataMetric {
 extension TCSectionDataMetric: CustomStringConvertible {
     /// The textual representation used when written to an output stream
     public var description: String {
-        return self.debugDescription
+        return debugDescription
     }
 }
 
@@ -209,13 +205,13 @@ extension TCSectionDataMetric: CustomDebugStringConvertible {
     public var debugDescription: String {
         var output: [String] = []
         output.append("-------------------------------------------------")
-        output.append("itemsDataCount: \(self.numberOfItems)")
-        output.append("itemsData: \n\(self.itemsData.prettyDebugDescription)")
-        output.append("titleForHeader: \(self.titleForHeader)")
-        output.append("titleForFooter: \(self.titleForFooter)")
-        output.append("dataForHeader: \(self.dataForHeader)")
-        output.append("dataForFooter: \(self.dataForFooter)")
-        output.append("dataForSupplementaryElements: \(self.dataForSupplementaryElements)")
+        output.append("itemsDataCount: \(numberOfItems)")
+        output.append("itemsData: \n\(itemsData.prettyDebugDescription)")
+        output.append("titleForHeader: \(titleForHeader)")
+        output.append("titleForFooter: \(titleForFooter)")
+        output.append("dataForHeader: \(dataForHeader)")
+        output.append("dataForFooter: \(dataForFooter)")
+        output.append("dataForSupplementaryElements: \(dataForSupplementaryElements)")
         output.append("-------------------------------------------------")
         return output.joinWithSeparator("\n")
     }

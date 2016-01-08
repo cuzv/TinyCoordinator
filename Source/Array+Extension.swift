@@ -30,7 +30,6 @@ import Foundation
 
 internal extension Array {
     internal mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
-        let count = self.count
         if count <= index || count <= otherIndex  {
             fatalError("Index beyond boundary.")
         }
@@ -41,24 +40,24 @@ internal extension Array {
         let secondaryItemData = self[otherIndex]
         let secondaryRange = Range(start: otherIndex, end: otherIndex+1)
         
-        self.replaceRange(firstRange, with: [secondaryItemData])
-        self.replaceRange(secondaryRange, with: [firstItemData])
+        replaceRange(firstRange, with: [secondaryItemData])
+        replaceRange(secondaryRange, with: [firstItemData])
     }
     
     internal mutating func replaceElementAtIndex(index: Int, withElement element: Element) {
-        if self.count <= index {
+        if count <= index {
             fatalError("Index beyond boundary.")
         }
         let range = Range(start: index, end: index+1)
-        self.replaceRange(range, with: [element])
+        replaceRange(range, with: [element])
     }
     
     internal mutating func replaceLast(element: Element) {
-        self.replaceElementAtIndex(self.count-1, withElement: element)
+        replaceElementAtIndex(count-1, withElement: element)
     }
     
     internal mutating func replaceFirst(element: Element) {
-        self.replaceElementAtIndex(0, withElement: element)
+        replaceElementAtIndex(0, withElement: element)
     }
     
     internal var prettyDebugDescription: String {

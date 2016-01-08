@@ -48,7 +48,7 @@ public extension UICollectionView {
         viewClass: T.Type,
         preferredLayoutSizeFittingSize fittingSize: CGSize,
         dataConfigurationHandler: (T) -> ()) -> CGSize
-    {
+    {        
         var reusableView: T!
         if let _reusableView = self.reusableView as? T {
             reusableView = _reusableView
