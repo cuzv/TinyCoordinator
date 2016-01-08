@@ -54,16 +54,16 @@ internal extension UICollectionReusableView {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
-            size = self.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
                 NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
-            self.addConstraints(constraints)
-            self.updateConstraints()
-            size = self.systemLayoutSizeFittingSize(fittingSize)
-            self.removeConstraints(constraints)
+            addConstraints(constraints)
+            updateConstraints()
+            size = systemLayoutSizeFittingSize(fittingSize)
+            removeConstraints(constraints)
         }
         
         frame.size = size
@@ -81,17 +81,17 @@ internal extension UICollectionViewCell {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
-            self.layoutSubviews()
-            size = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            layoutSubviews()
+            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
                 NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
-            self.addConstraints(constraints)
-            self.updateConstraints()
-            size = self.systemLayoutSizeFittingSize(fittingSize)
-            self.removeConstraints(constraints)
+            addConstraints(constraints)
+            updateConstraints()
+            size = systemLayoutSizeFittingSize(fittingSize)
+            removeConstraints(constraints)
         }
         
         // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.
@@ -112,17 +112,17 @@ internal extension UITableViewCell {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
-            self.layoutSubviews()
-            size = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            layoutSubviews()
+            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
                 NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
-            self.addConstraints(constraints)
-            self.updateConstraints()
-            size = self.systemLayoutSizeFittingSize(fittingSize)
-            self.removeConstraints(constraints)
+            addConstraints(constraints)
+            updateConstraints()
+            size = systemLayoutSizeFittingSize(fittingSize)
+            removeConstraints(constraints)
         }
         
         // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.
@@ -143,17 +143,17 @@ internal extension UITableViewHeaderFooterView {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
-            self.layoutSubviews()
-            size = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            layoutSubviews()
+            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
                 NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
-            self.addConstraints(constraints)
-            self.updateConstraints()
-            size = self.systemLayoutSizeFittingSize(fittingSize)
-            self.removeConstraints(constraints)
+            addConstraints(constraints)
+            updateConstraints()
+            size = systemLayoutSizeFittingSize(fittingSize)
+            removeConstraints(constraints)
         }
         
         // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.

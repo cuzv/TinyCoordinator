@@ -35,14 +35,14 @@ public extension UITableView {
             return UITableViewAutomaticDimension
         }
         
-        guard let reusableCell = self.dequeueReusableCellWithIdentifier(identifier) as? T else {
+        guard let reusableCell = dequeueReusableCellWithIdentifier(identifier) as? T else {
             fatalError("Cell must be registered to tableView for identifier: \(identifier)")
         }
         
         reusableCell.prepareForReuse()
         dataConfigurationHandler(reusableCell)
         
-        let fittingSize = CGSizeMake(CGRectGetWidth(self.bounds), UILayoutFittingExpandedSize.height)
+        let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
         
         return reusableCell.tc_preferredLayoutSizeFittingSize(fittingSize).height
     }
@@ -51,14 +51,14 @@ public extension UITableView {
         identifier: String,
         dataConfigurationHandler: (T) -> ()) -> CGFloat
     {
-        guard let reusableHeaderFooterView = self.dequeueReusableHeaderFooterViewWithIdentifier(identifier) as? T else {
+        guard let reusableHeaderFooterView = dequeueReusableHeaderFooterViewWithIdentifier(identifier) as? T else {
             fatalError("HeaderFooterView must be registered to tableView for identifier: \(identifier)")
         }
         
         reusableHeaderFooterView.prepareForReuse()
         dataConfigurationHandler(reusableHeaderFooterView)
 
-        let fittingSize = CGSizeMake(CGRectGetWidth(self.bounds), UILayoutFittingExpandedSize.height)
+        let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
         return reusableHeaderFooterView.tc_preferredLayoutSizeFittingSize(fittingSize).height
     }
 

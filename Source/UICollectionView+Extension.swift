@@ -49,18 +49,19 @@ public extension UICollectionView {
         preferredLayoutSizeFittingSize fittingSize: CGSize,
         dataConfigurationHandler: (T) -> ()) -> CGSize
     {
-        var reusableView: T!
-        if let _reusableView = self.reusableView as? T {
-            reusableView = _reusableView
+        
+        var _reusableView: T!
+        if let reusableView = reusableView as? T {
+            _reusableView = reusableView
         } else {
-            reusableView = viewClass.init(frame: CGRectZero)
-            self.reusableView = reusableView
+            _reusableView = viewClass.init(frame: CGRectZero)
+            reusableView = _reusableView
         }
 
-        reusableView.prepareForReuse()
-        dataConfigurationHandler(reusableView)
+        _reusableView.prepareForReuse()
+        dataConfigurationHandler(_reusableView)
         
-        return reusableView.tc_preferredLayoutSizeFittingSize(fittingSize)
+        return _reusableView.tc_preferredLayoutSizeFittingSize(fittingSize)
     }
     
     public func tc_sizeForReusableCellByClass<T: UICollectionViewCell>(
@@ -68,17 +69,17 @@ public extension UICollectionView {
         preferredLayoutSizeFittingSize fittingSize: CGSize,
         dataConfigurationHandler: (T) -> ()) -> CGSize
     {
-        var reusableCell: T!
-        if let _reusableCell = self.reusableCell as? T {
-            reusableCell = _reusableCell
+        var _reusableCell: T!
+        if let reusableCell = reusableCell as? T {
+            _reusableCell = reusableCell
         } else {
-            reusableCell = cellClass.init(frame: CGRectZero)
-            self.reusableCell = reusableCell
+            _reusableCell = cellClass.init(frame: CGRectZero)
+            reusableCell = _reusableCell
         }
 
-        reusableCell.prepareForReuse()
-        dataConfigurationHandler(reusableCell)
+        _reusableCell.prepareForReuse()
+        dataConfigurationHandler(_reusableCell)
         
-        return (reusableCell as UICollectionViewCell).tc_preferredLayoutSizeFittingSize(fittingSize)
+        return (_reusableCell as UICollectionViewCell).tc_preferredLayoutSizeFittingSize(fittingSize)
     }
 }
