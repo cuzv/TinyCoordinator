@@ -26,6 +26,32 @@
 
 import UIKit
 
-public class TCDataSource {
+public class TCDataSource//: UITableViewDataSource, UICollectionViewDataSource 
+{
+    public let tableView: UITableView!
+    public let collectionView: UICollectionView!
     
+    private init() {
+        fatalError("Use init(tableView:) or init(collectionView:) instead.")
+    }
+    
+    public init(tableView: UITableView) {
+        self.tableView = tableView
+        collectionView = nil
+        checkConforms()
+    }
+    
+    public init(collectionView: UICollectionView) {
+        self.collectionView = collectionView
+        tableView = nil
+        checkConforms()
+    }
+    
+    private func checkConforms() {
+        // Oops.
+        // Cuzv Swift does not support generic protocol, so this work can not be going on...
+        if self is TCDataSourceProtocol  {
+            
+        }
+    }
 }

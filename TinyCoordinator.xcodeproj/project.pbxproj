@@ -28,6 +28,7 @@
 		46EB59681C3D4E44005254B4 /* TCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB59671C3D4E44005254B4 /* TCDelegate.swift */; };
 		46EB596A1C3D4E59005254B4 /* TCGlobalDataMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB59691C3D4E59005254B4 /* TCGlobalDataMetric.swift */; };
 		46EB596C1C3D4E7B005254B4 /* TCSectionDataMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB596B1C3D4E7B005254B4 /* TCSectionDataMetric.swift */; };
+		46EC2B9C1C421FD400FFF311 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EC2B9B1C421FD400FFF311 /* DataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		46EB59671C3D4E44005254B4 /* TCDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCDelegate.swift; sourceTree = "<group>"; };
 		46EB59691C3D4E59005254B4 /* TCGlobalDataMetric.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCGlobalDataMetric.swift; sourceTree = "<group>"; };
 		46EB596B1C3D4E7B005254B4 /* TCSectionDataMetric.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCSectionDataMetric.swift; sourceTree = "<group>"; };
+		46EC2B9B1C421FD400FFF311 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				461706DA1C3D77590013C6D1 /* Model.swift */,
 				46817E2B1C3ED87100F193BC /* TableViewHeaderView.swift */,
 				46817E2D1C3ED88500F193BC /* TableViewFooterView.swift */,
+				46EC2B9B1C421FD400FFF311 /* DataSource.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46EC2B9C1C421FD400FFF311 /* DataSource.swift in Sources */,
 				461706DB1C3D77590013C6D1 /* Model.swift in Sources */,
 				46817E2C1C3ED87100F193BC /* TableViewHeaderView.swift in Sources */,
 				46CB033A1C3EC9970036A7F7 /* Cell.swift in Sources */,

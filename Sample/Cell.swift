@@ -38,5 +38,6 @@ extension TableViewCell {
 
 extension TableViewCell {
     func setupData(data: CellDataItem) {
+        textLabel?.text = data.name
     }
 }

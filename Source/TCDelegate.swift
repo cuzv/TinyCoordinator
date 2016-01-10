@@ -26,6 +26,6 @@
 
 import UIKit
 
-public struct TCDelegate {
+public class TCDelegate {
 
 }
