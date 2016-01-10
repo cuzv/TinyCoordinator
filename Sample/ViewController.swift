@@ -9,8 +9,26 @@
 import UIKit
 import TinyCoordinator
 
+
 class ViewController: UIViewController {
 
+    lazy var dataSource: DataSource = {
+        DataSource(tableView: self.tableView)
+    }()
+    
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRectZero, style: .Plain)
+        tableView.alwaysBounceVertical = true
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero;
+        tableView.tableFooterView = UIView(frame: CGRectMake(0, 0, 0, CGFloat.min))
+        
+        return tableView
+    }()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,8 +37,6 @@ class ViewController: UIViewController {
         let item3 = CellDataItem(name: "Kobe Bryant", pic: "nil")
         let data = [item1, item2, item3]
         
-
-//        var s = TCSectionDataMetric(itemsData: data, dataForHeader: item2, dataForFooter: item3)
         
         var secion = TCSectionDataMetric<CellDataItem, NSObject>(itemsData: data)
         secion.exchangeDataAtIndex(0, withDataIndex: 2)
@@ -28,6 +44,11 @@ class ViewController: UIViewController {
         
         let global = TCGlobalDataMetric(sectionDataMetrics: [secion])
         debugPrint(global)
+
+        view.addSubview(tableView)
+        tableView.frame = view.bounds
+//        tableView.dataSource = self.dataSource        
         
+        tableView.reloadData()
     }
 }
