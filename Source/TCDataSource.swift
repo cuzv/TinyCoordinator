@@ -26,24 +26,26 @@
 
 import UIKit
 
-public class TCDataSource//: UITableViewDataSource, UICollectionViewDataSource 
+public class TCDataSource: NSObject//, UITableViewDataSource, UICollectionViewDataSource
 {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
     
-    private init() {
+    private override init() {
         fatalError("Use init(tableView:) or init(collectionView:) instead.")
     }
     
     public init(tableView: UITableView) {
         self.tableView = tableView
         collectionView = nil
+        super.init()
         checkConforms()
     }
     
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
         tableView = nil
+        super.init()        
         checkConforms()
     }
     
