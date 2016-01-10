@@ -26,66 +26,38 @@
 
 import UIKit
 
-public class TCDataSource: NSObject //: UITableViewDataSource//, UICollectionViewDataSource
+public class TCDataSource//: UITableViewDataSource, UICollectionViewDataSource 
 {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
     
-    private override init() {
+    private init() {
         fatalError("Use init(tableView:) or init(collectionView:) instead.")
     }
     
     public init(tableView: UITableView) {
         self.tableView = tableView
         collectionView = nil
-        super.init()
         checkConforms()
     }
     
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
         tableView = nil
-        super.init()        
         checkConforms()
     }
     
     private func checkConforms() {
         // Oops.
+<<<<<<< HEAD
         // Cuz Swift does not support generic protocol, so this work can not be going on...
         if self is TCDataSourceProtocol {
         
+=======
+        // Cuzv Swift does not support generic protocol, so this work can not be going on...
+        if self is TCDataSourceProtocol  {
+            
+>>>>>>> parent of 9fd27bf... Swift is shit.
         }
     }
-}
-
-/// So I try extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
-/// Failed agagin.
-public extension TCDataSourceProtocol where Self: UITableViewDataSource {
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var reusable: UITableViewCell
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
-            reusable = cell
-        } else {
-            reusable = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
-        }
-        
-        reusable.textLabel?.text = "hhhhhh"
-        
-        
-        return reusable
-    }
-    
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-}
-
-/// Test case.
-/// I guess I can not forward untill Apple do some improve...
-public class DS: NSObject, TCDataSourceProtocol, UITableViewDataSource {
-
 }
