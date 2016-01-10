@@ -49,15 +49,8 @@ public class TCDataSource//: UITableViewDataSource, UICollectionViewDataSource
     
     private func checkConforms() {
         // Oops.
-<<<<<<< HEAD
         // Cuz Swift does not support generic protocol, so this work can not be going on...
         if self is TCDataSourceProtocol {
-        
-=======
-        // Cuzv Swift does not support generic protocol, so this work can not be going on...
-        if self is TCDataSourceProtocol  {
-            
->>>>>>> parent of 9fd27bf... Swift is shit.
         }
     }
 }
