@@ -88,3 +88,14 @@ public extension TCDataSourceProtocol where Self: UITableViewDataSource {
 public class DS: NSObject, TCDataSourceProtocol, UITableViewDataSource {
     
 }
+
+
+/// Swift does not support generic protocol, so follow code can not compile:
+/// if self is TCDataSourceProtocol { ..}
+
+//   See: http://www.captechconsulting.com/blogs/ios-9-tutorial-series-protocol-oriented-programming-with-uikit
+/// > UIKit is still compiled from Objective-C, and Objective-C has no concept of protocol extendability.
+///   What this means in practice is that despite our ability to declare extensions on UIKit protocols,
+///   UIKit objects can't see the methods inside our extensions.
+/// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
+/// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.

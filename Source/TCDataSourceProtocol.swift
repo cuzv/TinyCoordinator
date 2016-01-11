@@ -28,10 +28,14 @@ import Foundation
 
 // MARK: - Required
 
+public protocol TCCellType {}
+extension UITableViewCell: TCCellType {}
+extension UICollectionViewCell : TCCellType {}
+
 // MARK: TCDataSourceProtocol
 public protocol TCDataSourceProtocol {
+    typealias CellType: TCCellType
     typealias CellDataType
-    typealias CellType
     
     /// Regiseter the cell class for reuse.
     func registerReusableCell()
@@ -45,11 +49,11 @@ public protocol TCDataSourceProtocol {
 
 // MARK: TCTableViewHeaderFooterViewDataSourceProtocol
 public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
-    typealias HeaderViewDataType
     typealias HeaderViewType: UITableViewHeaderFooterView
+    typealias HeaderViewDataType
     
-    typealias FooterViewDataType
     typealias FooterViewType: UITableViewHeaderFooterView
+    typealias FooterViewDataType
     
     /// UITableView only, register the reuse header or footer view.
     func registerReusableHeaderFooterView()
@@ -59,13 +63,12 @@ public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
     func loadData(data: HeaderViewDataType, forReusableHeaderView headerView: HeaderViewType)
     /// UITableView only, load data for specific UITableViewHeaderFooterView footer.
     func loadData(data: FooterViewDataType, forReusableFooterView footerView: FooterViewType)
-    
 }
 
 // MARK: TCCollectionSupplementaryViewDataSourceProtocol
 public protocol TCCollectionSupplementaryViewDataSourceProtocol {
-    typealias SupplementaryViewDataType
     typealias SupplementaryViewType: UICollectionReusableView
+    typealias SupplementaryViewDataType
 
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
@@ -96,7 +99,7 @@ public protocol TCTableViewIndexDataSourceProtocol {
 
 // MARK: - TCLazyLoadImageDataSourceProtocol
 public protocol TCLazyLoadImageDataSourceProtocol {
-    typealias CellType
+    typealias CellType: TCCellType
     typealias ImagesDataType
     
     /// Lazy load images.

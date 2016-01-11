@@ -31,3 +31,9 @@ class ViewController: UIViewController {
         
     }
 }
+
+extension ViewController {
+    func someFunc<T: TCDataSourceProtocol>(param: T) {
+        param.registerReusableCell()
+    }
+}
