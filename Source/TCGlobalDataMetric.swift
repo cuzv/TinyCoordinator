@@ -27,7 +27,7 @@
 import Foundation
 
 /// The UITableView/UICollectionView data present.
-public struct TCGlobalDataMetric<T: Equatable, O: Equatable> {
+public struct TCGlobalDataMetric {
     private var sectionDataMetrics: [TCSectionDataMetric<T, O>]
     /// UITableView only, return the table view header data.
     public private(set) var dataForHeader: Any!

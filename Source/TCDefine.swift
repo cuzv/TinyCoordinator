@@ -31,6 +31,15 @@ public enum UICollectionElementKind {
     case SectionFooter
 }
 
+internal func valueForCollectionElementKind(kind: UICollectionElementKind) -> String {
+    switch kind {
+    case .SectionHeader:
+        return UICollectionElementKindSectionHeader
+    case .SectionFooter:
+        return UICollectionElementKindSectionFooter
+    }
+}
+
 @noreturn internal func TCUnimplemented(fn: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
     fatalError("\(fn) is not yet implemented", file: file, line: line)
 }

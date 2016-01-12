@@ -68,27 +68,43 @@ public extension UITableView {
 // MARK: - Reusable
 
 public extension UITableView {
-    public func tc_registerReusableCell<T: UITableViewCell where T: Reusable>(_: T.Type) {
+    public func tc_registerReusableCellClass<T: UITableViewCell where T: Reusable>(_: T.Type) {
         if let nib = T.nib {
-            self.registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
+            registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
         } else {
-            self.registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+            registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
         }
     }
     
-    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
-        return self.dequeueReusableCellWithIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    public func tc_registerReusableCellClasses<T: UITableViewCell where T: Reusable>(classes: [T.Type]) {
+        for element in classes {
+            tc_registerReusableCellClass(element)
+        }
     }
     
-    public func tc_registerReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
+        return dequeueReusableCellWithIdentifier(T.reuseIdentifier) as! T
+    }
+    
+    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
+        return dequeueReusableCellWithIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    }
+    
+    public func tc_registerReusableHeaderFooterViewClass<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
         if let nib = T.nib {
-            self.registerNib(nib, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+            registerNib(nib, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
         } else {
-            self.registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+            registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+        }
+    }
+    
+    public func tc_registerReusableHeaderFooterViewClassess<T: UITableViewHeaderFooterView where T: Reusable>(classes: [T.Type]) {
+        for element in classes {
+            tc_registerReusableHeaderFooterViewClass(element)
         }
     }
     
     public func tc_dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>() -> T? {
-        return self.dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as! T?
+        return dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as! T?
     }
 }

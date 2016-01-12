@@ -27,3 +27,21 @@ func ==(lhs: CellDataItem, rhs: CellDataItem) -> Bool {
 //    }
 //}
 //
+
+struct CellDataItem2: Equatable {
+    var name: String
+    var pic: String
+}
+
+func ==(lhs: CellDataItem2, rhs: CellDataItem2) -> Bool {
+    return lhs.name == rhs.name && lhs.pic == rhs.name
+}
+
+struct CellDataItem3: Equatable {
+    var name: String
+    var pic: String
+}
+
+func ==(lhs: CellDataItem3, rhs: CellDataItem3) -> Bool {
+    return lhs.name == rhs.name && lhs.pic == rhs.name
+}

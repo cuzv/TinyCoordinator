@@ -26,10 +26,20 @@
 
 import UIKit
 
-public class TCDataSource: NSObject//, UITableViewDataSource, UICollectionViewDataSource
-{
+/// Swift does not support generic protocol, so follow code can not compile:
+/// if self is TCDataSourceProtocol { ..}
+
+//   See: http://www.captechconsulting.com/blogs/ios-9-tutorial-series-protocol-oriented-programming-with-uikit
+/// > UIKit is still compiled from Objective-C, and Objective-C has no concept of protocol extendability.
+///   What this means in practice is that despite our ability to declare extensions on UIKit protocols,
+///   UIKit objects can't see the methods inside our extensions.
+/// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
+/// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
+
+public class TCDataSource : NSObject {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
+//    public var globalDataMetric: TCGlobalDataMetric?
     
     private override init() {
         fatalError("Use init(tableView:) or init(collectionView:) instead.")
@@ -40,6 +50,7 @@ public class TCDataSource: NSObject//, UITableViewDataSource, UICollectionViewDa
         collectionView = nil
         super.init()
         checkConforms()
+        registereusableView()
     }
     
     public init(collectionView: UICollectionView) {
@@ -47,20 +58,55 @@ public class TCDataSource: NSObject//, UITableViewDataSource, UICollectionViewDa
         tableView = nil
         super.init()        
         checkConforms()
+        registereusableView()
     }
     
     private func checkConforms() {
-        // Oops.
-        // Cuz Swift does not support generic protocol, so this work can not be going on...
+        guard self is TCDataSourceProtocol else {
+            fatalError("Must conforms protocol `TCDataSourceProtocol`")
+        }
+    }
+    
+    private func registereusableView() {
+        guard let instance = self as? TCDataSourceProtocol else {
+            fatalError("Must conforms protocol `TCDataSourceProtocol`")
+        }
+        
+        instance.registerReusableCell()
+        
+        if let instance = self as? TCTableViewHeaderFooterViewDataSourceProtocol {
+            instance.registerReusableHeaderFooterView()
+        }
+        else if let instance = self as? TCCollectionSupplementaryViewDataSourceProtocol {
+            instance.registerReusableSupplementaryView()
+        }
     }
 }
 
-/// Swift does not support generic protocol, so follow code can not compile:
-/// if self is TCDataSourceProtocol { ..}
+// MARK: - UITableViewDataSource
 
-//   See: http://www.captechconsulting.com/blogs/ios-9-tutorial-series-protocol-oriented-programming-with-uikit
-/// > UIKit is still compiled from Objective-C, and Objective-C has no concept of protocol extendability.
-///   What this means in practice is that despite our ability to declare extensions on UIKit protocols,
-///   UIKit objects can't see the methods inside our extensions.
-/// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
-/// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
+extension TCDataSource: UITableViewDataSource {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}
+
+// MARK: -
+
+extension TCDataSource: UICollectionViewDataSource {
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
+}

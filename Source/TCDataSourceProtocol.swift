@@ -26,62 +26,49 @@
 
 import Foundation
 
+// No generic from this commit https://github.com/cuzv/TinyCoordinator/commit/2f95dd04cf479ca3eac96da4dbc79a4accf39e14
 // MARK: - Required
 
 // MARK: TCDataSourceProtocol
 public protocol TCDataSourceProtocol {
-    typealias CellType: TCCellType
-    typealias CellDataType
-    
     /// Regiseter the cell class for reuse.
     func registerReusableCell()
     /// Return the cell reuse identifier for indexpath.
     func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String
     /// load data for specific cell.
-    func loadData(data: CellDataType, forReusableCell cell: CellType)
+    func loadData(data: Any, forReusableCell cell: TCCellType)
 }
 
 // MARK: - Optional
 
 // MARK: TCTableViewHeaderFooterViewDataSourceProtocol
 public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
-    typealias HeaderViewType: UITableViewHeaderFooterView
-    typealias HeaderViewDataType
-    
-    typealias FooterViewType: UITableViewHeaderFooterView
-    typealias FooterViewDataType
-    
     /// UITableView only, register the reuse header or footer view.
     func registerReusableHeaderFooterView()
     /// UITableView only, return the HeaderFooterView reuse identifier for section.
     func reusableHeaderFooterViewIdentifierInSection(section: Int, isHeader: Bool) -> String
     /// UITableView only, load data for specific UITableViewHeaderFooterView header.
-    func loadData(data: HeaderViewDataType, forReusableHeaderView headerView: HeaderViewType)
+    func loadData(data: Any, forReusableHeaderView headerView: UITableViewHeaderFooterView)
     /// UITableView only, load data for specific UITableViewHeaderFooterView footer.
-    func loadData(data: FooterViewDataType, forReusableFooterView footerView: FooterViewType)
+    func loadData(data: Any, forReusableFooterView footerView: UITableViewHeaderFooterView)
 }
 
 // MARK: TCCollectionSupplementaryViewDataSourceProtocol
 public protocol TCCollectionSupplementaryViewDataSourceProtocol {
-    typealias SupplementaryViewType: UICollectionReusableView
-    typealias SupplementaryViewDataType
-
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
     /// UICollectionView only, return the supplementary view reuse identifier for indexPath.
     func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: UICollectionElementKind)()
     /// UICollectionView only, load data for specific supplementary view.
-    func loadData(data: SupplementaryViewDataType, forReusableSupplementaryView supplementaryView: SupplementaryViewType)
+    func loadData(data: Any, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
 }
 
 // MARK: TCTableViewEditingDataSourceProtocol
 public protocol TCTableViewEditingDataSourceProtocol {
-    typealias CellDataType
-    
     /// Can edit the specific item.
     func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// commit editing data behavior.
-    func commitEditingData(data: CellDataType, atIndexPath indexPath: NSIndexPath)
+    func commitEditingData(data: Any, atIndexPath indexPath: NSIndexPath)
     
     /// Can move the specific item
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
@@ -95,9 +82,6 @@ public protocol TCTableViewIndexDataSourceProtocol {
 
 // MARK: - TCLazyLoadImageDataSourceProtocol
 public protocol TCLazyLoadImageDataSourceProtocol {
-    typealias CellType: TCCellType
-    typealias ImagesDataType
-    
     /// Lazy load images.
-    func lazyLoadImagesData(data: ImagesDataType, forReusableCell cell: CellType)
+    func lazyLoadImagesData(data: Any, forReusableCell cell: TCCellType)
 }

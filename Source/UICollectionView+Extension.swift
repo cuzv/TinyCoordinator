@@ -88,27 +88,34 @@ public extension UICollectionView {
 // MARK: - Reusable
 
 public extension UICollectionView {
-    public func tc_registerReusableCell<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+    public func tc_registerReusableCellClass<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
         if let nib = T.nib {
-            self.registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
+            registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
         } else {
-            self.registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+            registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
         }
     }
     
-    public func tc_dequeueReusableCell<T: UICollectionViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
-        return self.dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    public func tc_registerReusableCellClasses<T: UICollectionViewCell where T: Reusable>(classes: [T.Type]) {
+        for element in classes {
+            tc_registerReusableCellClass(element)
+        }
     }
     
-    public func tc_registerReusableSupplementaryView<T: Reusable>(elementKind: String, _: T.Type) {
+    public func tc_dequeueReusableCellForIndexPath<T: UICollectionViewCell where T: Reusable>(indexPath: NSIndexPath) -> T {
+        return dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    }
+    
+    public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: UICollectionElementKind) {
         if let nib = T.nib {
-            self.registerNib(nib, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: T.reuseIdentifier)
+            
+            registerNib(nib, forSupplementaryViewOfKind: valueForCollectionElementKind(elementKind), withReuseIdentifier: T.reuseIdentifier)
         } else {
-            self.registerClass(T.self, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: T.reuseIdentifier)
+            registerClass(T.self, forSupplementaryViewOfKind: valueForCollectionElementKind(elementKind), withReuseIdentifier: T.reuseIdentifier)
         }
     }
     
     public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(elementKind: String, indexPath: NSIndexPath) -> T {
-        return self.dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as! T
+        return dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as! T
     }
 }

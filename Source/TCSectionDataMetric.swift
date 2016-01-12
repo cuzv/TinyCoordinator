@@ -184,15 +184,6 @@ public extension TCSectionDataMetric {
         return supplementaryElements
     }
     
-    private func valueForCollectionElementKind(kind: UICollectionElementKind) -> String {
-        switch kind {
-        case .SectionHeader:
-            return UICollectionElementKindSectionHeader
-        case .SectionFooter:
-            return UICollectionElementKindSectionFooter
-        }
-    }
-    
     private func validateArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
         let count = numberOfItems
         guard index < count else {

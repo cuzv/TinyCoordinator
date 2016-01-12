@@ -14,20 +14,32 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let item1 = CellDataItem(name: "Michael Jackson", pic: "nil")
-        let item2 = CellDataItem(name: "Moch Xiao", pic: "nil")
-        let item3 = CellDataItem(name: "Kobe Bryant", pic: "nil")
-        let data = [item1, item2, item3]
+        
+        let data1: [CellDataItem] = {
+            let item1 = CellDataItem(name: "Michael Jackson", pic: "nil")
+            let item2 = CellDataItem(name: "Moch Xiao", pic: "nil")
+            let item3 = CellDataItem(name: "Kobe Bryant", pic: "nil")
+            return [item1, item2, item3]
+        }()
+        
         
 
-//        var s = TCSectionDataMetric(itemsData: data, dataForHeader: item2, dataForFooter: item3)
+        let data2: [CellDataItem2] = {
+            let item1 = CellDataItem2(name: "Michael Jackson", pic: "nil")
+            let item2 = CellDataItem2(name: "Moch Xiao", pic: "nil")
+            let item3 = CellDataItem2(name: "Kobe Bryant", pic: "nil")
+            return [item1, item2, item3]
+        }()
+
         
-        var secion = TCSectionDataMetric<CellDataItem, NSObject>(itemsData: data)
-        secion.exchangeDataAtIndex(0, withDataIndex: 2)
-        debugPrint(secion)
+        let secion1 = TCSectionDataMetric<CellDataItem, NSObject>(itemsData: data1)
+        let secion2 = TCSectionDataMetric<CellDataItem2, NSObject>(itemsData: data2)
         
-        let global = TCGlobalDataMetric(sectionDataMetrics: [secion])
+        let global = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2])
         debugPrint(global)
+        
+        let indexPath = NSIndexPath(forItem: 0, inSection: 1)
+        let item = global.dataForItemAtIndexPath(indexPath)
         
     }
 }

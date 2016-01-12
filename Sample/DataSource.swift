@@ -13,28 +13,20 @@ class DataSource: TCDataSource {
 }
 
 extension DataSource: TCDataSourceProtocol {
-    typealias CellDataType = CellDataItem
-    typealias CellType = TableViewCell
-    
     func registerReusableCell() {
-        tableView.tc_registerReusableCell(TableViewCell.self)
+        tableView.tc_registerReusableCellClass(TableViewCell.self)
     }
     
     func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
         return TableViewCell.reuseIdentifier
     }
     
-    func loadData(data: CellDataType, forReusableCell cell: CellType) {
-        cell.setupData(data)
+    func loadData(data: Any, forReusableCell cell: TCCellType) {
+
     }
 }
 
 extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
-    typealias HeaderViewDataType = NSObject
-    typealias HeaderViewType = TableViewHeaderView
-    
-    typealias FooterViewDataType = NSObject
-    typealias FooterViewType = TableViewFooterView
     
     func registerReusableHeaderFooterView() {}
     
@@ -42,11 +34,11 @@ extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
         return ""
     }
     
-    func loadData(data: FooterViewDataType, forReusableFooterView footerView: FooterViewType) {
+    func loadData(data: Any, forReusableFooterView footerView: UITableViewHeaderFooterView) {
         
     }
     
-    func loadData(data: HeaderViewDataType, forReusableHeaderView headerView: HeaderViewType) {
+    func loadData(data: Any, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
         
     }
     
