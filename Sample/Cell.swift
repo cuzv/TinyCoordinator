@@ -11,7 +11,6 @@ import Foundation
 import UIKit
 
 class TableViewCell: UITableViewCell {
-    static let identifier = "TableViewCell"
     static let fixedHeight: CGFloat = 44
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

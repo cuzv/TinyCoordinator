@@ -17,11 +17,11 @@ extension DataSource: TCDataSourceProtocol {
     typealias CellType = TableViewCell
     
     func registerReusableCell() {
-        
+        tableView.tc_registerReusableCell(TableViewCell.self)
     }
     
     func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
-        return TableViewCell.identifier
+        return TableViewCell.reuseIdentifier
     }
     
     func loadData(data: CellDataType, forReusableCell cell: CellType) {
@@ -51,44 +51,3 @@ extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
     }
     
 }
-
-//public extension TCDataSourceProtocol where Self: UITableViewDataSource {
-//    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//    
-//    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        var reusable: UITableViewCell
-//        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
-//            reusable = cell
-//        } else {
-//            reusable = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
-//        }
-//        
-//        reusable.textLabel?.text = "hhhhhh"
-//        
-//        
-//        return reusable
-//    }
-//    
-//    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 1
-//    }
-//}
-//
-//class DS: TCDataSource, TCDataSourceProtocol, UITableViewDataSource {
-//    typealias CellDataType = CellDataItem
-//    typealias CellType = TableViewCell
-//    
-//    func registerReusableCell() {
-//        
-//    }
-//    
-//    func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
-//        return TableViewCell.identifier
-//    }
-//    
-//    func loadData(data: CellDataType, forReusableCell cell: CellType) {
-//        cell.setupData(data)
-//    }
-//}

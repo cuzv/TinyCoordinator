@@ -26,6 +26,8 @@
 
 import UIKit
 
+// MARK: - Compute Size
+
 public extension UITableView {
     public func tc_heightForReusableCellByIdentifier<T: UITableViewCell>(
         identifier: String,
@@ -44,7 +46,7 @@ public extension UITableView {
         
         let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
         
-        return reusableCell.tc_preferredLayoutSizeFittingSize(fittingSize).height
+        return reusableCell.preferredLayoutSizeFittingSize(fittingSize).height
     }
     
     public func tc_heightForReusableHeaderFooterViewByIdentifier<T: UITableViewHeaderFooterView>(
@@ -59,7 +61,34 @@ public extension UITableView {
         dataConfigurationHandler(reusableHeaderFooterView)
 
         let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
-        return reusableHeaderFooterView.tc_preferredLayoutSizeFittingSize(fittingSize).height
+        return reusableHeaderFooterView.preferredLayoutSizeFittingSize(fittingSize).height
     }
+}
 
+// MARK: - Reusable
+
+public extension UITableView {
+    public func tc_registerReusableCell<T: UITableViewCell where T: Reusable>(_: T.Type) {
+        if let nib = T.nib {
+            self.registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
+        } else {
+            self.registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+        }
+    }
+    
+    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
+        return self.dequeueReusableCellWithIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    }
+    
+    public func tc_registerReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+        if let nib = T.nib {
+            self.registerNib(nib, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+        } else {
+            self.registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+        }
+    }
+    
+    public func tc_dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>() -> T? {
+        return self.dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as! T?
+    }
 }

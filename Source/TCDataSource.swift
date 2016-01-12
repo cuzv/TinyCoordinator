@@ -52,43 +52,8 @@ public class TCDataSource: NSObject//, UITableViewDataSource, UICollectionViewDa
     private func checkConforms() {
         // Oops.
         // Cuz Swift does not support generic protocol, so this work can not be going on...
-        if self is TCDataSourceProtocol {
-        }
     }
 }
-
-/// So I try extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
-/// Failed agagin.
-public extension TCDataSourceProtocol where Self: UITableViewDataSource {
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var reusable: UITableViewCell
-        if let cell = tableView.dequeueReusableCellWithIdentifier("Cell") {
-            reusable = cell
-        } else {
-            reusable = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
-        }
-        
-        reusable.textLabel?.text = "hhhhhh"
-        
-        
-        return reusable
-    }
-    
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-}
-
-/// Test case.
-/// I guess I can not forward untill Apple do some improve...
-public class DS: NSObject, TCDataSourceProtocol, UITableViewDataSource {
-    
-}
-
 
 /// Swift does not support generic protocol, so follow code can not compile:
 /// if self is TCDataSourceProtocol { ..}

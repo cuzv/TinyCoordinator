@@ -38,3 +38,27 @@ public enum UICollectionElementKind {
 @noreturn internal func TCInvalidArgument(message: String, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
     fatalError("\(method): \(message)", file: file, line: line)
 }
+
+public protocol TCReusableViewType {}
+extension UITableViewHeaderFooterView: TCReusableViewType {}
+extension UICollectionReusableView: TCReusableViewType {}
+
+public protocol TCCellType: TCReusableViewType {}
+extension UITableViewCell: TCCellType {}
+extension UICollectionViewCell : TCCellType {}
+
+// Stolen from http://alisoftware.github.io/swift/generics/2016/01/06/generic-tableviewcells/?utm_campaign=This%2BWeek%2Bin%2BSwift&utm_medium=email&utm_source=This_Week_in_Swift_69
+public protocol Reusable: class {
+    static var reuseIdentifier: String { get }
+    /// If you build cell use nib, override this variable.
+    static var nib: UINib? { get }
+}
+
+public extension Reusable where Self: TCReusableViewType {
+    public static var reuseIdentifier: String { return String(Self) }
+    public static var nib: UINib? { return nil }
+}
+
+extension UITableViewCell: Reusable {}
+extension UITableViewHeaderFooterView: Reusable {}
+extension UICollectionReusableView: Reusable {}

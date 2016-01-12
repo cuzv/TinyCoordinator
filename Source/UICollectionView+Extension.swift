@@ -26,6 +26,8 @@
 
 import UIKit
 
+// MARK: - Compute Size
+
 private struct AssociationKey {
     static var reusableCell: String = "reusableCell"
     static var reusableView: String = "reusableView"
@@ -60,7 +62,7 @@ public extension UICollectionView {
         _reusableView.prepareForReuse()
         dataConfigurationHandler(_reusableView)
         
-        return _reusableView.tc_preferredLayoutSizeFittingSize(fittingSize)
+        return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
     }
     
     public func tc_sizeForReusableCellByClass<T: UICollectionViewCell>(
@@ -79,6 +81,34 @@ public extension UICollectionView {
         _reusableCell.prepareForReuse()
         dataConfigurationHandler(_reusableCell)
         
-        return (_reusableCell as UICollectionViewCell).tc_preferredLayoutSizeFittingSize(fittingSize)
+        return (_reusableCell as UICollectionViewCell).preferredLayoutSizeFittingSize(fittingSize)
+    }
+}
+
+// MARK: - Reusable
+
+public extension UICollectionView {
+    public func tc_registerReusableCell<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+        if let nib = T.nib {
+            self.registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
+        } else {
+            self.registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+        }
+    }
+    
+    public func tc_dequeueReusableCell<T: UICollectionViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
+        return self.dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    }
+    
+    public func tc_registerReusableSupplementaryView<T: Reusable>(elementKind: String, _: T.Type) {
+        if let nib = T.nib {
+            self.registerNib(nib, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: T.reuseIdentifier)
+        } else {
+            self.registerClass(T.self, forSupplementaryViewOfKind: elementKind, withReuseIdentifier: T.reuseIdentifier)
+        }
+    }
+    
+    public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(elementKind: String, indexPath: NSIndexPath) -> T {
+        return self.dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as! T
     }
 }

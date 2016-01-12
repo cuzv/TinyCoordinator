@@ -47,7 +47,7 @@ internal extension UICollectionReusableView {
     /// This is kind of a hack because cells don't have an intrinsic content size or any other way to constrain them to a size. As a result,
     /// labels that _should_ wrap at the bounds of a cell, don't.
     /// So by adding width and height constraints to the cell temporarily, we can make the labels wrap and the layout compute correctly.
-    internal func tc_preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -74,7 +74,7 @@ internal extension UICollectionReusableView {
 }
 
 internal extension UICollectionViewCell {
-    internal override func tc_preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal override func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -105,7 +105,7 @@ internal extension UICollectionViewCell {
 }
 
 internal extension UITableViewCell {
-    internal func tc_preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -136,7 +136,7 @@ internal extension UITableViewCell {
 }
 
 internal extension UITableViewHeaderFooterView {
-    internal func tc_preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame

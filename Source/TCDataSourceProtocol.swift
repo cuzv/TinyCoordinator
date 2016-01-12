@@ -28,10 +28,6 @@ import Foundation
 
 // MARK: - Required
 
-public protocol TCCellType {}
-extension UITableViewCell: TCCellType {}
-extension UICollectionViewCell : TCCellType {}
-
 // MARK: TCDataSourceProtocol
 public protocol TCDataSourceProtocol {
     typealias CellType: TCCellType
