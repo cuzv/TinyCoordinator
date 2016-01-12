@@ -121,6 +121,19 @@ public extension TCSectionDataMetric {
         itemsData.insertContentsOf(newElements, at: index)
     }
     
+    /// Replace single new data for current setion data metric at specific index.
+    public mutating func replaceWith(newElement: T, atIndex index: Int) {
+        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        itemsData.replaceElementAtIndex(index, withElement: newElement)
+    }
+    
+    /// Replace multiple new data for current setion data metric at specific index.
+    public mutating func replaceWith(newElements: [T], atIndex index: Int) {
+        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        let range = Range(start: index, end: index+1)
+        itemsData.replaceElementsRange(range, withElements: newElements)
+    }
+    
     /// Remove first data.
     public mutating func removeFirst() -> T {
         return itemsData.removeFirst()

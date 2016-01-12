@@ -232,6 +232,24 @@ public extension TCGlobalDataMetric {
         sectionDataMetric.insertContentsOf(newElements, atIndex: indexPath.item)
         sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
     }
+    
+    /// Replace single data to specific section data metric.
+    public mutating func replace(newElement: T, atIndexPath indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.replaceWith(newElement, atIndex: indexPath.item)
+    }
+    
+    /// Replace multiple data to specific section data metric.
+    public mutating func replace(newElements: [T], atIndexPath indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.replaceWith(newElements, atIndex: indexPath.item)
+    }
 
     /// Remove the first section data metric.
     public mutating func removeFirst() -> TCSectionDataMetric<T, O> {

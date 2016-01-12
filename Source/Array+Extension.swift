@@ -52,6 +52,16 @@ internal extension Array {
         replaceRange(range, with: [element])
     }
     
+    internal mutating func replaceElementsRange(range: Range<Int>, withElements elements: [Element]) {
+        if count <= range.startIndex {
+            fatalError("Range beyond boundary.")
+        }
+        if count <= range.endIndex {
+            fatalError("Range beyond boundary.")
+        }
+        replaceRange(range, with: elements)
+    }
+    
     internal mutating func replaceLast(element: Element) {
         replaceElementAtIndex(count-1, withElement: element)
     }
