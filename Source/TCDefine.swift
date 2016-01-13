@@ -71,3 +71,9 @@ public extension Reusable where Self: TCReusableViewType {
 extension UITableViewCell: Reusable {}
 extension UITableViewHeaderFooterView: Reusable {}
 extension UICollectionReusableView: Reusable {}
+
+/// **Note**: If you ues ``
+public class EquatableImpl: Equatable {}
+public func ==<T: EquatableImpl>(lhs: T, rhs: T) -> Bool {
+    return false
+}
