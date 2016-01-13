@@ -45,6 +45,11 @@ public struct TCGlobalDataMetric<T: Equatable> {
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
     }
+    
+    internal static func empty() -> TCGlobalDataMetric<T> {
+        let section = TCSectionDataMetric<T>(itemsData: [])
+        return TCGlobalDataMetric(sectionDataMetrics: [section])
+    }
 }
 
 // MARK: - Retrieve

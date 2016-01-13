@@ -35,19 +35,15 @@ import UIKit
 ///   UIKit objects can't see the methods inside our extensions.
 /// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
 /// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
-
-public class TCDataSource : NSObject {
+public class TCDataSource<T: Equatable>: NSObject {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
-//    public var globalDataMetric: TCGlobalDataMetric?
-    
-    private override init() {
-        fatalError("Use init(tableView:) or init(collectionView:) instead.")
-    }
+    public var globalDataMetric: TCGlobalDataMetric<T>
     
     public init(tableView: UITableView) {
         self.tableView = tableView
         collectionView = nil
+        globalDataMetric = TCGlobalDataMetric.empty()
         super.init()
         checkConforms()
         registereusableView()
@@ -56,7 +52,8 @@ public class TCDataSource : NSObject {
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
         tableView = nil
-        super.init()        
+        globalDataMetric = TCGlobalDataMetric.empty()
+        super.init()
         checkConforms()
         registereusableView()
     }
@@ -83,30 +80,4 @@ public class TCDataSource : NSObject {
     }
 }
 
-// MARK: - UITableViewDataSource
 
-extension TCDataSource: UITableViewDataSource {
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
-    }
-}
-
-// MARK: -
-
-extension TCDataSource: UICollectionViewDataSource {
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
-    }
-}
