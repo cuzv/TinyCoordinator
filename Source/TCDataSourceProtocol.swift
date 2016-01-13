@@ -36,7 +36,7 @@ public protocol TCDataSourceProtocol {
     /// Return the cell reuse identifier for indexpath.
     func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String
     /// load data for specific cell.
-    func loadData(data: Any, forReusableCell cell: TCCellType)
+    func loadData(data: TCDataType, forReusableCell cell: TCCellType)
 }
 
 // MARK: - Optional
@@ -48,9 +48,9 @@ public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
     /// UITableView only, return the HeaderFooterView reuse identifier for section.
     func reusableHeaderFooterViewIdentifierInSection(section: Int, isHeader: Bool) -> String
     /// UITableView only, load data for specific UITableViewHeaderFooterView header.
-    func loadData(data: Any, forReusableHeaderView headerView: UITableViewHeaderFooterView)
+    func loadData(data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView)
     /// UITableView only, load data for specific UITableViewHeaderFooterView footer.
-    func loadData(data: Any, forReusableFooterView footerView: UITableViewHeaderFooterView)
+    func loadData(data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView)
 }
 
 // MARK: TCCollectionSupplementaryViewDataSourceProtocol
@@ -60,7 +60,7 @@ public protocol TCCollectionSupplementaryViewDataSourceProtocol {
     /// UICollectionView only, return the supplementary view reuse identifier for indexPath.
     func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: UICollectionElementKind)()
     /// UICollectionView only, load data for specific supplementary view.
-    func loadData(data: Any, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
+    func loadData(data: TCDataType, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
 }
 
 // MARK: TCTableViewEditingDataSourceProtocol
@@ -68,7 +68,7 @@ public protocol TCTableViewEditingDataSourceProtocol {
     /// Can edit the specific item.
     func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// commit editing data behavior.
-    func commitEditingData(data: Any, atIndexPath indexPath: NSIndexPath)
+    func commitEditingData(data: TCDataType, atIndexPath indexPath: NSIndexPath)
     
     /// Can move the specific item
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
@@ -83,5 +83,5 @@ public protocol TCTableViewIndexDataSourceProtocol {
 // MARK: - TCLazyLoadImageDataSourceProtocol
 public protocol TCLazyLoadImageDataSourceProtocol {
     /// Lazy load images.
-    func lazyLoadImagesData(data: Any, forReusableCell cell: TCCellType)
+    func lazyLoadImagesData(data: TCDataType, forReusableCell cell: TCCellType)
 }

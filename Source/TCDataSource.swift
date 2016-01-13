@@ -35,10 +35,10 @@ import UIKit
 ///   UIKit objects can't see the methods inside our extensions.
 /// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
 /// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
-public class TCDataSource<T: Equatable>: NSObject {
+public class TCDataSource: NSObject {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
-    public var globalDataMetric: TCGlobalDataMetric<T>
+    public var globalDataMetric: TCGlobalDataMetric
     
     public init(tableView: UITableView) {
         self.tableView = tableView

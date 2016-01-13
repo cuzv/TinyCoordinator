@@ -9,7 +9,7 @@
 import UIKit
 import TinyCoordinator
 
-class DataSource: TCDataSource<TCItemDataType> {
+class DataSource: TCDataSource {
 
 }
 

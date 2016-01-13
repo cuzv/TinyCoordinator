@@ -17,7 +17,6 @@
 		549E637ADBD7440B8CD951EF912C9EDB /* TinyCoordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E7181FDDF8623A3B0760952C356988 /* TinyCoordinator.framework */; };
 		71226608215DF4E64699833A86957EC2 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6355501946A4D3AFD2D9C5DDFF3C8543 /* UITableView+Extension.swift */; };
 		7B4BB3487AB30C66867EFF16A0896606 /* TCGlobalDataMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7BABD370A8159B07BB06FD4A93B29 /* TCGlobalDataMetric.swift */; };
-		7BC387E2BB98959EBCAE5D716E73CB3C /* TCImplHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533DFC2CBFB970A7D5B0786A8BD084C5 /* TCImplHelper.swift */; };
 		7EA0AC5CF866E60D518BA45FDB55C9D6 /* TCSectionDataMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1FD7C38DFA84D38A8D031072BAFCBE /* TCSectionDataMetric.swift */; };
 		7EEDDC74528E818FBC6DFF09F8383909 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FC2C0290E4051F1AD05B2D2E47D111 /* Cell.swift */; };
 		88F32FEDF30E7B85F7D8B3E8BE9F1562 /* TCDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02175D44D3EE26B913960DE396720B /* TCDefine.swift */; };
@@ -43,7 +42,6 @@
 		24E7181FDDF8623A3B0760952C356988 /* TinyCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TinyCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewDataSource+Extension.swift"; sourceTree = "<group>"; };
 		460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDataSource+Extension.swift"; sourceTree = "<group>"; };
-		533DFC2CBFB970A7D5B0786A8BD084C5 /* TCImplHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCImplHelper.swift; sourceTree = "<group>"; };
 		5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCDelegate.swift; sourceTree = "<group>"; };
 		621497E1F2E1C0FF2C3E670574A9E870 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6355501946A4D3AFD2D9C5DDFF3C8543 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				EC02175D44D3EE26B913960DE396720B /* TCDefine.swift */,
 				5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */,
 				03A7BABD370A8159B07BB06FD4A93B29 /* TCGlobalDataMetric.swift */,
-				533DFC2CBFB970A7D5B0786A8BD084C5 /* TCImplHelper.swift */,
 				8A1FD7C38DFA84D38A8D031072BAFCBE /* TCSectionDataMetric.swift */,
 				AA7E090F5BD03AD6727C04BBA6FAA7FA /* TinyCoordinator.h */,
 				1053DC3BD305674ED87B4A2F6DFBDA55 /* UICollectionView+Extension.swift */,
@@ -275,7 +272,6 @@
 				88F32FEDF30E7B85F7D8B3E8BE9F1562 /* TCDefine.swift in Sources */,
 				08BC4A762D5D804D2528443DBE423991 /* TCDelegate.swift in Sources */,
 				7B4BB3487AB30C66867EFF16A0896606 /* TCGlobalDataMetric.swift in Sources */,
-				7BC387E2BB98959EBCAE5D716E73CB3C /* TCImplHelper.swift in Sources */,
 				7EA0AC5CF866E60D518BA45FDB55C9D6 /* TCSectionDataMetric.swift in Sources */,
 				02910525D5C444A294AF7E55BCE9626C /* UICollectionView+Extension.swift in Sources */,
 				71226608215DF4E64699833A86957EC2 /* UITableView+Extension.swift in Sources */,

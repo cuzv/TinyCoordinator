@@ -9,7 +9,7 @@
 import Foundation
 import TinyCoordinator
 
-class CellDataItem: TCItemDataType {
+class CellDataItem: NSObject {
     var name: String = ""
     var pic: String = ""
     
@@ -25,7 +25,7 @@ func ==(lhs: CellDataItem, rhs: CellDataItem) -> Bool {
 }
 
 
-class CellDataItem2: TCItemDataType {
+class CellDataItem2: NSObject {
     var name: String = ""
     var pic: String = ""
     
@@ -38,19 +38,4 @@ class CellDataItem2: TCItemDataType {
 
 func ==(lhs: CellDataItem2, rhs: CellDataItem2) -> Bool {
     return lhs.name == rhs.name && lhs.pic == rhs.pic
-}
-
-class Item: NSObject {
-    var name: String = ""
-    var pic: String = ""
-    
-    init(name: String, pic: String) {
-        self.name = name
-        self.pic = pic
-        super.init()
-    }
-}
-
-func ==(lhs: Item, rhs: Item) -> Bool {
-    return lhs.name == rhs.name
 }

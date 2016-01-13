@@ -35,9 +35,8 @@ class ViewController: UIViewController {
             return [item1, item2, item3]
         }()
 
-        let secion1: TCSectionDataMetric<TCItemDataType> = TCSectionDataMetric(itemsData: data1)
-        let secion2: TCSectionDataMetric<TCItemDataType> = TCSectionDataMetric(itemsData: data2)
-        
+        let secion1 = TCSectionDataMetric(itemsData: data1)
+        let secion2 = TCSectionDataMetric(itemsData: data2)
         let global = TCGlobalDataMetric(sectionDataMetrics: [secion2, secion1])
         
     }
