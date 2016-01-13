@@ -29,26 +29,26 @@ import Foundation
 /// The UITableView/UICollectionView section data present.
 /// Note that, if you preferred inject data could modify keeep the same address as before,
 /// you should pass init params `NSObject` instance.
-public struct TCSectionDataMetric {
+public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
     /// The main cell data.
-    public private(set) var itemsData: [Any]
+    public private(set) var itemsData: [T]
     /// UITableView only, the section header title.
     public private(set) var titleForHeader: String!
     /// UITableView only, the section footer title.
     public private(set) var titleForFooter: String!
     /// UITableView only, the section header data.
-    public private(set) var dataForHeader: Any!
+    public private(set) var dataForHeader: O!
     /// UITableView only, the section footer data.
-    public private(set) var dataForFooter: Any!
+    public private(set) var dataForFooter: O!
     /// UICollecttionView only.
-    private var dataForSupplementaryElements: [String: [Any]]!
+    private var dataForSupplementaryElements: [String: [O]]!
     
-    public init(itemsData: [Any]) {
+    public init(itemsData: [T]) {
         self.itemsData = itemsData
     }
     
     /// UITableView only.
-    public init(itemsData: [Any], titleForHeader: String, titleForFooter: String) {
+    public init(itemsData: [T], titleForHeader: String, titleForFooter: String) {
         self.init(itemsData: itemsData)
         self.titleForHeader = titleForHeader
         self.titleForFooter = titleForFooter
@@ -56,7 +56,7 @@ public struct TCSectionDataMetric {
     
     /// UITableView only.
     /// dataForXXX means which delegate method request for custom viewForHeader/viewForFooter needs.
-    public init(itemsData: [Any], dataForHeader: Any, dataForFooter: Any) {
+    public init(itemsData: [T], dataForHeader: O, dataForFooter: O) {
         self.init(itemsData: itemsData)
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
@@ -64,13 +64,13 @@ public struct TCSectionDataMetric {
     
     /// UICollectionView only.
     /// NSDictionary keys like `UICollectionElementKindSectionHeader`/`UICollectionElementKindSectionFooter`.
-    public init(itemsData: [Any], dataForSupplementaryElements: [String: [Any]]) {
+    public init(itemsData: [T], dataForSupplementaryElements: [String: [O]]) {
         self.init(itemsData: itemsData)
         self.dataForSupplementaryElements = dataForSupplementaryElements
     }
 }
 
-//// MARK: - Retrieve
+// MARK: - Retrieve
 
 public extension TCSectionDataMetric {
     /// Section data count
@@ -79,7 +79,7 @@ public extension TCSectionDataMetric {
     }
     
     /// Return specific data
-    public func dataAtIndex(index: Int) -> Any? {
+    public func dataAtIndex(index: Int) -> T? {
         if numberOfItems <= index {
             return nil
         }
@@ -88,7 +88,7 @@ public extension TCSectionDataMetric {
     }
     
     /// UICollectionView only, return specific supplementary element data.
-    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> Any? {
+    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> O? {
         guard let data = dataForSupplementaryElements[valueForCollectionElementKind(kind)]
             where data.count > index else { return nil }
         
@@ -100,52 +100,52 @@ public extension TCSectionDataMetric {
 
 public extension TCSectionDataMetric {
     /// Append single data for current section data metric.
-    public mutating func append(newElement: Any) {
+    public mutating func append(newElement: T) {
         itemsData.append(newElement)
     }
     
     /// Append new data for current section data metric.
-    public mutating func appendContentsOf(newElements: [Any]) {
+    public mutating func appendContentsOf(newElements: [T]) {
         itemsData.appendContentsOf(newElements)
     }
     
     /// Append single data for current setion data metric at specific index.
-    public mutating func insert(newElement: Any, atIndex index: Int) {
+    public mutating func insert(newElement: T, atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         insertContentsOf([newElement], atIndex: index)
     }
     
     /// Append new data for current setion data metric at specific index.
-    public mutating func insertContentsOf(newElements: [Any], atIndex index: Int) {
+    public mutating func insertContentsOf(newElements: [T], atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         itemsData.insertContentsOf(newElements, at: index)
     }
     
     /// Replace single new data for current setion data metric at specific index.
-    public mutating func replaceWith(newElement: Any, atIndex index: Int) {
+    public mutating func replaceWith(newElement: T, atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         itemsData.replaceElementAtIndex(index, withElement: newElement)
     }
     
     /// Replace multiple new data for current setion data metric at specific index.
-    public mutating func replaceWith(newElements: [Any], atIndex index: Int) {
+    public mutating func replaceWith(newElements: [T], atIndex index: Int) {
         validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         let range = Range(start: index, end: index+1)
         itemsData.replaceElementsRange(range, withElements: newElements)
     }
     
     /// Remove first data.
-    public mutating func removeFirst() -> Any {
+    public mutating func removeFirst() -> T {
         return itemsData.removeFirst()
     }
     
     /// Remove last data.
-    public mutating func removeLast() -> Any {
+    public mutating func removeLast() -> T {
         return itemsData.removeLast()
     }
     
     /// Remove specific data at index.
-    public mutating func removeAtIndex(index: Int) -> Any? {
+    public mutating func removeAtIndex(index: Int) -> T? {
         if numberOfItems <= index {
             return nil
         }
@@ -168,12 +168,12 @@ public extension TCSectionDataMetric {
 
 public extension TCSectionDataMetric {
     /// Build data for initializer.
-    public static func supplementaryElementsFromHeaderData(headerData: [Any]?, footerData: [Any]?) -> [String: [Any]]? {
+    public static func supplementaryElementsFromHeaderData(headerData: [O]?, footerData: [O]?) -> [String: [O]]? {
         if nil == headerData && nil == footerData {
             return nil
         }
         
-        var supplementaryElements: [String: [Any]]!
+        var supplementaryElements: [String: [O]]!
         if nil != headerData {
             supplementaryElements[UICollectionElementKindSectionHeader] = headerData
         }
@@ -182,6 +182,15 @@ public extension TCSectionDataMetric {
         }
         
         return supplementaryElements
+    }
+    
+    private func valueForCollectionElementKind(kind: UICollectionElementKind) -> String {
+        switch kind {
+        case .SectionHeader:
+            return UICollectionElementKindSectionHeader
+        case .SectionFooter:
+            return UICollectionElementKindSectionFooter
+        }
     }
     
     private func validateArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
