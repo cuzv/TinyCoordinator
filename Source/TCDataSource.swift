@@ -35,7 +35,7 @@ import UIKit
 ///   UIKit objects can't see the methods inside our extensions.
 /// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
 /// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
-public class TCDataSource: NSObject {
+public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewDataSource {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
     public var globalDataMetric: TCGlobalDataMetric
@@ -65,19 +65,17 @@ public class TCDataSource: NSObject {
     }
     
     private func registereusableView() {
-        guard let instance = self as? TCDataSourceProtocol else {
+        guard let subclass = self as? TCDataSourceProtocol else {
             fatalError("Must conforms protocol `TCDataSourceProtocol`")
         }
         
-        instance.registerReusableCell()
+        subclass.registerReusableCell()
         
-        if let instance = self as? TCTableViewHeaderFooterViewDataSourceProtocol {
-            instance.registerReusableHeaderFooterView()
+        if let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol {
+            subclass.registerReusableHeaderFooterView()
         }
-        else if let instance = self as? TCCollectionSupplementaryViewDataSourceProtocol {
-            instance.registerReusableSupplementaryView()
+        else if let subclass = self as? TCCollectionSupplementaryViewDataSourceProtocol {
+            subclass.registerReusableSupplementaryView()
         }
     }
 }
-
-

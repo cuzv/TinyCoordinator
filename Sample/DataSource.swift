@@ -10,7 +10,6 @@ import UIKit
 import TinyCoordinator
 
 class DataSource: TCDataSource {
-
 }
 
 extension DataSource: TCDataSourceProtocol {
@@ -22,25 +21,36 @@ extension DataSource: TCDataSourceProtocol {
         return TableViewCell.reuseIdentifier
     }
     
-    func loadData(data: Any, forReusableCell cell: TCCellType) {
-
+    func loadData(data: TCDataType, forReusableCell cell: TCCellType) {
+        if let cell = cell as? TableViewCell {
+            if let data = data as? CellDataItem {
+                cell.textLabel?.text = data.name
+            }
+            else if let data = data as? CellDataItem2 {
+                cell.textLabel?.text = data.name
+            }
+            
+        }
     }
 }
 
-extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
-    
-    func registerReusableHeaderFooterView() {}
-    
-    func reusableHeaderFooterViewIdentifierInSection(section: Int, isHeader: Bool) -> String {
-        return ""
+extension DataSource: TCTableViewEditingDataSourceProtocol {
+    func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
-    func loadData(data: Any, forReusableFooterView footerView: UITableViewHeaderFooterView) {
-        
+    func commitEditingStyle(style: UITableViewCellEditingStyle, forData data: TCDataType) {
+        debugPrint(globalDataMetric)
+    }
+
+}
+
+extension DataSource: TCTableViewMoveDataSourceProtocol {
+    func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
-    func loadData(data: Any, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
-        
+    func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        debugPrint(globalDataMetric)
     }
-    
 }

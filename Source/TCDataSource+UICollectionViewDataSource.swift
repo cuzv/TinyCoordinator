@@ -1,5 +1,5 @@
 //
-//  UICollectionViewDataSource+Extension.swift
+//  TCDataSource+UICollectionViewDataSource.swift
 //  TinyCoordinator
 //
 //  Created by Moch Xiao on 1/13/16.
@@ -26,5 +26,12 @@
 
 import UIKit
 
-extension UICollectionViewDataSource {
+public extension TCDataSource {
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
 }

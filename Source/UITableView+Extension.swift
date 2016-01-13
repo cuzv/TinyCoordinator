@@ -68,7 +68,7 @@ public extension UITableView {
 // MARK: - Reusable
 
 public extension UITableView {
-    public func tc_registerReusableCellClass<T: UITableViewCell where T: Reusable>(_: T.Type) {
+    public func tc_registerReusableCellClass<T: UITableViewCell where T: Reusable>(type: T.Type) {
         if let nib = T.nib {
             registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
         } else {

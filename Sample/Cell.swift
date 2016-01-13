@@ -7,10 +7,10 @@
 //
 
 import Foundation
-
 import UIKit
+import TinyCoordinator
 
-class TableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell, Reusable {
     static let fixedHeight: CGFloat = 44
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

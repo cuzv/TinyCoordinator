@@ -26,16 +26,5 @@
 
 import UIKit
 
-//extension TCDataSource: UITableViewDataSource {
-//    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        return 1
-//    }
-//    
-//    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//    
-//    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        return UITableViewCell()
-//    }
-//}
+extension UITableViewDataSource {
+}

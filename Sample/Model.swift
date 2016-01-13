@@ -18,6 +18,18 @@ class CellDataItem: NSObject {
         self.pic = pic
         super.init()
     }
+    
+    override var description: String {
+        return debugDescription
+    }
+    
+    override var debugDescription: String {
+        var output: [String] = []
+        output.append("-------------------------------------------------")
+        output.append("name: \(name)")
+        output.append("-------------------------------------------------")
+        return output.joinWithSeparator("\n")
+    }
 }
 
 func ==(lhs: CellDataItem, rhs: CellDataItem) -> Bool {
@@ -33,6 +45,18 @@ class CellDataItem2: NSObject {
         self.name = name
         self.pic = pic
         super.init()
+    }
+    
+    override var description: String {
+        return debugDescription
+    }
+    
+    override var debugDescription: String {
+        var output: [String] = []
+        output.append("-------------------------------------------------")
+        output.append("name: \(name)")
+        output.append("-------------------------------------------------")
+        return output.joinWithSeparator("\n")
     }
 }
 

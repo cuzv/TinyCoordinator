@@ -68,10 +68,6 @@ public extension Reusable where Self: TCReusableViewType {
     public static var nib: UINib? { return nil }
 }
 
-extension UITableViewCell: Reusable {}
-extension UITableViewHeaderFooterView: Reusable {}
-extension UICollectionReusableView: Reusable {}
-
 // MARK: -
 
 ///// You should override `Equatable` youself.

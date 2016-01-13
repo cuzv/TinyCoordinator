@@ -29,16 +29,30 @@ import Foundation
 // MARK: - Array
 
 internal extension Array {
-    internal mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
-        if count <= index || count <= otherIndex  {
+    internal mutating func moveElementAtIndex(sourceIndex: Int, toIndex destinationIndex: Int) {
+        if count <= sourceIndex || count <= destinationIndex  {
             fatalError("Index beyond boundary.")
         }
+        if sourceIndex == destinationIndex {
+            return
+        }
         
-        let firstItemData = self[index]
-        let firstRange = Range(start: index, end: index+1)
+        insert(removeAtIndex(sourceIndex), atIndex: destinationIndex)
+    }
+    
+    internal mutating func exchangeElementAtIndex(sourceIndex: Int, withElementAtIndex destinationIndex: Int) {
+        if count <= sourceIndex || count <= destinationIndex  {
+            fatalError("Index beyond boundary.")
+        }
+        if sourceIndex == destinationIndex {
+            return
+        }
+
+        let firstItemData = self[sourceIndex]
+        let firstRange = Range(start: sourceIndex, end: sourceIndex + 1)
         
-        let secondaryItemData = self[otherIndex]
-        let secondaryRange = Range(start: otherIndex, end: otherIndex+1)
+        let secondaryItemData = self[destinationIndex]
+        let secondaryRange = Range(start: destinationIndex, end: destinationIndex + 1)
         
         replaceRange(firstRange, with: [secondaryItemData])
         replaceRange(secondaryRange, with: [firstItemData])
@@ -48,7 +62,7 @@ internal extension Array {
         if count <= index {
             fatalError("Index beyond boundary.")
         }
-        let range = Range(start: index, end: index+1)
+        let range = Range(start: index, end: index + 1)
         replaceRange(range, with: [element])
     }
     

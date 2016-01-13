@@ -13,6 +13,8 @@
 		29F2E294980ECAFE1049E72BB03D4FC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15C38DA8BE6AB102B7D142BC140DF39 /* AppDelegate.swift */; };
 		460C4A7C1C46355600433490 /* UITableViewDataSource+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */; };
 		460C4A7E1C46357500433490 /* UICollectionViewDataSource+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */; };
+		460C4A821C46605F00433490 /* TCDataSource+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */; };
+		460C4A841C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */; };
 		4F329A7F0F5916327719CB75CF4B91DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B636BE531C1095C7B63EBBECC260BA57 /* Assets.xcassets */; };
 		549E637ADBD7440B8CD951EF912C9EDB /* TinyCoordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E7181FDDF8623A3B0760952C356988 /* TinyCoordinator.framework */; };
 		71226608215DF4E64699833A86957EC2 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6355501946A4D3AFD2D9C5DDFF3C8543 /* UITableView+Extension.swift */; };
@@ -42,6 +44,8 @@
 		24E7181FDDF8623A3B0760952C356988 /* TinyCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TinyCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewDataSource+Extension.swift"; sourceTree = "<group>"; };
 		460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDataSource+Extension.swift"; sourceTree = "<group>"; };
+		460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCDataSource+UITableViewDataSource.swift"; sourceTree = "<group>"; };
+		460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCDataSource+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCDelegate.swift; sourceTree = "<group>"; };
 		621497E1F2E1C0FF2C3E670574A9E870 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6355501946A4D3AFD2D9C5DDFF3C8543 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				E44F2E333DFF48D61D227317D1C60380 /* Info.plist */,
 				F709A18BEEBE5FC16A7BCFD7DD7E6DF2 /* ResuableView+Extension.swift */,
 				A54F43DD9A57E904F58BCF7F29D06F42 /* TCDataSource.swift */,
+				460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */,
+				460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */,
 				C7A2A8F156A16B11908916088DF627C7 /* TCDataSourceProtocol.swift */,
 				EC02175D44D3EE26B913960DE396720B /* TCDefine.swift */,
 				5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */,
@@ -267,11 +273,13 @@
 				BA47E621D6261C2255F0D46C75AD59EB /* Array+Extension.swift in Sources */,
 				BD15F1297075BF9C5234DE9C60EB7470 /* ResuableView+Extension.swift in Sources */,
 				E2F99B471E4546EC7B5673AF174EEA05 /* TCDataSource.swift in Sources */,
+				460C4A821C46605F00433490 /* TCDataSource+UITableViewDataSource.swift in Sources */,
 				D3ACA9953974AFB36AA4456A22ACF170 /* TCDataSourceProtocol.swift in Sources */,
 				460C4A7C1C46355600433490 /* UITableViewDataSource+Extension.swift in Sources */,
 				88F32FEDF30E7B85F7D8B3E8BE9F1562 /* TCDefine.swift in Sources */,
 				08BC4A762D5D804D2528443DBE423991 /* TCDelegate.swift in Sources */,
 				7B4BB3487AB30C66867EFF16A0896606 /* TCGlobalDataMetric.swift in Sources */,
+				460C4A841C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift in Sources */,
 				7EA0AC5CF866E60D518BA45FDB55C9D6 /* TCSectionDataMetric.swift in Sources */,
 				02910525D5C444A294AF7E55BCE9626C /* UICollectionView+Extension.swift in Sources */,
 				71226608215DF4E64699833A86957EC2 /* UITableView+Extension.swift in Sources */,

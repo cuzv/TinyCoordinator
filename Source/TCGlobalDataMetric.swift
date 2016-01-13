@@ -28,7 +28,7 @@ import Foundation
 
 /// The UITableView/UICollectionView data present.
 public struct TCGlobalDataMetric {
-    private var sectionDataMetrics: [TCSectionDataMetric]
+    public internal(set) var sectionDataMetrics: [TCSectionDataMetric]
     /// UITableView only, return the table view header data.
     public private(set) var dataForHeader: Any!
     /// UITableView only, return the table view footer data.
@@ -58,12 +58,7 @@ public extension TCGlobalDataMetric {
     public var numberOfSections: Int {
         return sectionDataMetrics.count
     }
-    
-    /// Each section items count.
-    public var allSectionDataMetrics: [TCSectionDataMetric] {
-        return sectionDataMetrics
-    }
-    
+        
     /// Return the all section data metrics.
     public func numberOfItemsInSection(section: Int) -> Int {
         return sectionDataMetrics[section].numberOfItems
@@ -155,6 +150,17 @@ public extension TCGlobalDataMetric {
         
         return sectionDataMetrics[section].dataForSupplementaryElementOfKind(kind, atIndex: indexPath.item)
     }
+    
+    internal var sectionIndexTitles: [String]? {
+        var indexTitles: [String]? = []
+        for sectionDataMetric in sectionDataMetrics {
+            if let indexTitle = sectionDataMetric.indexTitle {
+                indexTitles?.append(indexTitle)
+            }
+        }
+        
+        return indexTitles
+    }
 }
 
 // MARK: - Modify
@@ -177,7 +183,7 @@ public extension TCGlobalDataMetric {
     
     /// Append multiple `TCSectionDataMetric` for current setion at specific index.
     public mutating func insertContentsOf(newElements: [TCSectionDataMetric], atIndex index: Int) {
-        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         sectionDataMetrics.insertContentsOf(newElements, at: index)
     }
     
@@ -201,7 +207,7 @@ public extension TCGlobalDataMetric {
     
     /// Append single data to specific section data metric.
     public mutating func append(newElement: TCDataType, atIndex index: Int) {
-        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var section = sectionDataMetrics[index]
         section.append(newElement)
@@ -210,7 +216,7 @@ public extension TCGlobalDataMetric {
     
     /// Append multiple data to specific section data metric.
     public mutating func appendContentsOf(newElements: [TCDataType], atIndex index: Int) {
-        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var section = sectionDataMetrics[index]
         section.appendContentsOf(newElements)
@@ -220,7 +226,7 @@ public extension TCGlobalDataMetric {
     /// Insert single data to specific section & item data metric.
     public mutating func insert(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var sectionDataMetric = sectionDataMetrics[section]
         sectionDataMetric.insert(newElement, atIndex: indexPath.item)
@@ -230,7 +236,7 @@ public extension TCGlobalDataMetric {
     /// Insert multiple data to specific section & item data metric.
     public mutating func insertContentsOf(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var sectionDataMetric = sectionDataMetrics[section]
         sectionDataMetric.insertContentsOf(newElements, atIndex: indexPath.item)
@@ -240,7 +246,7 @@ public extension TCGlobalDataMetric {
     /// Replace single data to specific section data metric.
     public mutating func replace(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var sectionDataMetric = sectionDataMetrics[section]
         sectionDataMetric.replaceWith(newElement, atIndex: indexPath.item)
@@ -249,7 +255,7 @@ public extension TCGlobalDataMetric {
     /// Replace multiple data to specific section data metric.
     public mutating func replace(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         var sectionDataMetric = sectionDataMetrics[section]
         sectionDataMetric.replaceWith(newElements, atIndex: indexPath.item)
@@ -267,14 +273,14 @@ public extension TCGlobalDataMetric {
     
     /// Remove specific section data metric.
     public mutating func removeAtIndex(index: Int) -> TCSectionDataMetric {
-        validateArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         return sectionDataMetrics.removeAtIndex(index)
     }
     
     /// Remove specific data for indexPath.
     public mutating func removeAtIndexPath(indexPath: NSIndexPath) -> TCDataType? {
         let section = indexPath.section
-        validateArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         
         return sectionDataMetrics[section].removeAtIndex(indexPath.item)
     }
@@ -283,25 +289,75 @@ public extension TCGlobalDataMetric {
     public mutating func removeAll() {
         sectionDataMetrics.removeAll()
     }
+    
+    /// Exchage data.
+    public mutating func exchageAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        let sourceSection = sourceIndexPath.section
+        let sourceItem = sourceIndexPath.item
+        let destinationSection = destinationIndexPath.section
+        let destinationItem = destinationIndexPath.item
+        
+        var sourceSectionDataMetric = sectionDataMetrics[sourceSection]
+        if sourceSection == destinationSection {
+            sourceSectionDataMetric.exchangeElementAtIndex(sourceItem, withElementAtIndex: destinationItem)
+            sectionDataMetrics.replaceElementAtIndex(sourceSection, withElement: sourceSectionDataMetric)
+        }
+        else {
+            // Take out the source data.
+            var destinationSectionDataMetric = sectionDataMetrics[destinationSection]
+            if let sourceData = sourceSectionDataMetric.removeAtIndex(sourceItem),
+                let destinationData = destinationSectionDataMetric.removeAtIndex(destinationItem) {
+                // Exchange to desitination position.
+                destinationSectionDataMetric.insert(sourceData, atIndex: destinationItem)
+                sourceSectionDataMetric.insert(destinationData, atIndex: sourceItem)
+                
+                sectionDataMetrics.replaceElementAtIndex(destinationSection, withElement: destinationSectionDataMetric)
+                sectionDataMetrics.replaceElementAtIndex(sourceSection, withElement: sourceSectionDataMetric)
+            }
+        }
+    }
+    
+    /// Move data.
+    public mutating func moveAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        let sourceSection = sourceIndexPath.section
+        let sourceItem = sourceIndexPath.item
+        let destinationSection = destinationIndexPath.section
+        let destinationItem = destinationIndexPath.item
+        
+        var sourceSectionDataMetric = sectionDataMetrics[sourceSection]
+        if sourceSection == destinationSection {
+            sourceSectionDataMetric.moveElementAtIndex(sourceItem, toIndex: destinationItem)
+            sectionDataMetrics.replaceElementAtIndex(sourceSection, withElement: sourceSectionDataMetric)
+        }
+        else {
+            // Take out the source data.
+            if let data = sourceSectionDataMetric.removeAtIndex(sourceItem) {
+                // Insert to desitination position.
+                var destinationSectionDataMetric = sectionDataMetrics[destinationSection]
+                destinationSectionDataMetric.insert(data, atIndex: destinationItem)
+                sectionDataMetrics.replaceElementAtIndex(destinationSection, withElement: destinationSectionDataMetric)
+                sectionDataMetrics.replaceElementAtIndex(sourceSection, withElement: sourceSectionDataMetric)
+            }
+        }
+    }
 }
 
 // MARK: - Helpers
 
 private extension TCGlobalDataMetric {
-    private func validateArgumentSection(section: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateInsertElementArgumentSection(section: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+        let count = numberOfSections
+        guard section <= count else {
+            let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
+            TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
+        }
+    }
+
+    private func validateNoneInsertElementArgumentSection(section: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
         let count = numberOfSections
         guard section < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
             TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
         }
     }
-    
-    private func validateArgumentSection(section: Int, item: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
-        let count = numberOfSections
-        guard section < count else {
-            let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
-            TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
-        }
-    }
-    
 }

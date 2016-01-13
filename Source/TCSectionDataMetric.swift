@@ -42,24 +42,29 @@ public struct TCSectionDataMetric {
     public private(set) var dataForFooter: TCDataType!
     /// UICollecttionView only.
     private var dataForSupplementaryElements: [String: [TCDataType]]!
+    /// UITableView only, the section index title.
+    public private(set) var indexTitle: String!
     
-    public init(itemsData: [TCDataType]) {
+    public init(itemsData: [TCDataType], indexTitle: String! = nil) {
         self.itemsData = itemsData
+        self.indexTitle = indexTitle
     }
     
     /// UITableView only.
-    public init(itemsData: [TCDataType], titleForHeader: String, titleForFooter: String) {
+    public init(itemsData: [TCDataType], titleForHeader: String, titleForFooter: String, indexTitle: String! = nil) {
         self.init(itemsData: itemsData)
         self.titleForHeader = titleForHeader
         self.titleForFooter = titleForFooter
+        self.indexTitle = indexTitle
     }
     
     /// UITableView only.
     /// dataForXXX means which delegate method request for custom viewForHeader/viewForFooter needs.
-    public init(itemsData: [TCDataType], dataForHeader: TCDataType, dataForFooter: TCDataType) {
+    public init(itemsData: [TCDataType], dataForHeader: TCDataType, dataForFooter: TCDataType, indexTitle: String! = nil) {
         self.init(itemsData: itemsData)
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
+        self.indexTitle = indexTitle
     }
     
     /// UICollectionView only.
@@ -111,26 +116,26 @@ public extension TCSectionDataMetric {
     
     /// Append single data for current setion data metric at specific index.
     public mutating func insert(newElement: TCDataType, atIndex index: Int) {
-        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         insertContentsOf([newElement], atIndex: index)
     }
     
     /// Append new data for current setion data metric at specific index.
     public mutating func insertContentsOf(newElements: [TCDataType], atIndex index: Int) {
-        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         itemsData.insertContentsOf(newElements, at: index)
     }
     
     /// Replace single new data for current setion data metric at specific index.
     public mutating func replaceWith(newElement: TCDataType, atIndex index: Int) {
-        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         itemsData.replaceElementAtIndex(index, withElement: newElement)
     }
     
     /// Replace multiple new data for current setion data metric at specific index.
     public mutating func replaceWith(newElements: [TCDataType], atIndex index: Int) {
-        validateArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
-        let range = Range(start: index, end: index+1)
+        validateNoneInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        let range = Range(start: index, end: index + 1)
         itemsData.replaceElementsRange(range, withElements: newElements)
     }
     
@@ -159,8 +164,13 @@ public extension TCSectionDataMetric {
     }
     
     /// Exchange data.
-    public mutating func exchangeDataAtIndex(index: Int, withDataIndex otherIndex: Int) {
+    public mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
         itemsData.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
+    }
+    
+    /// Move data.
+    public mutating func moveElementAtIndex(index: Int, toIndex otherIndex: Int) {
+        itemsData.moveElementAtIndex(index, toIndex: otherIndex)
     }
 }
 
@@ -193,7 +203,15 @@ public extension TCSectionDataMetric {
         }
     }
     
-    private func validateArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateInsertElementArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+        let count = numberOfItems
+        guard index <= count else {
+            let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
+            TCInvalidArgument("index \(index) extends beyond bounds \(bounds)", method: method, file: file, line: line)
+        }
+    }
+    
+    private func validateNoneInsertElementArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
         let count = numberOfItems
         guard index < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"

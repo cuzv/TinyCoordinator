@@ -67,11 +67,16 @@ public protocol TCCollectionSupplementaryViewDataSourceProtocol {
 public protocol TCTableViewEditingDataSourceProtocol {
     /// Can edit the specific item.
     func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool
-    /// commit editing data behavior.
-    func commitEditingData(data: TCDataType, atIndexPath indexPath: NSIndexPath)
-    
+    /// Commit editing data behavior.
+    func commitEditingStyle(style: UITableViewCellEditingStyle, forData data: TCDataType)
+}
+
+// MARK: TCTableViewMoveDataSourceProtocol
+public protocol TCTableViewMoveDataSourceProtocol {
     /// Can move the specific item
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
+    /// Move data position.
+    func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
 }
 
 // MARK: - TCTableViewIndexDataSourceProtocol
