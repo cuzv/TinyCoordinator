@@ -10,6 +10,9 @@ import UIKit
 import TinyCoordinator
 
 class ViewController: UIViewController {
+    deinit {
+        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
+    }
     
     lazy var dataSource: DataSource = {
         DataSource(tableView: self.tableView)
@@ -62,9 +65,6 @@ class ViewController: UIViewController {
         tableView.dataSource = dataSource
         tableView.reloadData()
         debugPrint(globalDataMetric)
-        
-        test()
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -75,63 +75,3 @@ class ViewController: UIViewController {
     
 }
 
-func test() {
-    var names = ["Lucy", "Lily", "Mike", "Bob"]
-    debugPrint(names)
-    names.exchangeElementAtIndex(3, withElementAtIndex: 0)
-    debugPrint(names)
-}
-
-
-internal extension Array {
-    internal mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
-        if count <= index || count <= otherIndex  {
-            fatalError("Index beyond boundary.")
-        }
-        
-        let firstItemData = self[index]
-        let firstRange = Range(start: index, end: index + 1)
-        
-        let secondaryItemData = self[otherIndex]
-        let secondaryRange = Range(start: otherIndex, end: otherIndex + 1)
-        
-        replaceRange(firstRange, with: [secondaryItemData])
-        replaceRange(secondaryRange, with: [firstItemData])
-    }
-    
-    internal mutating func replaceElementAtIndex(index: Int, withElement element: Element) {
-        if count <= index {
-            fatalError("Index beyond boundary.")
-        }
-        let range = Range(start: index, end: index + 1)
-        replaceRange(range, with: [element])
-    }
-    
-    internal mutating func replaceElementsRange(range: Range<Int>, withElements elements: [Element]) {
-        if count <= range.startIndex {
-            fatalError("Range beyond boundary.")
-        }
-        if count <= range.endIndex {
-            fatalError("Range beyond boundary.")
-        }
-        replaceRange(range, with: elements)
-    }
-    
-    internal mutating func replaceLast(element: Element) {
-        replaceElementAtIndex(count-1, withElement: element)
-    }
-    
-    internal mutating func replaceFirst(element: Element) {
-        replaceElementAtIndex(0, withElement: element)
-    }
-    
-    internal var prettyDebugDescription: String {
-        var output: [String] = []
-        var index = 0
-        for item in self {
-            output.append("\(index): \(item)")
-            index += 1
-        }
-        return output.joinWithSeparator("\n")
-    }
-}

@@ -1,8 +1,8 @@
 //
-//  TCDelegate.swift
+//  TCDelegate+UICollectionViewDelegate.swift
 //  TinyCoordinator
 //
-//  Created by Moch Xiao on 1/6/16.
+//  Created by Moch Xiao on 1/14/16.
 //  Copyright © @2016 Moch Xiao (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,40 +25,3 @@
 //
 
 import UIKit
-
-public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
-    public let tableView: UITableView!
-    public let collectionView: UICollectionView!
-    
-    deinit {
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
-    }
-    
-    private override init() {
-        fatalError("Use init(tableView:) or init(collectionView:) indtead.")
-    }
-    
-    public init(tableView: UITableView) {
-        self.tableView = tableView
-        collectionView = nil
-        super.init()
-    }
-    
-    public init(collectionView: UICollectionView) {
-        self.collectionView = collectionView
-        tableView = nil
-        super.init()
-    }
-    
-    public var dataSource: TCDataSource  {
-        if let tableView = self.tableView {
-            return tableView.dataSource as! TCDataSource
-        }
-        
-        return collectionView.dataSource as! TCDataSource
-    }
-    
-    public var globalDataMetric: TCGlobalDataMetric {
-        return dataSource.globalDataMetric
-    }
-}
