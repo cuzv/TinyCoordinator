@@ -29,7 +29,7 @@ import Foundation
 /// The UITableView/UICollectionView section data present.
 /// Note that, if you preferred inject data could modify keeep the same address as before,
 /// you should pass init params `NSObject` instance.
-public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
+public struct TCSectionDataMetric<T: Equatable> {
     /// The main cell data.
     public private(set) var itemsData: [T]
     /// UITableView only, the section header title.
@@ -37,11 +37,11 @@ public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
     /// UITableView only, the section footer title.
     public private(set) var titleForFooter: String!
     /// UITableView only, the section header data.
-    public private(set) var dataForHeader: O!
+    public private(set) var dataForHeader: T!
     /// UITableView only, the section footer data.
-    public private(set) var dataForFooter: O!
+    public private(set) var dataForFooter: T!
     /// UICollecttionView only.
-    private var dataForSupplementaryElements: [String: [O]]!
+    private var dataForSupplementaryElements: [String: [T]]!
     
     public init(itemsData: [T]) {
         self.itemsData = itemsData
@@ -56,7 +56,7 @@ public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
     
     /// UITableView only.
     /// dataForXXX means which delegate method request for custom viewForHeader/viewForFooter needs.
-    public init(itemsData: [T], dataForHeader: O, dataForFooter: O) {
+    public init(itemsData: [T], dataForHeader: T, dataForFooter: T) {
         self.init(itemsData: itemsData)
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
@@ -64,7 +64,7 @@ public struct TCSectionDataMetric<T: Equatable, O: Equatable> {
     
     /// UICollectionView only.
     /// NSDictionary keys like `UICollectionElementKindSectionHeader`/`UICollectionElementKindSectionFooter`.
-    public init(itemsData: [T], dataForSupplementaryElements: [String: [O]]) {
+    public init(itemsData: [T], dataForSupplementaryElements: [String: [T]]) {
         self.init(itemsData: itemsData)
         self.dataForSupplementaryElements = dataForSupplementaryElements
     }
@@ -88,7 +88,7 @@ public extension TCSectionDataMetric {
     }
     
     /// UICollectionView only, return specific supplementary element data.
-    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> O? {
+    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> T? {
         guard let data = dataForSupplementaryElements[valueForCollectionElementKind(kind)]
             where data.count > index else { return nil }
         
@@ -168,12 +168,12 @@ public extension TCSectionDataMetric {
 
 public extension TCSectionDataMetric {
     /// Build data for initializer.
-    public static func supplementaryElementsFromHeaderData(headerData: [O]?, footerData: [O]?) -> [String: [O]]? {
+    public static func supplementaryElementsFromHeaderData(headerData: [T]?, footerData: [T]?) -> [String: [T]]? {
         if nil == headerData && nil == footerData {
             return nil
         }
         
-        var supplementaryElements: [String: [O]]!
+        var supplementaryElements: [String: [T]]!
         if nil != headerData {
             supplementaryElements[UICollectionElementKindSectionHeader] = headerData
         }

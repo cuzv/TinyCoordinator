@@ -26,12 +26,12 @@
 
 import Foundation
 
-/// You should implement `Equatable` youself.
+/// You should override `Equatable` youself.
 /// Or you can just inherit from NSObject.
 public class TCItemDataType: Equatable {
     public init() {}
 }
 
 public func ==<T: TCItemDataType>(lhs: T, rhs:T) -> Bool {
-    return false
+    return lhs === rhs
 }

@@ -34,47 +34,10 @@ class ViewController: UIViewController {
         }()
 
         
-        let secion1 = TCSectionDataMetric<TCItemDataType, NSObject>(itemsData: data1)
-        let secion2 = TCSectionDataMetric<TCItemDataType, NSObject>(itemsData: data2)
+        let secion1: TCSectionDataMetric<TCItemDataType> = TCSectionDataMetric(itemsData: data1)
+        let secion2: TCSectionDataMetric<TCItemDataType> = TCSectionDataMetric(itemsData: data2)
         
         let global = TCGlobalDataMetric(sectionDataMetrics: [secion2, secion1])
-//
-//        let indexPath = NSIndexPath(forItem: 0, inSection: 1)
-//        let item = global.dataForItemAtIndexPath(indexPath)
-        
-//        let item1 = CellDataItem(name: "Michael Jackson", pic: "nil")
-//        let item2 = CellDataItem(name: "Moch Xiao", pic: "nil")
-//        let item3 = CellDataItem(name: "Kobe Bryant", pic: "nil")
-//        let data: [Any] = [item1, item2, item3]
-//        let s = SectionDataMetric(itemsData: data)
-//        debugPrint(s)
-        
-        
-//        let s = SectionDataMetric(item: 11)
-//        debugPrint(s)
-        
-//        let s = SectionDataMetric(item: [1, "22", "", 34])
-//        debugPrint(s)
-        
-
-//        let s = SectionDataMetric(item: [item1, item2, item3])
-//        debugPrint(s)
-        
-//        let s = SectionDataMetric(itemsData: data)
-//        debugPrint(s)
-//        
-        
-//        let s2 = TCSectionDataMetric(itemsData: data)
-//        debugPrint(s2)
-        
     }
+    
 }
-
-extension ViewController {
-    func someFunc<T: TCDataSourceProtocol>(param: T) {
-        param.registerReusableCell()
-    }
-}
-
-
-
