@@ -46,9 +46,9 @@ public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
     /// UITableView only, register the reuse header or footer view.
     func registerReusableHeaderFooterView()
     /// UITableView only, return the HeaderFooterView header reuse identifier for section.
-    func reusableHeaderViewIdentifierInSection(section: Int) -> String
+    func reusableHeaderViewIdentifierInSection(section: Int) -> String?
     /// UITableView only, return the HeaderFooterView footer reuse identifier for section.
-    func reusableFooterViewIdentifierInSection(section: Int) -> String
+    func reusableFooterViewIdentifierInSection(section: Int) -> String?
     /// UITableView only, load data for specific UITableViewHeaderFooterView header.
     func loadData(data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView)
     /// UITableView only, load data for specific UITableViewHeaderFooterView footer.

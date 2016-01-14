@@ -27,29 +27,6 @@
 import UIKit
 
 public extension TCDelegate {
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return heightForRowAtIndexPath(indexPath)
-    }
-//    
-//    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 10
-//    }
-//    
-//    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        return UIView()
-//    }
-//    
-//    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        
-//    }
-//    
-//    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        
-//    }
-}
-
-
-public extension TCDelegate {
     public func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
         return dataSource.heightForRowAtIndexPath(indexPath)
     }
@@ -62,13 +39,11 @@ public extension TCDelegate {
         return dataSource.viewForHeaderInSection(section)
     }
 
-//    public func heightForFooterInSection(section: Int) -> CGFloat {
-//        
-//    }
-//    
-//    public func viewForFooterInSection(section: Int) -> UIView? {
-//        
-//    }
-
+    public func heightForFooterInSection(section: Int) -> CGFloat {
+        return dataSource.heightForFooterInSection(section)
+    }
     
+    public func viewForFooterInSection(section: Int) -> UIView? {
+        return dataSource.viewForFooterInSection(section)
+    }
 }

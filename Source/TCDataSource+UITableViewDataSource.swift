@@ -170,8 +170,8 @@ public extension TCDataSource {
      public func heightForHeaderInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return 10 }
         guard let data = self.globalDataMetric.dataForHeaderInSection(section) else { return 10 }
-        
-        let identifier = subclass.reusableHeaderViewIdentifierInSection(section)
+        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
+
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableHeaderView: headerView)
         }
@@ -181,13 +181,10 @@ public extension TCDataSource {
     
     public func viewForHeaderInSection(section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return nil }
-
-        let identifier = subclass.reusableHeaderViewIdentifierInSection(section)
-        if 0 == identifier.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) { return nil }
+        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
         guard let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        
         guard let data = self.globalDataMetric.dataForHeaderInSection(section) else { return nil }
         
         headerView.prepareForReuse()
@@ -203,25 +200,21 @@ public extension TCDataSource {
     public func heightForFooterInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return 10 }
         guard let data = self.globalDataMetric.dataForFooterInSection(section) else { return 10 }
+        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
         
-        let identifier = subclass.reusableFooterViewIdentifierInSection(section)
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
-            subclass.loadData(data, forReusableHeaderView: headerView)
+            subclass.loadData(data, forReusableFooterView: headerView)
         }
         
         return height
-
     }
     
     public func viewForFooterInSection(section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return nil }
-        
-        let identifier = subclass.reusableFooterViewIdentifierInSection(section)
-        if 0 == identifier.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) { return nil }
+        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
         guard let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        
         guard let data = self.globalDataMetric.dataForFooterInSection(section) else { return nil }
         
         footerView.prepareForReuse()
@@ -231,5 +224,13 @@ public extension TCDataSource {
         
         return footerView
     }
+}
 
+
+// MARK: - Helper
+
+internal extension String {
+    internal var length: Int {
+        return lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+    }
 }

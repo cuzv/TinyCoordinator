@@ -54,3 +54,30 @@ extension DataSource: TCTableViewMoveDataSourceProtocol {
         debugPrint(globalDataMetric)
     }
 }
+
+extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
+    func registerReusableHeaderFooterView() {
+        tableView.tc_registerReusableHeaderFooterViewClass(TableViewHeaderView.self)
+        tableView.tc_registerReusableHeaderFooterViewClass(TableViewFooterView.self)
+    }
+    
+    func reusableHeaderViewIdentifierInSection(section: Int) -> String? {
+        return TableViewHeaderView.reuseIdentifier
+    }
+    
+    func loadData(data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
+        if let headerView = headerView as? TableViewHeaderView {
+            headerView.text = data as! String
+        }
+    }
+    
+    func reusableFooterViewIdentifierInSection(section: Int) -> String? {
+        return TableViewFooterView.reuseIdentifier
+    }
+    
+    func loadData(data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView) {
+        if let footerView = footerView as? TableViewFooterView {
+            footerView.text = data as! String
+        }
+    }
+}

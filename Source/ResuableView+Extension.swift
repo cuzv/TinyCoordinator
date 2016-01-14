@@ -34,7 +34,7 @@ internal func isSupportedConstraintsProperty() -> Bool {
     }
     
     dispatch_once(&Static.token) { () -> Void in
-        if let systemVersion = Int(UIDevice.currentDevice().systemVersion) {
+        if let version = UIDevice.currentDevice().systemVersion.componentsSeparatedByString(".").first, systemVersion = Int(version) {
             Static.isSupported = systemVersion > 7
         }
     }
