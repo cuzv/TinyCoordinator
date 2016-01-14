@@ -38,8 +38,8 @@ public extension TCDataSource {
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        guard let subclass = self as? TCDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`.")
+        guard let subclass = self as? TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         let reusableIdentifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
@@ -54,7 +54,7 @@ public extension TCDataSource {
             // First time. I try to add condiition `[[self.collectionView indexPathsForVisibleItems] containsObject:indexPath]`
             // But finally found that collectionView can not get the indexPath in `indexPathsForVisibleItems` before
             // you really can see it on the screen
-            if let subclass = self as? TCLazyLoadImageDataSourceProtocol {
+            if let subclass = self as? TCImageLazyLoadable {
                 let shouldLoadImages = !collectionView.dragging && !collectionView.decelerating && CGRectContainsPoint(collectionView.frame, reusableCell.frame.origin)
                 if shouldLoadImages {
                     subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
@@ -71,22 +71,45 @@ public extension TCDataSource {
     // MARK: - Move
     
     public func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
+        if let subclass = self as? TCTableViewCollectionViewMovable {
+            return subclass.canMoveItemAtIndexPath(indexPath)
+        } else {
+            return false
+        }
     }
     
     public func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
+        globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+        subclass.moveRowAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
     }
 }
 
-// MARK: - TCDataSource subclass supplementary view helper func
+
 
 public extension TCDataSource {
+    // MARK: - Cell size
+    public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
+        guard let subclass = self as? TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`.")
+        }
+        guard let data = self.globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGSizeZero }
+        
+        let size = collectionView.tc_sizeForReusableViewByClass(cellType, preferredLayoutSizeFittingSize: fittingSize, dataConfigurationHandler: { (cell) -> () in
+            subclass.loadData(data, forReusableCell: cell)
+        })
+        
+        return size
+    }
+    
+    // MARK: - TCDataSource subclass supplementary view helper func
+    
     /// TCDataSource Subclas UICollectionViewDataSource require supplementary view, simple return this method
     /// **Note**: register first
     public func viewForSupplementaryElementOfKind(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        guard let subclass = self as? TCCollectionSupplementaryViewDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`.")
+        guard let subclass = self as? TCCollectionSupplementaryViewibility else {
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         guard let identifier = subclass.reusableSupplementaryViewIdentifierForIndexPath(indexPath, ofKind: kind) else {
             return UICollectionReusableView()

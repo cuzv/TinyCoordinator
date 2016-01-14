@@ -31,6 +31,8 @@ import UIKit
 private struct AssociationKey {
     static var reusableCell: String = "reusableCell"
     static var reusableView: String = "reusableView"
+    
+    static var reusableViews: String = "reusableViews"
 }
 
 private extension UICollectionView {
@@ -43,46 +45,45 @@ private extension UICollectionView {
         get { return objc_getAssociatedObject(self, &AssociationKey.reusableView) as? UICollectionReusableView }
         set { objc_setAssociatedObject(self, &AssociationKey.reusableView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
+    
+    private var reusableViews: [String: UICollectionReusableView]? {
+        get { return objc_getAssociatedObject(self, &AssociationKey.reusableView) as? [String: UICollectionReusableView] }
+        set { objc_setAssociatedObject(self, &AssociationKey.reusableView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
 }
 
 public extension UICollectionView {
+    private func initializeReusableViewsIfNeeded() {
+        if nil == reusableViews {
+            reusableViews = [:]
+        }
+    }
+    
     public func tc_sizeForReusableViewByClass<T: UICollectionReusableView>(
         viewClass: T.Type,
         preferredLayoutSizeFittingSize fittingSize: CGSize,
         dataConfigurationHandler: (T) -> ()) -> CGSize
-    {        
+    {
+        initializeReusableViewsIfNeeded()
+        
+        let key = String(viewClass)
         var _reusableView: T!
-        if let reusableView = reusableView as? T {
+        if let reusableView = reusableViews?[key] as? T {
             _reusableView = reusableView
         } else {
             _reusableView = viewClass.init(frame: CGRectZero)
-            reusableView = _reusableView
+            reusableViews?[key] = _reusableView
         }
-
+        
         _reusableView.prepareForReuse()
         dataConfigurationHandler(_reusableView)
         
-        return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
-    }
-    
-    public func tc_sizeForReusableCellByClass<T: UICollectionViewCell>(
-        cellClass: T.Type,
-        preferredLayoutSizeFittingSize fittingSize: CGSize,
-        dataConfigurationHandler: (T) -> ()) -> CGSize
-    {
-        var _reusableCell: T!
-        if let reusableCell = reusableCell as? T {
-            _reusableCell = reusableCell
+        if let _reusableView = _reusableView as? UICollectionViewCell {
+            return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
         } else {
-            _reusableCell = cellClass.init(frame: CGRectZero)
-            reusableCell = _reusableCell
+            return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
         }
-
-        _reusableCell.prepareForReuse()
-        dataConfigurationHandler(_reusableCell)
-        
-        return (_reusableCell as UICollectionViewCell).preferredLayoutSizeFittingSize(fittingSize)
-    }
+    }    
 }
 
 // MARK: - Reusable

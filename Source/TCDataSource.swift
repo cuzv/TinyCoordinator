@@ -27,13 +27,13 @@
 import UIKit
 
 /// Swift does not support generic protocol, so follow code can not compile:
-/// if self is TCDataSourceProtocol { ..}
+/// if self is TCDataSourceable { ..}
 
 //   See: http://www.captechconsulting.com/blogs/ios-9-tutorial-series-protocol-oriented-programming-with-uikit
 /// > UIKit is still compiled from Objective-C, and Objective-C has no concept of protocol extendability.
 ///   What this means in practice is that despite our ability to declare extensions on UIKit protocols,
 ///   UIKit objects can't see the methods inside our extensions.
-/// So we can not extension `TCDataSourceProtocol` implement `UITableViewDataSource`.
+/// So we can not extension `TCDataSourceable` implement `UITableViewDataSource`.
 /// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
 public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewDataSource {
     public let tableView: UITableView!
@@ -67,22 +67,22 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     }
     
     private func checkConforms() {
-        guard self is TCDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`")
+        guard self is TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`")
         }
     }
     
     private func registereusableView() {
-        guard let subclass = self as? TCDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`")
+        guard let subclass = self as? TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`")
         }
         
         subclass.registerReusableCell()
         
-        if let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol {
+        if let subclass = self as? TCTableViewHeaderFooterViewibility {
             subclass.registerReusableHeaderFooterView()
         }
-        else if let subclass = self as? TCCollectionSupplementaryViewDataSourceProtocol {
+        else if let subclass = self as? TCCollectionSupplementaryViewibility {
             subclass.registerReusableSupplementaryView()
         }
     }

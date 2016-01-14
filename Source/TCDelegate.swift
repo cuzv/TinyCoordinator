@@ -84,7 +84,7 @@ public extension TCDelegate {
     }
     
     private func loadImagesForOnscreenItems() {
-        guard let _dataSource = dataSource as? TCLazyLoadImageDataSourceProtocol else { return }
+        guard let _dataSource = dataSource as? TCImageLazyLoadable else { return }
         guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems() else { return }
         
         for indexPath in visibleIndexPaths {

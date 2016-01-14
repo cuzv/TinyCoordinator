@@ -1,5 +1,5 @@
 //
-//  DataSource.swift
+//  TableViewDataSource.swift
 //  TinyCoordinator
 //
 //  Created by Moch Xiao on 1/10/16.
@@ -9,10 +9,10 @@
 import UIKit
 import TinyCoordinator
 
-class DataSource: TCDataSource {
+class TableViewDataSource: TCDataSource {
 }
 
-extension DataSource: TCDataSourceProtocol {
+extension TableViewDataSource: TCDataSourceable {
     func registerReusableCell() {
         tableView.tc_registerReusableCellClass(TableViewCell.self)
     }
@@ -34,7 +34,7 @@ extension DataSource: TCDataSourceProtocol {
     }
 }
 
-extension DataSource: TCTableViewEditingDataSourceProtocol {
+extension TableViewDataSource: TCTableViewEditable {
     func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
         return true
     }
@@ -45,7 +45,7 @@ extension DataSource: TCTableViewEditingDataSourceProtocol {
 
 }
 
-extension DataSource: TCTableViewMoveDataSourceProtocol {
+extension TableViewDataSource: TCTableViewCollectionViewMovable {
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
         return true
     }
@@ -55,7 +55,7 @@ extension DataSource: TCTableViewMoveDataSourceProtocol {
     }
 }
 
-extension DataSource: TCTableViewHeaderFooterViewDataSourceProtocol {
+extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
     func registerReusableHeaderFooterView() {
         tableView.tc_registerReusableHeaderFooterViewClass(TableViewHeaderView.self)
         tableView.tc_registerReusableHeaderFooterViewClass(TableViewFooterView.self)

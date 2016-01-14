@@ -1,5 +1,5 @@
 //
-//  Delegate.swift
+//  TableViewDelegate.swift
 //  TinyCoordinator
 //
 //  Created by Moch Xiao on 1/14/16.
@@ -9,7 +9,7 @@
 import Foundation
 import TinyCoordinator
 
-public class Delegate: TCDelegate {
+public class TableViewDelegate: TCDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return heightForRowAtIndexPath(indexPath)
     }

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TableViewSampleController.swift
 //  Sample
 //
 //  Created by Moch Xiao on 1/6/16.
@@ -9,24 +9,27 @@
 import UIKit
 import TinyCoordinator
 
-class ViewController: UIViewController {
+class TableViewSampleController: UIViewController {
     deinit {
         debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
     }
     
-    lazy var dataSource: DataSource = {
-        DataSource(tableView: self.tableView)
+    lazy var dataSource: TableViewDataSource = {
+        TableViewDataSource(tableView: self.tableView)
     }()
     
-    lazy var delegate: Delegate = {
-        Delegate(tableView: self.tableView)
+    lazy var delegate: TableViewDelegate = {
+        TableViewDelegate(tableView: self.tableView)
     }()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        tableView.dataSource = dataSource
+        tableView.delegate = delegate
+
         
 //        let data1: [CellDataItem] = {
 //            let item1 = CellDataItem(name: "Michael Jackson", pic: "nil")
@@ -84,8 +87,6 @@ class ViewController: UIViewController {
         let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3])
         
         dataSource.globalDataMetric = globalDataMetric
-        tableView.dataSource = dataSource
-        tableView.delegate = delegate
         tableView.reloadData()
         debugPrint(globalDataMetric)
     }

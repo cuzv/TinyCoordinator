@@ -1,5 +1,5 @@
 //
-//  TCDataSourceProtocol.swift
+//  TCDataSourceable.swift
 //  TinyCoordinator
 //
 //  Created by Moch Xiao on 1/8/16.
@@ -29,8 +29,8 @@ import Foundation
 // No generic from this commit https://github.com/cuzv/TinyCoordinator/commit/2f95dd04cf479ca3eac96da4dbc79a4accf39e14
 // MARK: - Required
 
-// MARK: TCDataSourceProtocol
-public protocol TCDataSourceProtocol {
+// MARK: TCDataSourceable
+public protocol TCDataSourceable {
     /// Regiseter the cell class for reuse.
     func registerReusableCell()
     /// Return the cell reuse identifier for indexpath.
@@ -41,8 +41,8 @@ public protocol TCDataSourceProtocol {
 
 // MARK: - Optional
 
-// MARK: TCTableViewHeaderFooterViewDataSourceProtocol
-public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
+// MARK: TCTableViewHeaderFooterViewibility
+public protocol TCTableViewHeaderFooterViewibility {
     /// UITableView only, register the reuse header or footer view.
     func registerReusableHeaderFooterView()
     /// UITableView only, return the HeaderFooterView header reuse identifier for section.
@@ -55,8 +55,8 @@ public protocol TCTableViewHeaderFooterViewDataSourceProtocol {
     func loadData(data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView)
 }
 
-// MARK: TCCollectionSupplementaryViewDataSourceProtocol
-public protocol TCCollectionSupplementaryViewDataSourceProtocol {
+// MARK: TCCollectionSupplementaryViewibility
+public protocol TCCollectionSupplementaryViewibility {
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
     /// UICollectionView only, return the supplementary view reuse identifier for indexPath.
@@ -65,30 +65,30 @@ public protocol TCCollectionSupplementaryViewDataSourceProtocol {
     func loadData(data: TCDataType, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
 }
 
-// MARK: TCTableViewEditingDataSourceProtocol
-public protocol TCTableViewEditingDataSourceProtocol {
+// MARK: TCTableViewEditable
+public protocol TCTableViewEditable {
     /// Can edit the specific item.
     func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// Commit editing data behavior.
     func commitEditingStyle(style: UITableViewCellEditingStyle, forData data: TCDataType)
 }
 
-// MARK: TCTableViewMoveDataSourceProtocol
-public protocol TCTableViewMoveDataSourceProtocol {
+// MARK: TCTableViewCollectionViewMovable
+public protocol TCTableViewCollectionViewMovable {
     /// Can move the specific item
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// Move data position.
     func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
 }
 
-//// MARK: - TCTableViewIndexDataSourceProtocol
-//public protocol TCTableViewIndexDataSourceProtocol {
+//// MARK: - TCTableViewIndexable
+//public protocol TCTableViewIndexable {
 //    /// Return the section index title.
 //    func indexTitleForSection(section: Int) -> String
 //}
 
-// MARK: - TCLazyLoadImageDataSourceProtocol
-public protocol TCLazyLoadImageDataSourceProtocol {
+// MARK: - TCImageLazyLoadable
+public protocol TCImageLazyLoadable {
     /// Lazy load images.
     func lazyLoadImagesData(data: TCDataType, forReusableCell cell: TCCellType)
 }

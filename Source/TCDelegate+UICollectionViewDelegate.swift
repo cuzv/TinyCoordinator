@@ -25,3 +25,9 @@
 //
 
 import UIKit
+
+public extension TCDelegate {
+    public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
+        return dataSource.sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: cellType)
+    }
+}

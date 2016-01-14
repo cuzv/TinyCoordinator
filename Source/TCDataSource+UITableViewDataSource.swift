@@ -44,8 +44,8 @@ public extension TCDataSource {
     }
     
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let subclass = self as? TCDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`.")
+        guard let subclass = self as? TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         let reusableIdentifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
@@ -60,7 +60,7 @@ public extension TCDataSource {
             // The first time load tableView, tableview will not draggin or decelerating
             // But need load images anyway, so perform load action manual
             // Note that see the collectionView logic in the same where
-            if let subclass = self as? TCLazyLoadImageDataSourceProtocol {
+            if let subclass = self as? TCImageLazyLoadable {
                 let shouldLoadImages = !tableView.dragging && !tableView.decelerating && CGRectContainsPoint(self.tableView.frame, reusableCell.frame.origin)
                 if shouldLoadImages {
                     subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
@@ -101,7 +101,7 @@ public extension TCDataSource {
     // MARK: - Editing
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if let subclass = self as? TCTableViewEditingDataSourceProtocol {
+        if let subclass = self as? TCTableViewEditable {
             return subclass.canEditItemAtIndexPath(indexPath)
         } else {
             return false
@@ -109,7 +109,7 @@ public extension TCDataSource {
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        guard let subclass = self as? TCTableViewEditingDataSourceProtocol else { return }
+        guard let subclass = self as? TCTableViewEditable else { return }
         guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return }
         
         if .Delete == editingStyle {
@@ -127,7 +127,7 @@ public extension TCDataSource {
     // MARK: - Move
     
     public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if let subclass = self as? TCTableViewMoveDataSourceProtocol {
+        if let subclass = self as? TCTableViewCollectionViewMovable {
             return subclass.canMoveItemAtIndexPath(indexPath)
         } else {
             return false
@@ -135,7 +135,7 @@ public extension TCDataSource {
     }
     
     public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        guard let subclass = self as? TCTableViewMoveDataSourceProtocol else { return }
+        guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
         globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
         subclass.moveRowAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
@@ -147,9 +147,9 @@ public extension TCDataSource {
 public extension TCDataSource {
     // MARK: - Cell height
     
-    public func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
-        guard let subclass = self as? TCDataSourceProtocol else {
-            fatalError("Must conforms protocol `TCDataSourceProtocol`.")
+    internal func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
+        guard let subclass = self as? TCDataSourceable else {
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         if isSupportedConstraintsProperty() {
@@ -167,8 +167,8 @@ public extension TCDataSource {
     
     // MARK: - Header
 
-     public func heightForHeaderInSection(section: Int) -> CGFloat {
-        guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return 10 }
+     internal func heightForHeaderInSection(section: Int) -> CGFloat {
+        guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
         guard let data = self.globalDataMetric.dataForHeaderInSection(section) else { return 10 }
         guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
 
@@ -179,8 +179,8 @@ public extension TCDataSource {
         return height
     }
     
-    public func viewForHeaderInSection(section: Int) -> UIView? {
-        guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return nil }
+    internal func viewForHeaderInSection(section: Int) -> UIView? {
+        guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
         guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
         guard let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
@@ -197,8 +197,8 @@ public extension TCDataSource {
     
     // MARK: - Footer
     
-    public func heightForFooterInSection(section: Int) -> CGFloat {
-        guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return 10 }
+    internal func heightForFooterInSection(section: Int) -> CGFloat {
+        guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
         guard let data = self.globalDataMetric.dataForFooterInSection(section) else { return 10 }
         guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
         
@@ -209,8 +209,8 @@ public extension TCDataSource {
         return height
     }
     
-    public func viewForFooterInSection(section: Int) -> UIView? {
-        guard let subclass = self as? TCTableViewHeaderFooterViewDataSourceProtocol else { return nil }
+    internal func viewForFooterInSection(section: Int) -> UIView? {
+        guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
         guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
         guard let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
