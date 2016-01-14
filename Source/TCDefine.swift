@@ -26,12 +26,12 @@
 
 import UIKit
 
-public enum UICollectionElementKind {
+public enum TCCollectionElementKind {
     case SectionHeader
     case SectionFooter
 }
 
-internal func valueForCollectionElementKind(kind: UICollectionElementKind) -> String {
+internal func valueForCollectionElementKind(kind: TCCollectionElementKind) -> String {
     switch kind {
     case .SectionHeader:
         return UICollectionElementKindSectionHeader

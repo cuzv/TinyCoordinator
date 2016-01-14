@@ -62,3 +62,41 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
         return dataSource.globalDataMetric
     }
 }
+
+// MARK: - UIScrollViewDelegate
+
+public extension TCDelegate {
+    /// Fix second time scrolling before first scrolling not ended intermediate state
+//    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+//        loadImagesForOnscreenItems()
+//    }
+    
+    ///  Load images for all onscreen rows when scrolling is finished.
+    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            loadImagesForOnscreenItems()
+        }
+    }
+    
+    ///  When scrolling stops, proceed to load the app images that are on screen.
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        loadImagesForOnscreenItems()
+    }
+    
+    private func loadImagesForOnscreenItems() {
+        guard let _dataSource = dataSource as? TCLazyLoadImageDataSourceProtocol else { return }
+        guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems() else { return }
+        
+        for indexPath in visibleIndexPaths {
+            var cell: TCCellType!
+            if nil != tableView {
+                cell = tableView.cellForRowAtIndexPath(indexPath)
+            } else {
+                cell = collectionView.cellForItemAtIndexPath(indexPath)
+            }
+            if let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
+                _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
+            }
+        }
+    }
+}

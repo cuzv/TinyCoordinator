@@ -60,7 +60,7 @@ public protocol TCCollectionSupplementaryViewDataSourceProtocol {
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
     /// UICollectionView only, return the supplementary view reuse identifier for indexPath.
-    func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: UICollectionElementKind)()
+    func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: TCCollectionElementKind) -> String?
     /// UICollectionView only, load data for specific supplementary view.
     func loadData(data: TCDataType, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
 }
@@ -81,11 +81,11 @@ public protocol TCTableViewMoveDataSourceProtocol {
     func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
 }
 
-// MARK: - TCTableViewIndexDataSourceProtocol
-public protocol TCTableViewIndexDataSourceProtocol {
-    /// Return the section index title.
-    func indexTitleForSection(section: Int) -> String
-}
+//// MARK: - TCTableViewIndexDataSourceProtocol
+//public protocol TCTableViewIndexDataSourceProtocol {
+//    /// Return the section index title.
+//    func indexTitleForSection(section: Int) -> String
+//}
 
 // MARK: - TCLazyLoadImageDataSourceProtocol
 public protocol TCLazyLoadImageDataSourceProtocol {

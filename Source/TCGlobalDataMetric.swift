@@ -142,7 +142,7 @@ public extension TCGlobalDataMetric {
     }
     
     /// UICollectionView only, the data for specific kind at indexPath.
-    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndexPath indexPath: NSIndexPath) -> TCDataType? {
+    public func dataForSupplementaryElementOfKind(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath) -> TCDataType? {
         let section = indexPath.section
         if numberOfSections <= section {
             return nil

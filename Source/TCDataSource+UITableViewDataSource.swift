@@ -142,7 +142,7 @@ public extension TCDataSource {
     }
 }
 
-// MARK: - TCDelegate helper
+// MARK: - TCDelegate subclass helper
 
 public extension TCDataSource {
     // MARK: - Cell height
@@ -225,7 +225,6 @@ public extension TCDataSource {
         return footerView
     }
 }
-
 
 // MARK: - Helper
 

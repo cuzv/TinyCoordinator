@@ -93,7 +93,7 @@ public extension TCSectionDataMetric {
     }
     
     /// UICollectionView only, return specific supplementary element data.
-    public func dataForSupplementaryElementOfKind(kind: UICollectionElementKind, atIndex index: Int) -> TCDataType? {
+    public func dataForSupplementaryElementOfKind(kind: TCCollectionElementKind, atIndex index: Int) -> TCDataType? {
         guard let data = dataForSupplementaryElements[valueForCollectionElementKind(kind)]
             where data.count > index else { return nil }
         
@@ -194,7 +194,7 @@ public extension TCSectionDataMetric {
         return supplementaryElements
     }
     
-    private func valueForCollectionElementKind(kind: UICollectionElementKind) -> String {
+    private func valueForCollectionElementKind(kind: TCCollectionElementKind) -> String {
         switch kind {
         case .SectionHeader:
             return UICollectionElementKindSectionHeader

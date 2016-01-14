@@ -106,7 +106,7 @@ public extension UICollectionView {
         return dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
     }
     
-    public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: UICollectionElementKind) {
+    public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: TCCollectionElementKind) {
         if let nib = T.nib {
             
             registerNib(nib, forSupplementaryViewOfKind: valueForCollectionElementKind(elementKind), withReuseIdentifier: T.reuseIdentifier)

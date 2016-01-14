@@ -12,8 +12,6 @@
 		08BC4A762D5D804D2528443DBE423991 /* TCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */; };
 		0CA35AB1B87EA8E7DDBA27B1 /* Pods_Sample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F9B8411558F549FD682713 /* Pods_Sample.framework */; };
 		29F2E294980ECAFE1049E72BB03D4FC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15C38DA8BE6AB102B7D142BC140DF39 /* AppDelegate.swift */; };
-		460C4A7C1C46355600433490 /* UITableViewDataSource+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */; };
-		460C4A7E1C46357500433490 /* UICollectionViewDataSource+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */; };
 		460C4A821C46605F00433490 /* TCDataSource+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */; };
 		460C4A841C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */; };
 		4616CF291C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4616CF281C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift */; };
@@ -46,8 +44,6 @@
 		1053DC3BD305674ED87B4A2F6DFBDA55 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		15243B36DC1D49A80A826F9720003CF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24E7181FDDF8623A3B0760952C356988 /* TinyCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TinyCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewDataSource+Extension.swift"; sourceTree = "<group>"; };
-		460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDataSource+Extension.swift"; sourceTree = "<group>"; };
 		460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCDataSource+UITableViewDataSource.swift"; sourceTree = "<group>"; };
 		460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCDataSource+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		4616CF281C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCDelegate+UITableViewDelegate.swift"; sourceTree = "<group>"; };
@@ -108,11 +104,11 @@
 		34410A8C9AF1A929B40A7EF3F2750032 = {
 			isa = PBXGroup;
 			children = (
+				30C5B83D20FA385D52B7C275 /* Frameworks */,
+				D6CE2F02CF6F15B5F276F8F7 /* Pods */,
 				34C95EC098CCE8C2CED5674A264413B6 /* Products */,
 				F4582733DDB4C0056B4CE3C99BA56DEC /* Sample */,
 				495361DCFA1D9A9B31B75C5F45A951A3 /* Source */,
-				D6CE2F02CF6F15B5F276F8F7 /* Pods */,
-				30C5B83D20FA385D52B7C275 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,21 +127,19 @@
 				04888F59ABD48E0EEE68E50E405D0119 /* Array+Extension.swift */,
 				E44F2E333DFF48D61D227317D1C60380 /* Info.plist */,
 				F709A18BEEBE5FC16A7BCFD7DD7E6DF2 /* ResuableView+Extension.swift */,
-				A54F43DD9A57E904F58BCF7F29D06F42 /* TCDataSource.swift */,
-				460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */,
 				460C4A831C46607000433490 /* TCDataSource+UICollectionViewDataSource.swift */,
+				460C4A811C46605F00433490 /* TCDataSource+UITableViewDataSource.swift */,
+				A54F43DD9A57E904F58BCF7F29D06F42 /* TCDataSource.swift */,
 				C7A2A8F156A16B11908916088DF627C7 /* TCDataSourceProtocol.swift */,
 				EC02175D44D3EE26B913960DE396720B /* TCDefine.swift */,
-				5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */,
-				4616CF281C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift */,
 				4616CF2A1C46B14800A8605B /* TCDelegate+UICollectionViewDelegate.swift */,
+				4616CF281C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift */,
+				5CE5A20AAB387378D5B461E17F42D3E4 /* TCDelegate.swift */,
 				03A7BABD370A8159B07BB06FD4A93B29 /* TCGlobalDataMetric.swift */,
 				8A1FD7C38DFA84D38A8D031072BAFCBE /* TCSectionDataMetric.swift */,
 				AA7E090F5BD03AD6727C04BBA6FAA7FA /* TinyCoordinator.h */,
 				1053DC3BD305674ED87B4A2F6DFBDA55 /* UICollectionView+Extension.swift */,
 				6355501946A4D3AFD2D9C5DDFF3C8543 /* UITableView+Extension.swift */,
-				460C4A7B1C46355600433490 /* UITableViewDataSource+Extension.swift */,
-				460C4A7D1C46357500433490 /* UICollectionViewDataSource+Extension.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -171,8 +165,8 @@
 				8C16BBDE0AF8F6496E94E68A92582925 /* LaunchScreen.storyboard */,
 				5F0544899E67061C18DB9548B0ECD591 /* Main.storyboard */,
 				0426EC1025A2CD50D8E8C27220199F07 /* Model.swift */,
-				BE2EDC0A5309406E18CD5065810F6DBC /* TableViewHeaderView.swift */,
 				CAB37340B1E0C39556FC87353D341736 /* TableViewFooterView.swift */,
+				BE2EDC0A5309406E18CD5065810F6DBC /* TableViewHeaderView.swift */,
 				F3565653505B556406FDB405058EE422 /* ViewController.swift */,
 			);
 			path = Sample;
@@ -361,7 +355,6 @@
 				E2F99B471E4546EC7B5673AF174EEA05 /* TCDataSource.swift in Sources */,
 				460C4A821C46605F00433490 /* TCDataSource+UITableViewDataSource.swift in Sources */,
 				D3ACA9953974AFB36AA4456A22ACF170 /* TCDataSourceProtocol.swift in Sources */,
-				460C4A7C1C46355600433490 /* UITableViewDataSource+Extension.swift in Sources */,
 				88F32FEDF30E7B85F7D8B3E8BE9F1562 /* TCDefine.swift in Sources */,
 				08BC4A762D5D804D2528443DBE423991 /* TCDelegate.swift in Sources */,
 				7B4BB3487AB30C66867EFF16A0896606 /* TCGlobalDataMetric.swift in Sources */,
@@ -369,7 +362,6 @@
 				7EA0AC5CF866E60D518BA45FDB55C9D6 /* TCSectionDataMetric.swift in Sources */,
 				02910525D5C444A294AF7E55BCE9626C /* UICollectionView+Extension.swift in Sources */,
 				71226608215DF4E64699833A86957EC2 /* UITableView+Extension.swift in Sources */,
-				460C4A7E1C46357500433490 /* UICollectionViewDataSource+Extension.swift in Sources */,
 				4616CF291C46B13C00A8605B /* TCDelegate+UITableViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
