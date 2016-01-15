@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
 // No generic from this commit https://github.com/cuzv/TinyCoordinator/commit/2f95dd04cf479ca3eac96da4dbc79a4accf39e14
 // MARK: - Required

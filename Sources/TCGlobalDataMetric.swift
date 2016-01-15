@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
 /// The UITableView/UICollectionView data present.
 public struct TCGlobalDataMetric {

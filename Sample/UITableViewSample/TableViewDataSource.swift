@@ -24,12 +24,11 @@ extension TableViewDataSource: TCDataSourceable {
     func loadData(data: TCDataType, forReusableCell cell: TCCellType) {
         if let cell = cell as? TableViewCell {
             if let data = data as? CellDataItem {
-                cell.textLabel?.text = data.name
+                cell.setupData(data.name)
             }
             else if let data = data as? CellDataItem2 {
-                cell.textLabel?.text = data.name
+                cell.setupData(data.name)
             }
-            
         }
     }
 }

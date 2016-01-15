@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
+import UIKit
 
 /// The UITableView/UICollectionView section data present.
 /// Note that, if you preferred inject data could modify keeep the same address as before,
