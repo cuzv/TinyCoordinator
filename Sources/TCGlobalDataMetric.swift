@@ -36,7 +36,6 @@ public struct TCGlobalDataMetric {
     
     /// NSArray parameter must contains all instance kinda `TCSectionDataMetric`.
     public init(sectionDataMetrics: [TCSectionDataMetric], dataForHeader: Any? = nil, dataForFooter: Any? = nil) {
-        self.init(sectionDataMetrics: sectionDataMetrics)
         self.sectionDataMetrics = sectionDataMetrics
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
