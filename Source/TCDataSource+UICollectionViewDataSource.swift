@@ -86,10 +86,11 @@ public extension TCDataSource {
     }
 }
 
-
+// MARK: - Helper func
 
 public extension TCDataSource {
-    // MARK: - Cell size
+    // MARK: - TCDelegate subclass cell size helper func
+    
     public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")

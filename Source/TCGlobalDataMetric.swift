@@ -46,8 +46,9 @@ public struct TCGlobalDataMetric {
         self.dataForFooter = dataForFooter
     }
     
-    internal static func empty() -> TCGlobalDataMetric {
-        return TCGlobalDataMetric(sectionDataMetrics: [TCSectionDataMetric(itemsData: [])])
+    /// Return empty instance
+    public static func empty() -> TCGlobalDataMetric {
+        return TCGlobalDataMetric(sectionDataMetrics: [])
     }
 }
 

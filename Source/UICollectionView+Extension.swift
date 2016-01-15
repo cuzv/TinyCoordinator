@@ -29,26 +29,13 @@ import UIKit
 // MARK: - Compute Size
 
 private struct AssociationKey {
-    static var reusableCell: String = "reusableCell"
-    static var reusableView: String = "reusableView"
-    
     static var reusableViews: String = "reusableViews"
 }
 
 private extension UICollectionView {
-    private var reusableCell: UICollectionViewCell? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.reusableCell) as? UICollectionViewCell }
-        set { objc_setAssociatedObject(self, &AssociationKey.reusableCell, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
-    private var reusableView: UICollectionReusableView? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.reusableView) as? UICollectionReusableView }
-        set { objc_setAssociatedObject(self, &AssociationKey.reusableView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
     private var reusableViews: [String: UICollectionReusableView]? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.reusableView) as? [String: UICollectionReusableView] }
-        set { objc_setAssociatedObject(self, &AssociationKey.reusableView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        get { return objc_getAssociatedObject(self, &AssociationKey.reusableViews) as? [String: UICollectionReusableView] }
+        set { objc_setAssociatedObject(self, &AssociationKey.reusableViews, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 }
 
@@ -94,12 +81,6 @@ public extension UICollectionView {
             registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
         } else {
             registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
-        }
-    }
-    
-    public func tc_registerReusableCellClasses<T: UICollectionViewCell where T: Reusable>(classes: [T.Type]) {
-        for element in classes {
-            tc_registerReusableCellClass(element)
         }
     }
     

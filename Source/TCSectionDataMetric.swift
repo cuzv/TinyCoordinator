@@ -73,6 +73,11 @@ public struct TCSectionDataMetric {
         self.init(itemsData: itemsData)
         self.dataForSupplementaryElements = dataForSupplementaryElements
     }
+    
+    /// Return empty instance
+    public static func empty() -> TCSectionDataMetric {
+        return TCSectionDataMetric(itemsData: [])
+    }
 }
 
 // MARK: - Retrieve

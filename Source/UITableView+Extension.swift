@@ -76,12 +76,6 @@ public extension UITableView {
         }
     }
     
-    public func tc_registerReusableCellClasses<T: UITableViewCell where T: Reusable>(classes: [T.Type]) {
-        for element in classes {
-            tc_registerReusableCellClass(element)
-        }
-    }
-    
     public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
         return dequeueReusableCellWithIdentifier(T.reuseIdentifier) as! T
     }
@@ -97,13 +91,7 @@ public extension UITableView {
             registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
         }
     }
-    
-    public func tc_registerReusableHeaderFooterViewClassess<T: UITableViewHeaderFooterView where T: Reusable>(classes: [T.Type]) {
-        for element in classes {
-            tc_registerReusableHeaderFooterViewClass(element)
-        }
-    }
-    
+        
     public func tc_dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>() -> T? {
         return dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as! T?
     }
