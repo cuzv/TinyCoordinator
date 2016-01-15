@@ -71,7 +71,6 @@ class TableViewSampleController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
 //        tableView.editing = true
     }
     

@@ -30,18 +30,14 @@ import UIKit
 public struct TCGlobalDataMetric {
     public internal(set) var sectionDataMetrics: [TCSectionDataMetric]
     /// UITableView only, return the table view header data.
-    public private(set) var dataForHeader: Any!
+    public private(set) var dataForHeader: Any?
     /// UITableView only, return the table view footer data.
-    public private(set) var dataForFooter: Any!
+    public private(set) var dataForFooter: Any?
     
     /// NSArray parameter must contains all instance kinda `TCSectionDataMetric`.
-    public init(sectionDataMetrics: [TCSectionDataMetric]) {
-        self.sectionDataMetrics = sectionDataMetrics
-    }
-    
-    /// UITableView only.
-    public init(sectionDataMetrics: [TCSectionDataMetric], dataForHeader: Any, dataForFooter: Any) {
+    public init(sectionDataMetrics: [TCSectionDataMetric], dataForHeader: Any? = nil, dataForFooter: Any? = nil) {
         self.init(sectionDataMetrics: sectionDataMetrics)
+        self.sectionDataMetrics = sectionDataMetrics
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
     }
@@ -49,6 +45,28 @@ public struct TCGlobalDataMetric {
     /// Return empty instance
     public static func empty() -> TCGlobalDataMetric {
         return TCGlobalDataMetric(sectionDataMetrics: [])
+    }
+    
+    private var headerDataForSections: [TCDataType] {
+        var headerDataForSections: [TCDataType] = []
+        for sectionDataMetric in sectionDataMetrics {
+            if let dataForHeader = sectionDataMetric.dataForHeader {
+                headerDataForSections.append(dataForHeader)
+            }
+        }
+        
+        return headerDataForSections
+    }
+    
+    private var footerDataForSections: [TCDataType] {
+        var footerDataForSections: [TCDataType] = []
+        for sectionDataMetric in sectionDataMetrics {
+            if let dataForFooter = sectionDataMetric.dataForFooter {
+                footerDataForSections.append(dataForFooter)
+            }
+        }
+        
+        return footerDataForSections
     }
 }
 
@@ -84,10 +102,11 @@ public extension TCGlobalDataMetric {
     public func indexPathOfData(data: TCDataType) -> NSIndexPath? {
         var index = 0
         for sectionDataMetric in sectionDataMetrics {
-            let items = sectionDataMetric.itemsData
-            if items.contains(data), let item = items.indexOf(data) {
+            if sectionDataMetric.contains(data),
+                let item = sectionDataMetric.indexOf(data) {
                 return NSIndexPath(forItem: item, inSection: index)
             }
+            
             index += 1
         }
         
@@ -132,14 +151,31 @@ public extension TCGlobalDataMetric {
     
     /// UITableView only, return the specific header index.
     public func indexOfHeaderData(data: TCDataType) -> Int? {
-        // TODO
-        TCUnimplemented()
+        var index = 0
+        for dataForHeader in headerDataForSections {
+            if dataForHeader.isEqual(data) {
+                return index
+            }
+            
+            index += 1
+        }
+        
+        return nil
     }
+    
     
     /// UITableView only, return the specific footer index.
     public func indexOfFooterData(data: TCDataType) -> Int? {
-        // TODO
-        TCUnimplemented()
+        var index = 0
+        for dataForFooter in footerDataForSections {
+            if dataForFooter.isEqual(data) {
+                return index
+            }
+            
+            index += 1
+        }
+        
+        return nil
     }
     
     /// UICollectionView only, the data for specific kind at indexPath.

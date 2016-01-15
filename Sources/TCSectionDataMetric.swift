@@ -37,21 +37,22 @@ public struct TCSectionDataMetric {
     /// UITableView only, the section footer title.
     public private(set) var titleForFooter: String!
     /// UITableView only, the section header data.
-    public private(set) var dataForHeader: TCDataType!
+    public private(set) var dataForHeader: TCDataType?
     /// UITableView only, the section footer data.
-    public private(set) var dataForFooter: TCDataType!
+    public private(set) var dataForFooter: TCDataType?
     /// UICollecttionView only.
     private var dataForSupplementaryElements: [String: [TCDataType]]!
     /// UITableView only, the section index title.
     public private(set) var indexTitle: String!
     
+    /// UITableView/UICollectionView secion data wrapper, indexTitle have no effect when UICollectionView
     public init(itemsData: [TCDataType], indexTitle: String! = nil) {
         self.itemsData = itemsData
         self.indexTitle = indexTitle
     }
     
     /// UITableView only.
-    public init(itemsData: [TCDataType], titleForHeader: String, titleForFooter: String, indexTitle: String! = nil) {
+    public init(itemsData: [TCDataType], titleForHeader: String?, titleForFooter: String?, indexTitle: String! = nil) {
         self.init(itemsData: itemsData)
         self.titleForHeader = titleForHeader
         self.titleForFooter = titleForFooter
@@ -60,7 +61,7 @@ public struct TCSectionDataMetric {
     
     /// UITableView only.
     /// dataForXXX means which delegate method request for custom viewForHeader/viewForFooter needs.
-    public init(itemsData: [TCDataType], dataForHeader: TCDataType, dataForFooter: TCDataType, indexTitle: String! = nil) {
+    public init(itemsData: [TCDataType], dataForHeader: TCDataType?, dataForFooter: TCDataType?, indexTitle: String! = nil) {
         self.init(itemsData: itemsData)
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
@@ -103,6 +104,29 @@ public extension TCSectionDataMetric {
             where data.count > index else { return nil }
         
         return data[index]
+    }
+    
+    internal func contains(object: TCDataType) -> Bool {
+        for element in itemsData {
+            if element.isEqual(object) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    internal func indexOf(object: TCDataType) -> Int? {
+        var index = 0
+        for element in itemsData {
+            if element.isEqual(object) {
+                return index
+            }
+
+            index += 1
+        }
+
+        return nil
     }
 }
 

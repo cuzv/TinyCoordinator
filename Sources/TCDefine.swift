@@ -80,4 +80,4 @@ public extension Reusable where Self: TCReusableViewType {
 //    return lhs === rhs
 //}
 
-public typealias TCDataType = NSObject
+public typealias TCDataType = AnyObject
