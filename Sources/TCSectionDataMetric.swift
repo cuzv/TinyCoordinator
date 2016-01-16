@@ -77,7 +77,7 @@ public struct TCSectionDataMetric {
     
     /// Return empty instance
     public static func empty() -> TCSectionDataMetric {
-        return TCSectionDataMetric(itemsData: [])
+        return TCSectionDataMetric(itemsData: [TCDataType]())
     }
 }
 

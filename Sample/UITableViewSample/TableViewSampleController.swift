@@ -67,6 +67,8 @@ class TableViewSampleController: UIViewController {
         dataSource.globalDataMetric = globalDataMetric
         tableView.reloadData()
         debugPrint(globalDataMetric)
+        
+        dump(globalDataMetric)
     }
     
     override func viewDidAppear(animated: Bool) {

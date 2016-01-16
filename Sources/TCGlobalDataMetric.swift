@@ -43,7 +43,7 @@ public struct TCGlobalDataMetric {
     
     /// Return empty instance
     public static func empty() -> TCGlobalDataMetric {
-        return TCGlobalDataMetric(sectionDataMetrics: [])
+        return TCGlobalDataMetric(sectionDataMetrics: [TCSectionDataMetric]())
     }
     
     private var headerDataForSections: [TCDataType] {
