@@ -46,15 +46,6 @@ class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         descLabel.preferredMaxLayoutWidth = CGRectGetWidth(descLabel.bounds)
-    }
-}
-
-public extension String {
-    public func sizeWithFont(font: UIFont, preferredMaxLayoutWidth: CGFloat = UIScreen.mainScreen().bounds.width) -> CGSize {
-        let str = self as NSString
-        let options: NSStringDrawingOptions = [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine]
-        return str.boundingRectWithSize(CGSizeMake(preferredMaxLayoutWidth, CGFloat.max), options: options, attributes: [NSFontAttributeName: font], context: nil).size
     }
 }

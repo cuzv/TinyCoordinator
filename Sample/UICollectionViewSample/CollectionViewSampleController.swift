@@ -51,14 +51,14 @@ private extension CollectionViewSampleController {
         let data1: [CellDataItem] = {
             let item1 = CellDataItem(name: "Michael", pic: "nil")
             let item2 = CellDataItem(name: "Moch", pic: "nil")
-            let item3 = CellDataItem(name: "Kobe", pic: "nil")
+            let item3 = CellDataItem(name: text3, pic: "nil")
             return [item1, item2, item3]
         }()
         
         let data2: [CellDataItem2] = {
             let item1 = CellDataItem2(name: "Lucy", pic: "nil")
-            let item2 = CellDataItem2(name: "Lily", pic: "nil")
-            let item3 = CellDataItem2(name: "Mike", pic: "nil")
+            let item2 = CellDataItem2(name: text4, pic: "nil")
+            let item3 = CellDataItem2(name: text2, pic: "nil")
             let item4 = CellDataItem2(name: "Bob", pic: "nil")
             return [item1, item2, item3, item4]
         }()
@@ -66,7 +66,7 @@ private extension CollectionViewSampleController {
         let data3: [CellDataItem2] = {
             let item1 = CellDataItem2(name: "Kevin", pic: "nil")
             let item2 = CellDataItem2(name: "Anna", pic: "nil")
-            let item3 = CellDataItem2(name: "James", pic: "nil")
+            let item3 = CellDataItem2(name: text1, pic: "nil")
             let item4 = CellDataItem2(name: "Jack", pic: "nil")
             return [item1, item2, item3, item4]
         }()

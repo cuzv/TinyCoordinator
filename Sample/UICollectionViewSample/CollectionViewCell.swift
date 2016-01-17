@@ -53,8 +53,9 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
+        debugPrint(nameLabel.preferredMaxLayoutWidth)
     }
-    
-    
 }

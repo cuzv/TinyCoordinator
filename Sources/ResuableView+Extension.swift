@@ -105,6 +105,16 @@ internal extension UICollectionViewCell {
 }
 
 internal extension UITableViewCell {
+    /// **Note**: You should indicate the `preferredMaxLayoutWidth` by this way:
+    /// **Note**: You should indicate the `preferredMaxLayoutWidth` by this way:
+    /// ```Swift
+    /// override func layoutSubviews() {
+    ///    super.layoutSubviews()
+    ///    contentView.setNeedsLayout()
+    ///    contentView.layoutIfNeeded()
+    ///    nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
+    /// }
+    /// ```
     internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize

@@ -15,7 +15,9 @@ class CollectionViewDelegate: TCDelegate {
 
 extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: CGSizeMake(CGRectGetWidth(collectionView.bounds) / 2.0 - 20, 1000), cellType: CollectionViewCell.self)
+        let size = sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: CGSizeMake(CGRectGetWidth(collectionView.bounds) / 2.0 - 20, 1000), cellType: CollectionViewCell.self)
+        debugPrint("size: \(size)")
+        return size
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

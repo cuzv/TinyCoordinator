@@ -34,6 +34,9 @@ class TableViewCell: UITableViewCell, Reusable {
 
 extension TableViewCell {
     private func setupUserInterface() {
+        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsetsZero
+        
         contentView.addSubview(nameLabel)
         nameLabel.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(8, 8, 8, 8))
@@ -42,6 +45,13 @@ extension TableViewCell {
     
     private func setupReactiveCocoa() {
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
     }
 }
 

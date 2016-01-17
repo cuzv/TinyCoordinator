@@ -33,10 +33,6 @@ public extension UITableView {
         identifier: String,
         dataConfigurationHandler: (T) -> ()) -> CGFloat
     {
-        if NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1 {
-            return UITableViewAutomaticDimension
-        }
-        
         guard let reusableCell = dequeueReusableCellWithIdentifier(identifier) as? T else {
             fatalError("Cell must be registered to tableView for identifier: \(identifier)")
         }
@@ -45,8 +41,7 @@ public extension UITableView {
         dataConfigurationHandler(reusableCell)
         
         let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
-        
-        return reusableCell.preferredLayoutSizeFittingSize(fittingSize).height
+        return reusableCell.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.mainScreen().scale
     }
     
     public func tc_heightForReusableHeaderFooterViewByIdentifier<T: UITableViewHeaderFooterView>(
@@ -61,7 +56,7 @@ public extension UITableView {
         dataConfigurationHandler(reusableHeaderFooterView)
 
         let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
-        return reusableHeaderFooterView.preferredLayoutSizeFittingSize(fittingSize).height
+        return reusableHeaderFooterView.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.mainScreen().scale
     }
 }
 

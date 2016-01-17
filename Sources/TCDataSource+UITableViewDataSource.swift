@@ -26,12 +26,17 @@
 
 import UIKit
 
-/// http://stackoverflow.com/questions/25826383/when-to-use-dequeuereusablecellwithidentifier-vs-dequeuereusablecellwithidentifi
+// See: http://stackoverflow.com/questions/25826383/when-to-use-dequeuereusablecellwithidentifier-vs-dequeuereusablecellwithidentifi
 /// The most important difference is that the forIndexPath: version asserts (crashes) if you didn't register a class or nib for the identifier. The older (non-forIndexPath:) version returns nil in that case.
 /// You register a class for an identifier by sending registerClass:forCellReuseIdentifier: to the table view. You register a nib for an identifier by sending registerNib:forCellReuseIdentifier: to the table view.
 /// If you create your table view and your cell prototypes in a storyboard, the storyboard loader takes care of registering the cell prototypes that you defined in the storyboard.
 /// Session 200 - What's New in Cocoa Touch from WWDC 2012 discusses the (then-new) forIndexPath: version starting around 8m30s. It says that “you will always get an initialized cell” (without mentioning that it will crash if you didn't register a class or nib).
 /// The video also says that “it will be the right size for that index path”. Presumably this means that it will set the cell's size before returning it, by looking at the table view's own width and calling your delegate's tableView:heightForRowAtIndexPath: method (if defined). This is why it needs the index path.
+// See: https://medium.com/ios-os-x-development/perfect-smooth-scrolling-in-uitableviews-fd609d5275a5#.wvt62tenz
+/// Correct way to use the built-in tools to optimize the UITableView:
+/// - Reuse cell instances: for specific type of cell you should have only one instance, no more.
+/// - Don’t bind data at cellForRowAtIndexPath: method ‘cause at this time cell is not displayed yet. Instead use tableView:willDisplayCell:forRowAtIndexPath: method in the delegate of UITableView.
+/// - Calculate further cell heights faster. It’s routine process for engineers, but you will be awarded for your patience by increased smooth scrolling on sets of complex cells.
 public extension TCDataSource {
     // MARK: - Cell
 
@@ -148,15 +153,8 @@ public extension TCDataSource {
     // MARK: - Cell height
     
     internal func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
-        guard let subclass = self as? TCDataSourceable else {
-            fatalError("Must conforms protocol `TCDataSourceable`.")
-        }
-        
-        if isSupportedConstraintsProperty() {
-            return UITableViewAutomaticDimension
-        }
-
-        guard let data = self.globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGFloat.min }
+        guard let subclass = self as? TCDataSourceable else { return UITableViewAutomaticDimension }
+        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGFloat.min }
         let identifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
         let height = tableView.tc_heightForReusableCellByIdentifier(identifier) { (cell) -> () in
             subclass.loadData(data, forReusableCell: cell)
@@ -169,13 +167,14 @@ public extension TCDataSource {
 
      internal func heightForHeaderInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
-        guard let data = self.globalDataMetric.dataForHeaderInSection(section) else { return 10 }
+        guard let data = globalDataMetric.dataForHeaderInSection(section) else { return 10 }
         guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
 
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableHeaderView: headerView)
         }
 
+        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__): \(height)")
         return height
     }
     
@@ -185,7 +184,7 @@ public extension TCDataSource {
         guard let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        guard let data = self.globalDataMetric.dataForHeaderInSection(section) else { return nil }
+        guard let data = globalDataMetric.dataForHeaderInSection(section) else { return nil }
         
         headerView.prepareForReuse()
         subclass.loadData(data, forReusableHeaderView: headerView)
@@ -199,13 +198,14 @@ public extension TCDataSource {
     
     internal func heightForFooterInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
-        guard let data = self.globalDataMetric.dataForFooterInSection(section) else { return 10 }
+        guard let data = globalDataMetric.dataForFooterInSection(section) else { return 10 }
         guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
         
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableFooterView: headerView)
         }
-        
+
+        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__): \(height)")
         return height
     }
     
@@ -215,7 +215,7 @@ public extension TCDataSource {
         guard let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        guard let data = self.globalDataMetric.dataForFooterInSection(section) else { return nil }
+        guard let data = globalDataMetric.dataForFooterInSection(section) else { return nil }
         
         footerView.prepareForReuse()
         subclass.loadData(data, forReusableFooterView: footerView)
@@ -223,13 +223,5 @@ public extension TCDataSource {
         footerView.updateConstraintsIfNeeded()
         
         return footerView
-    }
-}
-
-// MARK: - Helper
-
-internal extension String {
-    internal var length: Int {
-        return lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
     }
 }

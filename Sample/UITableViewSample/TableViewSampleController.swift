@@ -29,9 +29,14 @@ class TableViewSampleController: UIViewController {
 
         tableView.dataSource = dataSource
         tableView.delegate = delegate
-        tableView.estimatedRowHeight = 80
+//        tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
-        
+//        tableView.estimatedSectionHeaderHeight = 60
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+//        tableView.estimatedSectionFooterHeight = 60
+        tableView.sectionFooterHeight = UITableViewAutomaticDimension
+        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.layoutMargins = UIEdgeInsetsZero
         
         let data1: [CellDataItem] = {
             let item1 = CellDataItem(name: "Michael", pic: "nil")
@@ -56,19 +61,23 @@ class TableViewSampleController: UIViewController {
             return [item1, item2, item3, item4]
         }()
         
-        let secion1 = TCSectionDataMetric(itemsData: data1)
-        let secion2 = TCSectionDataMetric(itemsData: data2)
         let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
-        let secion3 = TCSectionDataMetric(itemsData: data3, dataForHeader: header, dataForFooter: footer)
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForHeader: header, dataForFooter: footer)
+        let secion2 = TCSectionDataMetric(itemsData: data2)
+        let secion3 = TCSectionDataMetric(itemsData: data3)
         
         let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3])
         
+//        var sectionDataMetric = TCSectionDataMetric.empty()
+//        for index in 0 ..< 100 {
+//            let item = CellDataItem2(name: "index: \(index)", pic: "nil")
+//            sectionDataMetric.append(item)
+//        }
+//        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [sectionDataMetric])
+//        
         dataSource.globalDataMetric = globalDataMetric
         tableView.reloadData()
-        debugPrint(globalDataMetric)
-        
-        dump(globalDataMetric)
     }
     
     override func viewDidAppear(animated: Bool) {

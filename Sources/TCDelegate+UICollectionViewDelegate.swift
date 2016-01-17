@@ -27,6 +27,7 @@
 import UIKit
 
 public extension TCDelegate {
+    /// The helper func for compute size for cell using auto layout, you may implement you self by compute using frames and struct.    
     public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
         return dataSource.sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: cellType)
     }

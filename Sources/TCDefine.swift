@@ -81,3 +81,12 @@ public extension Reusable where Self: TCReusableViewType {
 //}
 
 public typealias TCDataType = AnyObject
+
+
+// MARK: - Helper
+
+internal extension String {
+    internal var length: Int {
+        return lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+    }
+}
