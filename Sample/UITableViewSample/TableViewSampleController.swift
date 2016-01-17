@@ -67,7 +67,7 @@ class TableViewSampleController: UIViewController {
         let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
         
-        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3])
+        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion1, secion2, secion3, secion1, secion2, secion3, secion1, secion2, secion3])
         
 //        var sectionDataMetric = TCSectionDataMetric.empty()
 //        for index in 0 ..< 100 {

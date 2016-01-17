@@ -86,4 +86,19 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
             subclass.registerReusableSupplementaryView()
         }
     }
+    
+    public var delegate: TCDelegate {
+        if let tableView = tableView {
+            return tableView.delegate as! TCDelegate
+        }
+        
+        return collectionView.delegate as! TCDelegate
+    }
+    
+    public var scrollingToTop: Bool {
+        return delegate.scrollingToTop
+    }
+    
+    public var count = 0
+
 }

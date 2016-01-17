@@ -77,11 +77,16 @@ private extension CollectionViewSampleController {
 //        let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
 //        let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
         let secion3 = TCSectionDataMetric(itemsData: data3)
+        let secion4 = TCSectionDataMetric(itemsData: data1)
+        let secion5 = TCSectionDataMetric(itemsData: data2)
+        let secion6 = TCSectionDataMetric(itemsData: data3)
         
-        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3])
+        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion4, secion5, secion6, secion1, secion2, secion3, secion4, secion5, secion6, secion1, secion2, secion3, secion4, secion5, secion6])
         
         dataSource.globalDataMetric = globalDataMetric
         collectionView.reloadData()
+        
+        dump(globalDataMetric)
     }
 }
 

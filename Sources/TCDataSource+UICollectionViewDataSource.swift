@@ -46,7 +46,7 @@ public extension TCDataSource {
         let reusableCell = collectionView.dequeueReusableCellWithReuseIdentifier(reusableIdentifier, forIndexPath: indexPath)
         reusableCell.prepareForReuse()
         
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
             subclass.loadData(data, forReusableCell: reusableCell)
             
             // The first time load collectionView, collectionView will not draggin or decelerating
@@ -119,7 +119,9 @@ public extension TCDataSource {
             return UICollectionReusableView()
         }
         let reusableView = collectionView.dequeueReusableSupplementaryViewOfKind(valueForCollectionElementKind(kind), withReuseIdentifier: identifier, forIndexPath: indexPath)
-        subclass.loadData(data, forReusableSupplementaryView: reusableView)
+        if !scrollingToTop {
+            subclass.loadData(data, forReusableSupplementaryView: reusableView)
+        }
         
         return reusableView
     }

@@ -59,7 +59,8 @@ public extension TCDataSource {
         }
 
         reusableCell.prepareForReuse()
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+        
+        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
             subclass.loadData(data, forReusableCell: reusableCell)
             
             // The first time load tableView, tableview will not draggin or decelerating
@@ -187,7 +188,9 @@ public extension TCDataSource {
         guard let data = globalDataMetric.dataForHeaderInSection(section) else { return nil }
         
         headerView.prepareForReuse()
-        subclass.loadData(data, forReusableHeaderView: headerView)
+        if !scrollingToTop {
+            subclass.loadData(data, forReusableHeaderView: headerView)
+        }
         headerView.setNeedsUpdateConstraints()
         headerView.updateConstraintsIfNeeded()
         
@@ -218,7 +221,9 @@ public extension TCDataSource {
         guard let data = globalDataMetric.dataForFooterInSection(section) else { return nil }
         
         footerView.prepareForReuse()
-        subclass.loadData(data, forReusableFooterView: footerView)
+        if !scrollingToTop {
+            subclass.loadData(data, forReusableFooterView: footerView)
+        }
         footerView.setNeedsUpdateConstraints()
         footerView.updateConstraintsIfNeeded()
         

@@ -29,6 +29,7 @@ import UIKit
 public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
+    internal var scrollingToTop = false
     
     deinit {
         debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
@@ -51,7 +52,7 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
     }
     
     public var dataSource: TCDataSource  {
-        if let tableView = self.tableView {
+        if let tableView = tableView {
             return tableView.dataSource as! TCDataSource
         }
         
@@ -98,5 +99,46 @@ public extension TCDelegate {
                 _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
             }
         }
+    }
+    
+    public func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
+        scrollingToTop = true
+        return true
+    }
+    
+    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        scrollingToTop = false
+        loadContent()
+    }
+    
+    public func scrollViewDidScrollToTop(scrollView: UIScrollView) {
+        scrollingToTop = false
+        loadContent()
+    }
+    
+    private func loadContent() {
+        if scrollingToTop {
+            return
+        }
+        
+        if let _ = tableView {
+            loadContentForTableView()
+        } else {
+            loadConentForCollectionView()
+        }
+    }
+    
+    private func loadContentForTableView() {
+        if tableView.indexPathsForVisibleRows?.count <= 0 {
+            return
+        }
+        tableView.reloadData()
+    }
+    
+    private func loadConentForCollectionView() {
+        if collectionView.indexPathsForVisibleItems().count <= 0 {
+            return
+        }
+        collectionView.reloadData()
     }
 }
