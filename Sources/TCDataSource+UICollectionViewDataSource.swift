@@ -84,6 +84,7 @@ public extension TCDataSource {
         globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
         subclass.moveRowAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
     }
+    
 }
 
 // MARK: - Helper func

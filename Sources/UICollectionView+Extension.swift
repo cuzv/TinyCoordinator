@@ -42,7 +42,7 @@ private extension UICollectionView {
 public extension UICollectionView {
     private func initializeReusableViewsIfNeeded() {
         if nil == reusableViews {
-            reusableViews = [:]
+            reusableViews = [String: UICollectionReusableView]()
         }
     }
     
@@ -64,13 +64,9 @@ public extension UICollectionView {
         
         _reusableView.prepareForReuse()
         dataConfigurationHandler(_reusableView)
-        
-        if let _reusableView = _reusableView as? UICollectionViewCell {
-            return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
-        } else {
-            return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
-        }
-    }    
+
+        return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
+    }
 }
 
 // MARK: - Reusable

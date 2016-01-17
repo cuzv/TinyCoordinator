@@ -54,7 +54,10 @@ internal extension UICollectionReusableView {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
-            size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            // Apple's implement like folow, somehow, it doesn't work.
+            // size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            size = systemLayoutSizeFittingSize(CGSizeMake(fittingSize.width, UILayoutFittingCompressedSize.height))
+
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
@@ -65,7 +68,7 @@ internal extension UICollectionReusableView {
             size = systemLayoutSizeFittingSize(fittingSize)
             removeConstraints(constraints)
         }
-        
+    
         frame.size = size
         self.frame = frame
         
@@ -82,7 +85,9 @@ internal extension UICollectionViewCell {
         var size: CGSize!
         if isSupportedConstraintsProperty() {
             layoutSubviews()
-            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            // Apple's implement like folow, somehow, it doesn't work.
+            // size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            size = contentView.systemLayoutSizeFittingSize(CGSizeMake(fittingSize.width, UILayoutFittingCompressedSize.height))
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),

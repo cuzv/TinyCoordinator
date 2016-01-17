@@ -212,7 +212,7 @@ public extension TCSectionDataMetric {
             return nil
         }
         
-        var supplementaryElements: [String: [TCDataType]]!
+        var supplementaryElements: [String: [TCDataType]] = [:]
         if nil != headerData {
             supplementaryElements[UICollectionElementKindSectionHeader] = headerData
         }

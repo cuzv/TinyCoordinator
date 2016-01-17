@@ -33,3 +33,24 @@ extension CollectionViewDataSource: TCDataSourceable {
         }
     }
 }
+
+extension CollectionViewDataSource: TCCollectionSupplementaryViewibility {
+    func registerReusableSupplementaryView() {
+        collectionView.tc_registerReusableSupplementaryViewClass(CollectionViewHeaderView.self, ofKind: .SectionHeader)
+    }
+    
+    func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: TCCollectionElementKind) -> String? {
+        return CollectionViewHeaderView.reuseIdentifier
+    }
+    
+    func loadData(data: TCDataType, forReusableSupplementaryView supplementaryView: UICollectionReusableView) {
+        if let supplementaryView = supplementaryView as? CollectionViewHeaderView {
+            if let data = data as? CellDataItem {
+                supplementaryView.nameLabel.text = data.name
+            }
+            else if let data = data as? CellDataItem2 {
+                supplementaryView.nameLabel.text = data.name
+            }
+        }
+    }
+}

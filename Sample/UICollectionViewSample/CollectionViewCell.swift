@@ -11,21 +11,12 @@ import TinyCoordinator
 import SnapKit
 
 class CollectionViewCell: UICollectionViewCell, Reusable {
-    static let fixedHeight: CGFloat = 80
-
-    let productImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = UIColor.brownColor()
-        return imageView
-    }()
-    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.brownColor()
         label.font = UIFont.systemFontOfSize(17)
         label.lineBreakMode = .ByCharWrapping
+        label.numberOfLines = 0
         return label
     }()
     
@@ -35,7 +26,6 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
         contentView.backgroundColor = UIColor.lightGrayColor()
         nameLabel.layer.borderColor = UIColor.redColor().CGColor
         nameLabel.layer.borderWidth = 1
-
         
         contentView.addSubview(nameLabel)
         nameLabel.snp_makeConstraints { (make) -> Void in
@@ -52,10 +42,7 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     override func layoutSubviews() {
+        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(bounds) - 16
         super.layoutSubviews()
-        contentView.setNeedsLayout()
-        contentView.layoutIfNeeded()
-        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
-        debugPrint(nameLabel.preferredMaxLayoutWidth)
     }
 }
