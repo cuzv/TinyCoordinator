@@ -59,10 +59,14 @@ public protocol TCTableViewHeaderFooterViewibility {
 public protocol TCCollectionSupplementaryViewibility {
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
-    /// UICollectionView only, return the supplementary view reuse identifier for indexPath.
-    func reusableSupplementaryViewIdentifierForIndexPath(indexPath: NSIndexPath, ofKind kind: TCCollectionElementKind) -> String?
-    /// UICollectionView only, load data for specific supplementary view.
-    func loadData(data: TCDataType, forReusableSupplementaryView supplementaryView: UICollectionReusableView)
+    /// UICollectionView only, return the supplementary header view reuse identifier for indexPath.
+    func reusableSupplementaryHeaderViewIdentifierForIndexPath(indexPath: NSIndexPath) -> String?
+    /// UICollectionView only, load data for flow layout specific supplementary header view.
+    func loadData(data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView)
+    /// UICollectionView only, return the supplementary footer view reuse identifier for indexPath.
+    func reusableSupplementaryFooterViewIdentifierForIndexPath(indexPath: NSIndexPath) -> String?
+    /// UICollectionView only, load data for flow layout specific supplementary footer view.
+    func loadData(data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView)
 }
 
 // MARK: TCTableViewEditable

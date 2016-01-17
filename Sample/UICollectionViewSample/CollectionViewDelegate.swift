@@ -20,7 +20,6 @@ extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
         let size = sizeForItemAtIndexPath(indexPath,
             preferredLayoutSizeFittingSize: fittingSize,
             cellType: CollectionViewCell.self)
-        debugPrint("size: \(size)")
         return size
     }
     
@@ -37,10 +36,16 @@ extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeMake(CGRectGetWidth(collectionView.bounds), 8)
+        let fittingSize = CGSizeMake(CGRectGetWidth(collectionView.bounds), UILayoutFittingExpandedSize.height)
+        let indexPath = NSIndexPath(forItem: 0, inSection: section)
+        let size = sizeForSupplementaryElementOfKind(.SectionHeader, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
+        return size
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSizeMake(CGRectGetWidth(collectionView.bounds), 8)
+        let fittingSize = CGSizeMake(CGRectGetWidth(collectionView.bounds), UILayoutFittingExpandedSize.height)
+        let indexPath = NSIndexPath(forItem: 0, inSection: section)
+        let size = sizeForSupplementaryElementOfKind(.SectionFooter, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
+        return size
     }
 }

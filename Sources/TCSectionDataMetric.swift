@@ -40,20 +40,16 @@ public struct TCSectionDataMetric {
     public private(set) var dataForHeader: TCDataType?
     /// UITableView only, the section footer data.
     public private(set) var dataForFooter: TCDataType?
-    /// UICollecttionView only.
-    private var dataForSupplementaryElements: [String: [TCDataType]]!
     /// UITableView only, the section index title.
     public private(set) var indexTitle: String!
-    
-    /// UITableView/UICollectionView secion data wrapper, indexTitle have no effect when UICollectionView
-    public init(itemsData: [TCDataType], indexTitle: String! = nil) {
-        self.itemsData = itemsData
-        self.indexTitle = indexTitle
-    }
+    /// UICollectionView only, the flow layout section header data.
+    public private(set) var dataForSupplementaryHeader: [TCDataType]?
+    /// UICollectionView only, the flow layout section footer data.
+    public private(set) var dataForSupplementaryFooter: [TCDataType]?
     
     /// UITableView only.
     public init(itemsData: [TCDataType], titleForHeader: String?, titleForFooter: String?, indexTitle: String! = nil) {
-        self.init(itemsData: itemsData)
+        self.itemsData = itemsData
         self.titleForHeader = titleForHeader
         self.titleForFooter = titleForFooter
         self.indexTitle = indexTitle
@@ -62,18 +58,20 @@ public struct TCSectionDataMetric {
     /// UITableView only.
     /// dataForXXX means which delegate method request for custom viewForHeader/viewForFooter needs.
     public init(itemsData: [TCDataType], dataForHeader: TCDataType?, dataForFooter: TCDataType?, indexTitle: String! = nil) {
-        self.init(itemsData: itemsData)
+        self.itemsData = itemsData
         self.dataForHeader = dataForHeader
         self.dataForFooter = dataForFooter
         self.indexTitle = indexTitle
     }
-    
+
     /// UICollectionView only.
-    /// NSDictionary keys like `UICollectionElementKindSectionHeader`/`UICollectionElementKindSectionFooter`.
-    public init(itemsData: [TCDataType], dataForSupplementaryElements: [String: [TCDataType]]) {
-        self.init(itemsData: itemsData)
-        self.dataForSupplementaryElements = dataForSupplementaryElements
+    /// dataForXXX means which supplementary views section header/footer.
+    public init(itemsData: [TCDataType], dataForSupplementaryHeader: [TCDataType]? = nil, dataForSupplementaryFooter: [TCDataType]? = nil) {
+        self.itemsData = itemsData
+        self.dataForSupplementaryHeader = dataForSupplementaryHeader
+        self.dataForSupplementaryFooter = dataForSupplementaryFooter
     }
+    
     
     /// Return empty instance
     public static func empty() -> TCSectionDataMetric {
@@ -98,12 +96,22 @@ public extension TCSectionDataMetric {
         return itemsData[index]
     }
     
-    /// UICollectionView only, return specific supplementary element data.
-    public func dataForSupplementaryElementOfKind(kind: TCCollectionElementKind, atIndex index: Int) -> TCDataType? {
-        guard let data = dataForSupplementaryElements[valueForCollectionElementKind(kind)]
-            where data.count > index else { return nil }
+    /// UICollectionView only, return specific supplementary header element data.
+    public func dataForSupplementaryHeaderAtIndex(index: Int) -> TCDataType? {
+        if dataForSupplementaryHeader?.count <= index {
+            return nil
+        }
         
-        return data[index]
+        return dataForSupplementaryHeader?[index]
+    }
+
+    /// UICollectionView only, return specific supplementary footer element data.
+    public func dataForSupplementaryFooterAtIndex(index: Int) -> TCDataType? {
+        if dataForSupplementaryFooter?.count <= index {
+            return nil
+        }
+        
+        return dataForSupplementaryFooter?[index]
     }
     
     internal func contains(object: TCDataType) -> Bool {
@@ -205,33 +213,7 @@ public extension TCSectionDataMetric {
 
 // MARK: - Helpers
 
-public extension TCSectionDataMetric {
-    /// Build data for initializer.
-    public static func supplementaryElementsFromHeaderData(headerData: [TCDataType]?, footerData: [TCDataType]?) -> [String: [TCDataType]]? {
-        if nil == headerData && nil == footerData {
-            return nil
-        }
-        
-        var supplementaryElements: [String: [TCDataType]] = [:]
-        if nil != headerData {
-            supplementaryElements[UICollectionElementKindSectionHeader] = headerData
-        }
-        if nil != footerData {
-            supplementaryElements[UICollectionElementKindSectionFooter] = footerData
-        }
-        
-        return supplementaryElements
-    }
-    
-    private func valueForCollectionElementKind(kind: TCCollectionElementKind) -> String {
-        switch kind {
-        case .SectionHeader:
-            return UICollectionElementKindSectionHeader
-        case .SectionFooter:
-            return UICollectionElementKindSectionFooter
-        }
-    }
-    
+public extension TCSectionDataMetric {    
     private func validateInsertElementArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
         let count = numberOfItems
         guard index <= count else {
@@ -271,7 +253,6 @@ extension TCSectionDataMetric: CustomDebugStringConvertible {
         output.append("titleForFooter: \(titleForFooter)")
         output.append("dataForHeader: \(dataForHeader)")
         output.append("dataForFooter: \(dataForFooter)")
-        output.append("dataForSupplementaryElements: \(dataForSupplementaryElements)")
         output.append("-------------------------------------------------")
         return output.joinWithSeparator("\n")
     }

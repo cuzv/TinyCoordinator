@@ -86,10 +86,9 @@ public extension UICollectionView {
     
     public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: TCCollectionElementKind) {
         if let nib = T.nib {
-            
-            registerNib(nib, forSupplementaryViewOfKind: valueForCollectionElementKind(elementKind), withReuseIdentifier: T.reuseIdentifier)
+            registerNib(nib, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
         } else {
-            registerClass(T.self, forSupplementaryViewOfKind: valueForCollectionElementKind(elementKind), withReuseIdentifier: T.reuseIdentifier)
+            registerClass(T.self, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
         }
     }
     

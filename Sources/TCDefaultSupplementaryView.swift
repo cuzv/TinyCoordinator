@@ -1,8 +1,8 @@
 //
-//  TCDelegate+UICollectionViewDelegate.swift
+//  TCDefaultSupplementaryView.swift
 //  TinyCoordinator
 //
-//  Created by Moch Xiao on 1/14/16.
+//  Created by Moch Xiao on 1/17/16.
 //  Copyright © @2016 Moch Xiao (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,15 +26,6 @@
 
 import UIKit
 
-public extension TCDelegate {
-    /// The helper func for compute size for cell using auto layout, you may implement you self by compute using frames and struct.    
-    public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
-        return dataSource.sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: cellType)
-    }
-
-    /// The helper func for compute size for supplementary view using auto layout, you may implement you self by compute using frames and struct.
-    public func sizeForSupplementaryElementOfKind<T: UICollectionReusableView>(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath,  preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
-        return dataSource.sizeForSupplementaryElementOfKind(kind, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: cellType)
-    }
+internal class TCDefaultSupplementaryView: UICollectionReusableView, Reusable {
 
 }

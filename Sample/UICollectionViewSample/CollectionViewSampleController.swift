@@ -72,18 +72,14 @@ private extension CollectionViewSampleController {
         }()
         
         
-        let secion1 = TCSectionDataMetric(itemsData: data1)
-        let secion2 = TCSectionDataMetric(itemsData: data2)
         let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
-//        let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
+        let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header], dataForSupplementaryFooter: [footer])
+        let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
+
         
-        let sectionHeader = TCSectionDataMetric.supplementaryElementsFromHeaderData([header], footerData: nil)
-        let secion4 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryElements: sectionHeader!)
-        let secion5 = TCSectionDataMetric(itemsData: data2)
-        let secion6 = TCSectionDataMetric(itemsData: data3)
-        
-        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion4, secion5, secion6, secion1, secion2, secion3, secion4, secion5, secion6, secion1, secion2, secion3, secion4, secion5, secion6])
+        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion1, secion2, secion3])
         
         dataSource.globalDataMetric = globalDataMetric
         collectionView.reloadData()

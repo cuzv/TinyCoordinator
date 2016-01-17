@@ -84,6 +84,8 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
         }
         else if let subclass = self as? TCCollectionSupplementaryViewibility {
             subclass.registerReusableSupplementaryView()
+            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .SectionHeader)
+            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .SectionFooter)
         }
     }
     

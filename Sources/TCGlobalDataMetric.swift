@@ -177,14 +177,25 @@ public extension TCGlobalDataMetric {
         return nil
     }
     
-    /// UICollectionView only, the data for specific kind at indexPath.
-    public func dataForSupplementaryElementOfKind(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath) -> TCDataType? {
+    /// UICollectionView only, the data for header at indexPath.
+    public func dataForSupplementaryHeaderAtIndexPath(indexPath: NSIndexPath) -> TCDataType? {
+        let section = indexPath.section
+        if numberOfSections <= section {
+            return nil
+        }
+
+        return sectionDataMetrics[section].dataForSupplementaryHeaderAtIndex(indexPath.item)
+    }
+    
+    
+    /// UICollectionView only, the data for footer at indexPath.
+    public func dataForSupplementaryFooterAtIndexPath(indexPath: NSIndexPath) -> TCDataType? {
         let section = indexPath.section
         if numberOfSections <= section {
             return nil
         }
         
-        return sectionDataMetrics[section].dataForSupplementaryElementOfKind(kind, atIndex: indexPath.item)
+        return sectionDataMetrics[section].dataForSupplementaryFooterAtIndex(indexPath.item)
     }
     
     internal var sectionIndexTitles: [String]? {

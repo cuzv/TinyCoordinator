@@ -31,12 +31,28 @@ public enum TCCollectionElementKind {
     case SectionFooter
 }
 
-internal func valueForCollectionElementKind(kind: TCCollectionElementKind) -> String {
-    switch kind {
-    case .SectionHeader:
-        return UICollectionElementKindSectionHeader
-    case .SectionFooter:
-        return UICollectionElementKindSectionFooter
+internal extension TCCollectionElementKind {
+    internal var value: String {
+        switch self {
+        case .SectionHeader:
+            return UICollectionElementKindSectionHeader
+        case .SectionFooter:
+            return UICollectionElementKindSectionFooter
+        }
+    }
+}
+
+internal extension String {
+    internal var value: TCCollectionElementKind {
+        if self == UICollectionElementKindSectionHeader {
+            return .SectionHeader
+        }
+        else if self == UICollectionElementKindSectionFooter {
+            return .SectionFooter
+        }
+        else {
+            fatalError("None value.")
+        }
     }
 }
 

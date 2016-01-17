@@ -54,6 +54,7 @@ internal extension UICollectionReusableView {
         
         var size: CGSize!
         if isSupportedConstraintsProperty() {
+            layoutSubviews()
             // Apple's implement like folow, somehow, it doesn't work.
             // size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
             size = systemLayoutSizeFittingSize(CGSizeMake(fittingSize.width, UILayoutFittingCompressedSize.height))
