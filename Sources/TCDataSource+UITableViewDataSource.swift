@@ -175,7 +175,6 @@ public extension TCDataSource {
             subclass.loadData(data, forReusableHeaderView: headerView)
         }
 
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__): \(height)")
         return height
     }
     
@@ -208,7 +207,6 @@ public extension TCDataSource {
             subclass.loadData(data, forReusableFooterView: headerView)
         }
 
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__): \(height)")
         return height
     }
     
