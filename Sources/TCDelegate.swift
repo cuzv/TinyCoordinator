@@ -30,6 +30,7 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
     public let tableView: UITableView!
     public let collectionView: UICollectionView!
     internal var scrollingToTop = false
+    internal var targetRect: CGRect?
     
     deinit {
         debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
@@ -66,39 +67,39 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
 
 // MARK: - UIScrollViewDelegate
 
-public extension TCDelegate {
-    /// Fix second time scrolling before first scrolling not ended intermediate state
+//public extension TCDelegate {
+//    /// Fix second time scrolling before first scrolling not ended intermediate state
 //    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-//        loadImagesForOnscreenItems()
+//        loadImagesForVisibleElements()
 //    }
-    
-    ///  Load images for all onscreen rows when scrolling is finished.
-    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            loadImagesForOnscreenItems()
-        }
+//    
+//    ///  Load images for all onscreen rows when scrolling is finished.
+//    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if !decelerate {
+//            loadImagesForVisibleElements()
+//        }
+//    }
+//    
+//    ///  When scrolling stops, proceed to load the app images that are on screen.
+//    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+//        loadImagesForVisibleElements()
+//    }
+//    
+//}
+
+public extension TCDelegate {
+    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        targetRect = nil
+        loadImagesForVisibleElements()
     }
     
-    ///  When scrolling stops, proceed to load the app images that are on screen.
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        targetRect = CGRectMake(targetContentOffset.memory.x, targetContentOffset.memory.y, CGRectGetWidth(scrollView.frame), CGRectGetHeight(scrollView.frame))
+    }
+    
     public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        loadImagesForOnscreenItems()
-    }
-    
-    private func loadImagesForOnscreenItems() {
-        guard let _dataSource = dataSource as? TCImageLazyLoadable else { return }
-        guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems() else { return }
-        
-        for indexPath in visibleIndexPaths {
-            var cell: TCCellType!
-            if nil != tableView {
-                cell = tableView.cellForRowAtIndexPath(indexPath)
-            } else {
-                cell = collectionView.cellForItemAtIndexPath(indexPath)
-            }
-            if let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
-                _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
-            }
-        }
+        targetRect = nil
+        loadImagesForVisibleElements()
     }
     
     public func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
@@ -115,7 +116,9 @@ public extension TCDelegate {
         scrollingToTop = false
         loadContent()
     }
-    
+}
+
+private extension TCDelegate {
     private func loadContent() {
         if scrollingToTop {
             return
@@ -141,4 +144,24 @@ public extension TCDelegate {
         }
         collectionView.reloadData()
     }
+    
+    private func loadImagesForVisibleElements() {
+        guard let _dataSource = dataSource as? TCImageLazyLoadable else { return }
+        guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems() else { return }
+        
+        for indexPath in visibleIndexPaths {
+            var cell: TCCellType!
+            if nil != tableView {
+                cell = tableView.cellForRowAtIndexPath(indexPath)
+            } else {
+                cell = collectionView.cellForItemAtIndexPath(indexPath)
+            }
+            if nil != cell, let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
+                _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
+                debugPrint("Lad.")
+            }
+        }
+    }
 }
+
+

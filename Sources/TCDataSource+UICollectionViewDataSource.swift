@@ -48,14 +48,13 @@ public extension TCDataSource {
         
         if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
             subclass.loadData(data, forReusableCell: reusableCell)
-            
-            // The first time load collectionView, collectionView will not draggin or decelerating
-            // But need load images anyway, so perform load action manual
-            // First time. I try to add condiition `[[self.collectionView indexPathsForVisibleItems] containsObject:indexPath]`
-            // But finally found that collectionView can not get the indexPath in `indexPathsForVisibleItems` before
-            // you really can see it on the screen
+
             if let subclass = self as? TCImageLazyLoadable {
-                let shouldLoadImages = !collectionView.dragging && !collectionView.decelerating && CGRectContainsPoint(collectionView.frame, reusableCell.frame.origin)
+                // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
+                var shouldLoadImages = true
+                if let targetRect = delegate.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
+                    shouldLoadImages = false
+                }
                 if shouldLoadImages {
                     subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
                 }

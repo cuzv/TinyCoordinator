@@ -63,11 +63,12 @@ public extension TCDataSource {
         if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
             subclass.loadData(data, forReusableCell: reusableCell)
             
-            // The first time load tableView, tableview will not draggin or decelerating
-            // But need load images anyway, so perform load action manual
-            // Note that see the collectionView logic in the same where
             if let subclass = self as? TCImageLazyLoadable {
-                let shouldLoadImages = !tableView.dragging && !tableView.decelerating && CGRectContainsPoint(self.tableView.frame, reusableCell.frame.origin)
+                // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
+                var shouldLoadImages = true
+                if let targetRect = delegate.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
+                    shouldLoadImages = false
+                }
                 if shouldLoadImages {
                     subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
                 }

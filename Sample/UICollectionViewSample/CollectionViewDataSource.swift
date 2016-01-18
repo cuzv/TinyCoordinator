@@ -62,5 +62,10 @@ extension CollectionViewDataSource: TCCollectionSupplementaryViewibility {
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         return viewForSupplementaryElementOfKind(kind, atIndexPath: indexPath)
     }
+}
 
+extension CollectionViewDataSource: TCImageLazyLoadable {
+    func lazyLoadImagesData(data: TCDataType, forReusableCell cell: TCCellType) {
+        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
+    }
 }
