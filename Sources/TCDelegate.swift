@@ -84,7 +84,6 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
 //    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 //        loadImagesForVisibleElements()
 //    }
-//    
 //}
 
 public extension TCDelegate {
@@ -158,7 +157,6 @@ private extension TCDelegate {
             }
             if nil != cell, let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
                 _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
-                debugPrint("Lad.")
             }
         }
     }

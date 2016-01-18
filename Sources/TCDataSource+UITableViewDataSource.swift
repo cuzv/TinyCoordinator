@@ -60,17 +60,24 @@ public extension TCDataSource {
 
         reusableCell.prepareForReuse()
         
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
-            subclass.loadData(data, forReusableCell: reusableCell)
-            
-            if let subclass = self as? TCImageLazyLoadable {
-                // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
-                var shouldLoadImages = true
-                if let targetRect = delegate.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
-                    shouldLoadImages = false
-                }
-                if shouldLoadImages {
-                    subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+
+        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+            var shouldLoadData = true
+            if let scrollingToTop = scrollingToTop where scrollingToTop {
+                shouldLoadData = false
+            }
+            if shouldLoadData {
+                subclass.loadData(data, forReusableCell: reusableCell)
+                
+                if let subclass = self as? TCImageLazyLoadable {
+                    // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
+                    var shouldLoadImages = true
+                    if let targetRect = delegate?.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
+                        shouldLoadImages = false
+                    }
+                    if shouldLoadImages {
+                        subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+                    }
                 }
             }
         }
@@ -198,9 +205,15 @@ public extension TCDataSource {
         guard let data = globalDataMetric.dataForHeaderInSection(section) else { return nil }
         
         headerView.prepareForReuse()
-        if !scrollingToTop {
+
+        var shouldLoadData = true
+        if let scrollingToTop = scrollingToTop where scrollingToTop {
+            shouldLoadData = false
+        }
+        if shouldLoadData {
             subclass.loadData(data, forReusableHeaderView: headerView)
         }
+        
         headerView.setNeedsUpdateConstraints()
         headerView.updateConstraintsIfNeeded()
         
@@ -235,9 +248,15 @@ public extension TCDataSource {
         guard let data = globalDataMetric.dataForFooterInSection(section) else { return nil }
         
         footerView.prepareForReuse()
-        if !scrollingToTop {
+        
+        var shouldLoadData = true
+        if let scrollingToTop = scrollingToTop where scrollingToTop {
+            shouldLoadData = false
+        }
+        if shouldLoadData {
             subclass.loadData(data, forReusableFooterView: footerView)
         }
+        
         footerView.setNeedsUpdateConstraints()
         footerView.updateConstraintsIfNeeded()
         

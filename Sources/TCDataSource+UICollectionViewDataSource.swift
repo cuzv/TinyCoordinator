@@ -46,17 +46,23 @@ public extension TCDataSource {
         let reusableCell = collectionView.dequeueReusableCellWithReuseIdentifier(reusableIdentifier, forIndexPath: indexPath)
         reusableCell.prepareForReuse()
         
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) where !scrollingToTop {
-            subclass.loadData(data, forReusableCell: reusableCell)
-
-            if let subclass = self as? TCImageLazyLoadable {
-                // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
-                var shouldLoadImages = true
-                if let targetRect = delegate.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
-                    shouldLoadImages = false
-                }
-                if shouldLoadImages {
-                    subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+            var shouldLoadData = true
+            if let scrollingToTop = scrollingToTop where scrollingToTop {
+                shouldLoadData = false
+            }
+            if shouldLoadData {
+                subclass.loadData(data, forReusableCell: reusableCell)
+                
+                if let subclass = self as? TCImageLazyLoadable {
+                    // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
+                    var shouldLoadImages = true
+                    if let targetRect = delegate?.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
+                        shouldLoadImages = false
+                    }
+                    if shouldLoadImages {
+                        subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+                    }
                 }
             }
         }
@@ -159,9 +165,12 @@ public extension TCDataSource {
             guard let data = globalDataMetric.dataForSupplementaryHeaderAtIndexPath(indexPath) else {
                return collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, forIndexPath: indexPath)
             }
-            
             let reusableView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: identifier, forIndexPath: indexPath)
-            if !scrollingToTop {
+            var shouldLoadData = true
+            if let scrollingToTop = scrollingToTop where scrollingToTop {
+                shouldLoadData = false
+            }
+            if shouldLoadData {
                 subclass.loadData(data, forReusableSupplementaryHeaderView: reusableView)
             }
             
@@ -174,9 +183,13 @@ public extension TCDataSource {
             guard let data = globalDataMetric.dataForSupplementaryFooterAtIndexPath(indexPath) else {
                 return collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, forIndexPath: indexPath)
             }
-            
             let reusableView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: identifier, forIndexPath: indexPath)
-            if !scrollingToTop {
+
+            var shouldLoadData = true
+            if let scrollingToTop = scrollingToTop where scrollingToTop {
+                shouldLoadData = false
+            }
+            if shouldLoadData {
                 subclass.loadData(data, forReusableSupplementaryFooterView: reusableView)
             }
             
