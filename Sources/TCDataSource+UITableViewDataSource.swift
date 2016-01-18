@@ -155,11 +155,16 @@ public extension TCDataSource {
     
     internal func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
         guard let subclass = self as? TCDataSourceable else { return UITableViewAutomaticDimension }
-        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGFloat.min }
+        if let cachedHeight = globalDataMetric.cachedHeightForIndexPath(indexPath) {
+            return cachedHeight
+        }
+        
+        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return UITableViewAutomaticDimension }
         let identifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
         let height = tableView.tc_heightForReusableCellByIdentifier(identifier) { (cell) -> () in
             subclass.loadData(data, forReusableCell: cell)
         }
+        globalDataMetric.cacheHeight(height, forIndexPath: indexPath)
         
         return height
     }
@@ -168,12 +173,17 @@ public extension TCDataSource {
 
      internal func heightForHeaderInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
+        if let cachedHeight = globalDataMetric.cachedHeightForHeaderInSection(section) {
+            return cachedHeight
+        }
+        
         guard let data = globalDataMetric.dataForHeaderInSection(section) else { return 10 }
         guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
 
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableHeaderView: headerView)
         }
+        globalDataMetric.cacheHeight(height, forHeaderInSection: section)
 
         return height
     }
@@ -200,12 +210,17 @@ public extension TCDataSource {
     
     internal func heightForFooterInSection(section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
+        if let cachedHeight = globalDataMetric.cachedHeightForFooterInSection(section) {
+            return cachedHeight
+        }
+
         guard let data = globalDataMetric.dataForFooterInSection(section) else { return 10 }
         guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
         
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableFooterView: headerView)
         }
+        globalDataMetric.cacheHeight(height, forFooterInSection: section)
 
         return height
     }

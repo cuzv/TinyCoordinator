@@ -389,6 +389,159 @@ public extension TCGlobalDataMetric {
     }
 }
 
+// MARK: - Cached height
+
+internal extension TCGlobalDataMetric {
+    // MARK: - UITableView
+    
+    internal mutating func cacheHeight(height: CGFloat, forIndexPath indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cacheHeight(height, forIndex: indexPath.item)
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat? {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedHeightForIndex(indexPath.item)
+    }
+    
+    internal mutating func cacheHeight(height: CGFloat, forHeaderInSection section: Int) {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cachedHeightForHeader = height
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedHeightForHeaderInSection(section: Int)-> CGFloat? {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        let sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedHeightForHeader
+    }
+    
+    internal mutating func cacheHeight(height: CGFloat, forFooterInSection section: Int) {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cachedHeightForFooter = height
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedHeightForFooterInSection(section: Int) -> CGFloat? {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        let sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedHeightForFooter
+    }
+    
+    // UICollectionView
+    internal mutating func cacheSzie(size: CGSize, forIndexPath indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cacheSize(size, forIndex: indexPath.item)
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedSizeForIndexPath(indexPath: NSIndexPath) -> CGSize? {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedSizeForIndex(indexPath.item)
+    }
+    
+    internal mutating func cacheSize(size: CGSize, forHeaderInSection section: Int) {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cachedSizeForHeader = size
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedSzieForHeaderInSection(section: Int)-> CGSize? {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        let sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedSizeForHeader
+    }
+    
+    internal mutating func cacheSize(size: CGSize, forFooterInSection section: Int) {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.cachedSizeForFooter = size
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    internal func cachedSzieForFooterInSection(section: Int) -> CGSize? {
+        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        
+        let sectionDataMetric = sectionDataMetrics[section]
+        return sectionDataMetric.cachedSizeForFooter
+    }
+}
+
+public extension TCGlobalDataMetric {
+    /// UITableView only.
+    /// Invalidate the cached cell height when you edit content will change the cell height.
+    public mutating func invalidateCachedHeightForIndexPath(indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section)
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedCellHeightForIndex(indexPath.item)
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    /// UICollectionView only.
+    /// Invalidate the cached cell height when you edit content will change the cell size.
+    public mutating func invalidateCachedSizeForIndexPath(indexPath: NSIndexPath) {
+        let section = indexPath.section
+        validateNoneInsertElementArgumentSection(section)
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedCellSizeForIndex(indexPath.item)
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+
+    public mutating func invalidateCachedHeightForHeaderInSection(section: Int) {
+        validateNoneInsertElementArgumentSection(section)
+
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedHeightForHeader()
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    public mutating func invalidateCachedHeightForFooterInSection(section: Int) {
+        validateNoneInsertElementArgumentSection(section)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedHeightForFooter()
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    public mutating func invalidateCachedSizeForHeaderInSection(section: Int) {
+        validateNoneInsertElementArgumentSection(section)
+        
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedSizeForHeader()
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+    
+    public mutating func invalidateCachedSizeForFooterInSection(section: Int) {
+        var sectionDataMetric = sectionDataMetrics[section]
+        sectionDataMetric.invalidateCachedSizeForFooter()
+        sectionDataMetrics.replaceElementAtIndex(section, withElement: sectionDataMetric)
+    }
+}
+
 // MARK: - Helpers
 
 private extension TCGlobalDataMetric {

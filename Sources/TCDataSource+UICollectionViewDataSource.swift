@@ -95,11 +95,15 @@ public extension TCDataSource {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
-        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGSizeZero }
+        if let cachedSize = globalDataMetric.cachedSizeForIndexPath(indexPath) {
+            return cachedSize
+        }
         
+        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGSizeZero }
         let size = collectionView.tc_sizeForReusableViewByClass(cellType, preferredLayoutSizeFittingSize: fittingSize, dataConfigurationHandler: { (cell) -> () in
             subclass.loadData(data, forReusableCell: cell)
         })
+        globalDataMetric.cacheSzie(size, forIndexPath: indexPath)
         
         return size
     }
@@ -107,6 +111,16 @@ public extension TCDataSource {
     internal func sizeForSupplementaryElementOfKind<T: UICollectionReusableView>(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath,  preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
         guard let subclass = self as? TCCollectionSupplementaryViewibility else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
+        }
+        
+        var cachedSize: CGSize!
+        if kind == .SectionHeader {
+            cachedSize = globalDataMetric.cachedSzieForHeaderInSection(indexPath.section)
+        } else {
+            cachedSize = globalDataMetric.cachedSzieForFooterInSection(indexPath.section)
+        }
+        if let cachedSize = cachedSize {
+            return cachedSize
         }
         
         let function: (indexPath: NSIndexPath) -> TCDataType? = kind == .SectionHeader ? globalDataMetric.dataForSupplementaryHeaderAtIndexPath : globalDataMetric.dataForSupplementaryFooterAtIndexPath
@@ -120,6 +134,12 @@ public extension TCDataSource {
             } else {
                 subclass.loadData(data, forReusableSupplementaryFooterView: reusableView)
             }
+        }
+        
+        if kind == .SectionHeader {
+            globalDataMetric.cacheSize(size, forHeaderInSection: indexPath.section)
+        } else {
+            globalDataMetric.cacheSize(size, forFooterInSection: indexPath.section)
         }
         
         return size
