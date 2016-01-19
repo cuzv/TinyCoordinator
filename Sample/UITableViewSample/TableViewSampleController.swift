@@ -82,9 +82,20 @@ class TableViewSampleController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        tableView.editing = true
     }
     
+    
+    @IBAction func handleInsert(sender: UIBarButtonItem) {
+        let item1 = CellDataItem2(name: "Inserted", pic: "nil")
+        dataSource.globalDataMetric.insert(item1, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))
+//        dataSource.globalDataMetric.append(item1, inSection: 0)
+        debugPrint(dataSource.globalDataMetric)
+        tableView.reloadData()
+    }
+    
+    @IBAction func handleEdit(sender: AnyObject) {
+        tableView.editing = !tableView.editing
+    }
 }
 
 

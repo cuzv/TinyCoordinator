@@ -86,16 +86,6 @@ public extension Reusable where Self: TCReusableViewType {
 
 // MARK: -
 
-///// You should override `Equatable` youself.
-///// Or you can just inherit from NSObject.
-//public class TCDataType: Equatable {
-//    public init() {}
-//}
-//
-//public func ==<T: TCDataType>(lhs: T, rhs:T) -> Bool {
-//    return lhs === rhs
-//}
-
 public typealias TCDataType = AnyObject
 
 

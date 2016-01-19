@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -78,7 +79,20 @@
                             <constraint firstItem="Wkt-uT-zjN" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="vcB-zQ-ePP"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Tap-2w-oLj"/>
+                    <navigationItem key="navigationItem" id="Tap-2w-oLj">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Edit" id="bSG-2v-E2r">
+                                <connections>
+                                    <action selector="handleEdit:" destination="BYZ-38-t0r" id="4kE-Ct-p58"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Insert" id="0rv-lj-sEy">
+                                <connections>
+                                    <action selector="handleInsert:" destination="BYZ-38-t0r" id="mBg-gu-5t1"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tableView" destination="Wkt-uT-zjN" id="2ps-Hc-HeK"/>

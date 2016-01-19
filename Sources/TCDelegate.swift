@@ -61,30 +61,10 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
     }
     
     public var globalDataMetric: TCGlobalDataMetric {
-        return dataSource.globalDataMetric
+        get { return dataSource.globalDataMetric }
+        set { dataSource.globalDataMetric = newValue }
     }
 }
-
-// MARK: - UIScrollViewDelegate
-
-//public extension TCDelegate {
-//    /// Fix second time scrolling before first scrolling not ended intermediate state
-//    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-//        loadImagesForVisibleElements()
-//    }
-//    
-//    ///  Load images for all onscreen rows when scrolling is finished.
-//    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if !decelerate {
-//            loadImagesForVisibleElements()
-//        }
-//    }
-//    
-//    ///  When scrolling stops, proceed to load the app images that are on screen.
-//    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        loadImagesForVisibleElements()
-//    }
-//}
 
 public extension TCDelegate {
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {

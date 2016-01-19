@@ -10,7 +10,7 @@ import UIKit
 import TinyCoordinator
 
 public class TableViewDelegate: TCDelegate {
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {        
         return heightForRowAtIndexPath(indexPath)
     }
     
