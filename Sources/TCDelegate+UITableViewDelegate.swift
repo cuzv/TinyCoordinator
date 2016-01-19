@@ -26,20 +26,6 @@
 
 import UIKit
 
-// MARK: - Implement
-
-public extension TCDelegate {
-
-    
-    public func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        
-    }
-    
-    public func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
-    }
-}
-
 // MARK: - Helpers
 
 public extension TCDelegate {
