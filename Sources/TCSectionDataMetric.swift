@@ -110,12 +110,12 @@ public struct TCSectionDataMetric {
 // MARK: - Retrieve
 
 public extension TCSectionDataMetric {
-    /// Section data count
+    /// Section data count.
     public var numberOfItems: Int {
         return itemsData.count
     }
     
-    /// Return specific data
+    /// Return specific data.
     public func dataAtIndex(index: Int) -> TCDataType? {
         if numberOfItems <= index {
             return nil

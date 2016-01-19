@@ -72,6 +72,15 @@ public struct TCGlobalDataMetric {
 // MARK: - Retrieve
 
 public extension TCGlobalDataMetric {
+    /// All data.
+    public var allData: [TCDataType] {
+        var allData = [TCDataType]()
+        for sectionDataMetric in sectionDataMetrics {
+            allData.appendContentsOf(sectionDataMetric.itemsData)
+        }
+        return allData
+    }
+    
     /// The count of sections.
     public var numberOfSections: Int {
         return sectionDataMetrics.count
