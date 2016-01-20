@@ -210,7 +210,7 @@ public extension TCSectionDataMetric {
     }
     
     /// Replace multiple new data for current setion data metric at specific index.
-    public mutating func replaceWith(newElements: [TCDataType], atIndex index: Int) {
+    public mutating func replaceWithContentsOf(newElements: [TCDataType], atIndex index: Int) {
         validateNoneInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         let range = Range(start: index, end: index + 1)
         itemsData.replaceElementsRange(range, withElements: newElements)
