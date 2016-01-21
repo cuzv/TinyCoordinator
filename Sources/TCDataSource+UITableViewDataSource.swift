@@ -116,7 +116,7 @@ public extension TCDataSource {
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let subclass = self as? TCTableViewEditable {
-            return subclass.canEditItemAtIndexPath(indexPath)
+            return subclass.canEditElementAtIndexPath(indexPath)
         } else {
             return false
         }
@@ -134,6 +134,7 @@ public extension TCDataSource {
             // Duplicate last content item, in case reload data error, should not use it.
             let newIndexPath = NSIndexPath(forItem: indexPath.item + 1, inSection: indexPath.section)
             globalDataMetric.insert(data, atIndexPath: newIndexPath)
+            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
         subclass.commitEditingStyle(editingStyle, forData: data)
     }
@@ -142,7 +143,7 @@ public extension TCDataSource {
     
     public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let subclass = self as? TCTableViewCollectionViewMovable {
-            return subclass.canMoveItemAtIndexPath(indexPath)
+            return subclass.canMoveElementAtIndexPath(indexPath)
         } else {
             return false
         }
@@ -152,7 +153,7 @@ public extension TCDataSource {
         guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
         globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
-        subclass.moveRowAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+        subclass.moveElementAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
     }
 }
 

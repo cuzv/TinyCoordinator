@@ -77,7 +77,7 @@ public extension TCDataSource {
     
     public func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let subclass = self as? TCTableViewCollectionViewMovable {
-            return subclass.canMoveItemAtIndexPath(indexPath)
+            return subclass.canMoveElementAtIndexPath(indexPath)
         } else {
             return false
         }
@@ -87,7 +87,7 @@ public extension TCDataSource {
         guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
         globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
-        subclass.moveRowAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+        subclass.moveElementAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
     }
 }
 

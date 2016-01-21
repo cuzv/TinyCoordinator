@@ -72,7 +72,7 @@ public protocol TCCollectionSupplementaryViewibility {
 // MARK: TCTableViewEditable
 public protocol TCTableViewEditable {
     /// Can edit the specific item.
-    func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool
+    func canEditElementAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// Commit editing data behavior.
     func commitEditingStyle(style: UITableViewCellEditingStyle, forData data: TCDataType)
 }
@@ -80,9 +80,9 @@ public protocol TCTableViewEditable {
 // MARK: TCTableViewCollectionViewMovable
 public protocol TCTableViewCollectionViewMovable {
     /// Can move the specific item.
-    func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
+    func canMoveElementAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// Move data position.
-    func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+    func moveElementAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
 }
 
 //// MARK: - TCTableViewIndexable

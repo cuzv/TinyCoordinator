@@ -330,7 +330,7 @@ public extension TCGlobalDataMetric {
     }
     
     /// Exchage data.
-    public mutating func exchageAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    public mutating func exchageAtIndexPath(sourceIndexPath: NSIndexPath, withIndexPath destinationIndexPath: NSIndexPath) {
         let sourceSection = sourceIndexPath.section
         let sourceItem = sourceIndexPath.item
         let destinationSection = destinationIndexPath.section

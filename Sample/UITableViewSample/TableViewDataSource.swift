@@ -34,7 +34,7 @@ extension TableViewDataSource: TCDataSourceable {
 }
 
 extension TableViewDataSource: TCTableViewEditable {
-    func canEditItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
+    func canEditElementAtIndexPath(indexPath: NSIndexPath) -> Bool {
         return true
     }
     
@@ -45,11 +45,11 @@ extension TableViewDataSource: TCTableViewEditable {
 }
 
 extension TableViewDataSource: TCTableViewCollectionViewMovable {
-    func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool {
+    func canMoveElementAtIndexPath(indexPath: NSIndexPath) -> Bool {
         return true
     }
     
-    func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    func moveElementAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         debugPrint(globalDataMetric)
     }
 }
