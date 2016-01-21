@@ -79,7 +79,7 @@ public protocol TCTableViewEditable {
 
 // MARK: TCTableViewCollectionViewMovable
 public protocol TCTableViewCollectionViewMovable {
-    /// Can move the specific item
+    /// Can move the specific item.
     func canMoveItemAtIndexPath(indexPath: NSIndexPath) -> Bool
     /// Move data position.
     func moveRowAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)

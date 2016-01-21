@@ -342,7 +342,7 @@ public extension TCSectionDataMetric {
 // MARK: - CustomStringConvertible
 
 extension TCSectionDataMetric: CustomStringConvertible {
-    /// The textual representation used when written to an output stream
+    /// The textual representation used when written to an output stream.
     public var description: String {
         return debugDescription
     }
@@ -351,7 +351,7 @@ extension TCSectionDataMetric: CustomStringConvertible {
 // MARK: - CustomDebugStringConvertible
 
 extension TCSectionDataMetric: CustomDebugStringConvertible {
-    /// The debug textual representation used when written to an output stream
+    /// The debug textual representation used when written to an output stream.
     public var debugDescription: String {
         var output: [String] = []
         output.append("-------------------------------------------------")

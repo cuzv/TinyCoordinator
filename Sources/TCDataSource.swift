@@ -45,7 +45,7 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     }
     
     private override init() {
-        fatalError("Use init(tableView:) or init(collectionView:) indtead.")
+        fatalError("Use init(tableView:) or init(collectionView:) instead.")
     }
     
     public init(tableView: UITableView) {
@@ -68,13 +68,13 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     
     private func checkConforms() {
         guard self is TCDataSourceable else {
-            fatalError("Must conforms protocol `TCDataSourceable`")
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
     }
     
     private func registereusableView() {
         guard let subclass = self as? TCDataSourceable else {
-            fatalError("Must conforms protocol `TCDataSourceable`")
+            fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         subclass.registerReusableCell()
@@ -100,7 +100,4 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     public var scrollingToTop: Bool? {
         return delegate?.scrollingToTop
     }
-    
-    public var count = 0
-
 }

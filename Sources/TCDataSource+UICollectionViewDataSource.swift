@@ -152,8 +152,8 @@ public extension TCDataSource {
     
     // MARK: - TCDataSource subclass supplementary view helper func
     
-    /// TCDataSource Subclas UICollectionViewDataSource require supplementary view, simple return this method
-    /// **Note**: register first
+    /// TCDataSource Subclas UICollectionViewDataSource require supplementary view, simple return this method.
+    /// **Note**: register first.
     public func viewForSupplementaryElementOfKind(kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         guard let subclass = self as? TCCollectionSupplementaryViewibility else {
             fatalError("Must conforms protocol `TCCollectionSupplementaryViewibility`.")
