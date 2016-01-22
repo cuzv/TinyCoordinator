@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="E7U-mC-i0F">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="E7U-mC-i0F">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -65,19 +65,7 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Wkt-uT-zjN">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Wkt-uT-zjN" secondAttribute="trailing" id="ZxT-ms-3iS"/>
-                            <constraint firstItem="Wkt-uT-zjN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="h9f-bi-Vpu"/>
-                            <constraint firstItem="Wkt-uT-zjN" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kcY-Qo-qHa"/>
-                            <constraint firstItem="Wkt-uT-zjN" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="vcB-zQ-ePP"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Tap-2w-oLj">
                         <rightBarButtonItems>
@@ -94,9 +82,6 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <connections>
-                        <outlet property="tableView" destination="Wkt-uT-zjN" id="2ps-Hc-HeK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

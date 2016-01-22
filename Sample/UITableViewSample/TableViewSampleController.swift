@@ -14,6 +14,17 @@ class TableViewSampleController: UIViewController {
         debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
     }
     
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: CGRectZero, style: .Grouped)
+        tableView.alwaysBounceVertical = true
+        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsetsZero;
+        tableView.tableFooterView = UIView(frame: CGRectMake(0, 0, 0, CGFloat.min))
+        
+        return tableView
+    }()
+
+    
     lazy var dataSource: TableViewDataSource = {
         TableViewDataSource(tableView: self.tableView)
     }()
@@ -22,13 +33,17 @@ class TableViewSampleController: UIViewController {
         TableViewDelegate(tableView: self.tableView)
     }()
     
-    @IBOutlet weak var tableView: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(tableView)
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+        }
 
         tableView.dataSource = dataSource
         tableView.delegate = delegate
+
 //        tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
 //        tableView.estimatedSectionHeaderHeight = 60
@@ -76,12 +91,10 @@ class TableViewSampleController: UIViewController {
 //        }
 //        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [sectionDataMetric])
 //        
-        dataSource.globalDataMetric = globalDataMetric
-        tableView.reloadData()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        dispatch_after(NSEC_PER_MSEC * 20, dispatch_get_main_queue()) { () -> Void in
+            self.dataSource.globalDataMetric = globalDataMetric
+            self.tableView.reloadData()
+        }
     }
     
     
