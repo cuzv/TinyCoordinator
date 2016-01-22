@@ -288,14 +288,14 @@ public extension TCGlobalDataMetric {
     }
     
     /// Replace single data to specific section data metric.
-    public mutating func replace(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
+    public mutating func replaceWith(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         sectionDataMetrics[section].replaceWith(newElement, atIndex: indexPath.item)
     }
     
     /// Replace multiple data to specific section data metric.
-    public mutating func replaceContentsOf(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
+    public mutating func replaceWithContentsOf(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
         sectionDataMetrics[section].replaceWithContentsOf(newElements, atIndex: indexPath.item)
