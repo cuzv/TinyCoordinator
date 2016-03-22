@@ -40,9 +40,11 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     public let collectionView: UICollectionView!
     public var globalDataMetric: TCGlobalDataMetric
     
+    #if DEBUG
     deinit {
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
+        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
     }
+    #endif
     
     private override init() {
         fatalError("Use init(tableView:) or init(collectionView:) instead.")

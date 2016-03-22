@@ -83,6 +83,6 @@ extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
 
 extension TableViewDataSource: TCImageLazyLoadable {
     func lazyLoadImagesData(data: TCDataType, forReusableCell cell: TCCellType) {
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
+        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
     }
 }

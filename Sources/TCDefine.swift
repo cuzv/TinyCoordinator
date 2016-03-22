@@ -56,11 +56,11 @@ internal extension String {
     }
 }
 
-@noreturn internal func TCUnimplemented(fn: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+@noreturn internal func TCUnimplemented(fn: String = #function, file: StaticString = #file, line: UInt = #line) {
     fatalError("\(fn) is not yet implemented", file: file, line: line)
 }
 
-@noreturn internal func TCInvalidArgument(message: String, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+@noreturn internal func TCInvalidArgument(message: String, method: String = #function, file: StaticString = #file, line: UInt = #line) {
     fatalError("\(method): \(message)", file: file, line: line)
 }
 

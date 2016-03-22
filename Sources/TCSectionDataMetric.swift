@@ -187,13 +187,13 @@ public extension TCSectionDataMetric {
     
     /// Append single data for current setion data metric at specific index.
     public mutating func insert(newElement: TCDataType, atIndex index: Int) {
-        validateInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
         insertContentsOf([newElement], atIndex: index)
     }
     
     /// Append new data for current setion data metric at specific index.
     public mutating func insertContentsOf(newElements: [TCDataType], atIndex index: Int) {
-        validateInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
         itemsData.insertContentsOf(newElements, at: index)
         let height = [CGFloat?](count: newElements.count, repeatedValue: nil)
         cachedHeightForCell.insertContentsOf(height, at: index)
@@ -203,7 +203,7 @@ public extension TCSectionDataMetric {
     
     /// Replace single new data for current setion data metric at specific index.
     public mutating func replaceWith(newElement: TCDataType, atIndex index: Int) {
-        validateNoneInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
         itemsData.replaceElementAtIndex(index, withElement: newElement)
         cachedHeightForCell.replaceElementAtIndex(index, withElement: nil)
         cachedSizeForCell.replaceElementAtIndex(index, withElement: nil)
@@ -211,8 +211,9 @@ public extension TCSectionDataMetric {
     
     /// Replace multiple new data for current setion data metric at specific index.
     public mutating func replaceWithContentsOf(newElements: [TCDataType], atIndex index: Int) {
-        validateNoneInsertElementArgumentIndex(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
-        let range = Range(start: index, end: index + 1)
+        validateNoneInsertElementArgumentIndex(index, method: #function, file: #file
+            , line: #line)
+        let range = Range(index ..< index + 1)
         itemsData.replaceElementsRange(range, withElements: newElements)
         let height = [CGFloat?](count: newElements.count, repeatedValue: nil)
         cachedHeightForCell.replaceElementsRange(range, withElements: height)
@@ -322,7 +323,7 @@ public extension TCSectionDataMetric {
 // MARK: - Helpers
 
 public extension TCSectionDataMetric {    
-    private func validateInsertElementArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateInsertElementArgumentIndex(index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfItems
         guard index <= count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
@@ -330,7 +331,7 @@ public extension TCSectionDataMetric {
         }
     }
     
-    private func validateNoneInsertElementArgumentIndex(index: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateNoneInsertElementArgumentIndex(index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfItems
         guard index < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"

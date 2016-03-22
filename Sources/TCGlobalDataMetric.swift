@@ -239,7 +239,7 @@ public extension TCGlobalDataMetric {
     
     /// Append multiple `TCSectionDataMetric` for current setion at specific index.
     public mutating func insertContentsOf(newElements: [TCSectionDataMetric], atIndex index: Int) {
-        validateInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateInsertElementArgumentSection(index, method: #function, file: #file, line: #line)
         sectionDataMetrics.insertContentsOf(newElements, at: index)
     }
     
@@ -263,41 +263,41 @@ public extension TCGlobalDataMetric {
     
     /// Append single data to specific section data metric.
     public mutating func append(newElement: TCDataType, inSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].append(newElement)
     }
     
     /// Append multiple data to specific section data metric.
     public mutating func appendContentsOf(newElements: [TCDataType], inSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].appendContentsOf(newElements)
     }
     
     /// Insert single data to specific section & item data metric.
     public mutating func insert(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].insert(newElement, atIndex: indexPath.item)
     }
     
     /// Insert multiple data to specific section & item data metric.
     public mutating func insertContentsOf(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].insertContentsOf(newElements, atIndex: indexPath.item)
     }
     
     /// Replace single data to specific section data metric.
     public mutating func replaceWith(newElement: TCDataType, atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].replaceWith(newElement, atIndex: indexPath.item)
     }
     
     /// Replace multiple data to specific section data metric.
     public mutating func replaceWithContentsOf(newElements: [TCDataType], atIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].replaceWithContentsOf(newElements, atIndex: indexPath.item)
     }
     
@@ -313,14 +313,14 @@ public extension TCGlobalDataMetric {
     
     /// Remove specific section data metric.
     public mutating func removeAtIndex(index: Int) -> TCSectionDataMetric {
-        validateNoneInsertElementArgumentSection(index, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(index, method: #function, file: #file, line: #line)
         return sectionDataMetrics.removeAtIndex(index)
     }
     
     /// Remove specific data for indexPath.
     public mutating func removeAtIndexPath(indexPath: NSIndexPath) -> TCDataType? {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         return sectionDataMetrics[section].removeAtIndex(indexPath.item)
     }
     
@@ -377,37 +377,37 @@ internal extension TCGlobalDataMetric {
     
     internal mutating func cacheHeight(height: CGFloat, forIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cacheHeight(height, forIndex: indexPath.item)
     }
     
     internal func cachedHeightForIndexPath(indexPath: NSIndexPath) -> CGFloat? {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         var sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedHeightForIndex(indexPath.item)
     }
     
     internal mutating func cacheHeight(height: CGFloat, forHeaderInSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cachedHeightForHeader = height
     }
     
     internal func cachedHeightForHeaderInSection(section: Int)-> CGFloat? {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         let sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedHeightForHeader
     }
     
     internal mutating func cacheHeight(height: CGFloat, forFooterInSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cachedHeightForFooter = height
     }
     
     internal func cachedHeightForFooterInSection(section: Int) -> CGFloat? {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         let sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedHeightForFooter
@@ -416,37 +416,37 @@ internal extension TCGlobalDataMetric {
     // UICollectionView
     internal mutating func cacheSzie(size: CGSize, forIndexPath indexPath: NSIndexPath) {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cacheSize(size, forIndex: indexPath.item)
     }
     
     internal func cachedSizeForIndexPath(indexPath: NSIndexPath) -> CGSize? {
         let section = indexPath.section
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         var sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedSizeForIndex(indexPath.item)
     }
     
     internal mutating func cacheSize(size: CGSize, forHeaderInSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cachedSizeForHeader = size
     }
     
     internal func cachedSzieForHeaderInSection(section: Int)-> CGSize? {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         let sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedSizeForHeader
     }
     
     internal mutating func cacheSize(size: CGSize, forFooterInSection section: Int) {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         sectionDataMetrics[section].cachedSizeForFooter = size
     }
     
     internal func cachedSzieForFooterInSection(section: Int) -> CGSize? {
-        validateNoneInsertElementArgumentSection(section, method: __FUNCTION__, file: __FILE__, line: __LINE__)
+        validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         let sectionDataMetric = sectionDataMetrics[section]
         return sectionDataMetric.cachedSizeForFooter
@@ -494,7 +494,7 @@ public extension TCGlobalDataMetric {
 // MARK: - Helpers
 
 private extension TCGlobalDataMetric {
-    private func validateInsertElementArgumentSection(section: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateInsertElementArgumentSection(section: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfSections
         guard section <= count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
@@ -502,7 +502,7 @@ private extension TCGlobalDataMetric {
         }
     }
 
-    private func validateNoneInsertElementArgumentSection(section: Int, method: String = __FUNCTION__, file: StaticString = __FILE__, line: UInt = __LINE__) {
+    private func validateNoneInsertElementArgumentSection(section: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfSections
         guard section < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"

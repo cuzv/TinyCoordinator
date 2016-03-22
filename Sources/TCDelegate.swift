@@ -32,9 +32,11 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
     internal var scrollingToTop = false
     internal var targetRect: CGRect?
     
+#if DEBUG
     deinit {
-        debugPrint("\(__FILE__):\(__LINE__):\(self.dynamicType):\(__FUNCTION__)")
+        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
     }
+#endif
     
     private override init() {
         fatalError("Use init(tableView:) or init(collectionView:) indtead.")

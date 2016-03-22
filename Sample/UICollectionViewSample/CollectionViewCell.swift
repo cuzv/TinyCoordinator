@@ -38,7 +38,7 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     deinit {
-        debugPrint("\(__FILE__):\(__LINE__):\(__FUNCTION__)")
+        debugPrint("\(#file):\(#line):\(#function)")
     }
     
     override func layoutSubviews() {

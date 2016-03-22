@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TinyCoordinator"
-  s.version      = "0.4.5"
+  s.version      = "0.4.6"
   s.summary      = "The Swift version of ThinningCoordinator focus on lighter view controllers."
   s.homepage     = "https://github.com/cuzv/TinyCoordinator"
   s.license      = "MIT"
