@@ -93,6 +93,6 @@ public typealias TCDataType = AnyObject
 
 internal extension String {
     internal var length: Int {
-        return lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        return characters.count
     }
 }
