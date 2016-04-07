@@ -91,7 +91,7 @@ public extension TCDataSource {
     // MARK: - Section title
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return globalDataMetric.titleForFooterInSection(section)
+        return globalDataMetric.titleForHeaderInSection(section)
     }
     
     public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
