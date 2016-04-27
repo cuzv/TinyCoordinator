@@ -46,6 +46,11 @@ public struct TCGlobalDataMetric {
         return TCGlobalDataMetric(sectionDataMetrics: [TCSectionDataMetric]())
     }
     
+    /// Is there any sections have data.
+    public var isEmpty: Bool {
+        return allData.count == 0
+    }
+    
     private var headerDataForSections: [TCDataType] {
         var headerDataForSections: [TCDataType] = []
         for sectionDataMetric in sectionDataMetrics {

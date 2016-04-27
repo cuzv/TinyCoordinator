@@ -105,6 +105,11 @@ public struct TCSectionDataMetric {
     public static func empty() -> TCSectionDataMetric {
         return TCSectionDataMetric(itemsData: [TCDataType]())
     }
+    
+    /// Have any item data.
+    public var isEmpty: Bool {
+        return itemsData.count == 0
+    }
 }
 
 // MARK: - Retrieve

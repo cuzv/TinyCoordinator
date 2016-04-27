@@ -102,4 +102,8 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
     public var scrollingToTop: Bool? {
         return delegate?.scrollingToTop
     }
+    
+    public var isEmpty: Bool {
+        return globalDataMetric.allData.count == 0
+    }
 }

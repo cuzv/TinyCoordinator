@@ -16,3 +16,6 @@
 
 - fix `titleForHeaderInSection` typo, used to `titleForFooterInSection`.
 
+### 0.4.9
+
+- add `isEmpty`
