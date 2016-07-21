@@ -96,7 +96,7 @@ public extension TCDataSource {
 public extension TCDataSource {
     // MARK: - TCDelegate subclass cell size helper func
     
-    internal func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
+    internal func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, takeFittingWidth: Bool = true, cellType: T.Type) -> CGSize {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
@@ -105,9 +105,12 @@ public extension TCDataSource {
         }
         
         guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGSizeZero }
-        let size = collectionView.tc_sizeForReusableViewByClass(cellType, preferredLayoutSizeFittingSize: fittingSize, dataConfigurationHandler: { (cell) -> () in
-            subclass.loadData(data, forReusableCell: cell)
-        })
+        let size = collectionView.tc_sizeForReusableViewByClass(
+            cellType,
+            preferredLayoutSizeFittingSize: fittingSize,
+            takeFittingWidth: takeFittingWidth) { (cell: T) in
+                subclass.loadData(data, forReusableCell: cell)
+            }
         globalDataMetric.cacheSzie(size, forIndexPath: indexPath)
         
         return size

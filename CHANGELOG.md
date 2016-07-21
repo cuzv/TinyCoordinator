@@ -19,3 +19,7 @@
 ### 0.4.9
 
 - add `isEmpty`
+
+### 0.5.0
+
+-   add `takeFittingWidth` when compute `UICollectionReusableView` size.

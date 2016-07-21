@@ -16,10 +16,13 @@ class CollectionViewDelegate: TCDelegate {
 extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let fittingSize = CGSizeMake(CGFloat(ceil(CGRectGetWidth(collectionView.bounds) - 20)), UILayoutFittingExpandedSize.height)
-//        let fittingSize = CGSizeMake(CGFloat(ceil((CGRectGetWidth(collectionView.bounds) - 20) / 2.0 - 16)), UILayoutFittingExpandedSize.height)
-        let size = sizeForItemAtIndexPath(indexPath,
+        let size = sizeForItemAtIndexPath(
+            indexPath,
             preferredLayoutSizeFittingSize: fittingSize,
-            cellType: CollectionViewCell.self)
+//            takeFittingWidth: false,
+            cellType: CollectionViewCell.self
+        )
+        
         return size
     }
     

@@ -72,7 +72,8 @@ private extension CollectionViewSampleController {
         }()
         
         
-        let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
+//        let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
+        let header = "header"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
         let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header], dataForSupplementaryFooter: [footer])
         let secion2 = TCSectionDataMetric(itemsData: data2)

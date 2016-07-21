@@ -49,6 +49,7 @@ public extension UICollectionView {
     public func tc_sizeForReusableViewByClass<T: UICollectionReusableView>(
         viewClass: T.Type,
         preferredLayoutSizeFittingSize fittingSize: CGSize,
+        takeFittingWidth: Bool = true,
         dataConfigurationHandler: (T) -> ()) -> CGSize
     {
         initializeReusableViewsIfNeeded()
@@ -65,7 +66,7 @@ public extension UICollectionView {
         _reusableView.prepareForReuse()
         dataConfigurationHandler(_reusableView)
 
-        return _reusableView.preferredLayoutSizeFittingSize(fittingSize)
+        return _reusableView.preferredLayoutSizeFittingSize(fittingSize, takeFittingWidth: takeFittingWidth)
     }
 }
 

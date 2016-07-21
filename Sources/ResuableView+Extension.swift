@@ -47,7 +47,7 @@ internal extension UICollectionReusableView {
     /// This is kind of a hack because cells don't have an intrinsic content size or any other way to constrain them to a size. As a result,
     /// labels that _should_ wrap at the bounds of a cell, don't.
     /// So by adding width and height constraints to the cell temporarily, we can make the labels wrap and the layout compute correctly.
-    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize, takeFittingWidth: Bool = true) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -55,10 +55,7 @@ internal extension UICollectionReusableView {
         var size: CGSize!
         if isSupportedConstraintsProperty() {
             layoutSubviews()
-            // Apple's implement like folow, somehow, it doesn't work.
-            // size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-            size = systemLayoutSizeFittingSize(CGSizeMake(fittingSize.width, UILayoutFittingCompressedSize.height))
-
+             size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
                 NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
@@ -71,42 +68,12 @@ internal extension UICollectionReusableView {
         }
     
         frame.size = size
+        if takeFittingWidth {
+            size.width = fittingSize.width
+        }
         self.frame = frame
         
         return size
-    }
-}
-
-internal extension UICollectionViewCell {
-    internal override func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
-        var frame = self.frame
-        frame.size = fittingSize
-        self.frame = frame
-        
-        var size: CGSize!
-        if isSupportedConstraintsProperty() {
-            layoutSubviews()
-            // Apple's implement like folow, somehow, it doesn't work.
-            // size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-            size = contentView.systemLayoutSizeFittingSize(CGSizeMake(fittingSize.width, UILayoutFittingCompressedSize.height))
-        } else {
-            let constraints = [
-                NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
-                NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
-            ]
-            addConstraints(constraints)
-            updateConstraints()
-            size = systemLayoutSizeFittingSize(fittingSize)
-            removeConstraints(constraints)
-        }
-        
-        // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.
-        var _fittingSize = fittingSize
-        _fittingSize.height = size.height
-        frame.size = _fittingSize
-        self.frame = frame
-        
-        return _fittingSize
     }
 }
 
@@ -142,12 +109,11 @@ internal extension UITableViewCell {
         }
         
         // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.
-        var _fittingSize = fittingSize
-        _fittingSize.height = size.height
-        frame.size = _fittingSize
+        size.width = fittingSize.width
+        frame.size = size
         self.frame = frame
         
-        return _fittingSize
+        return size
     }
 }
 
@@ -173,11 +139,10 @@ internal extension UITableViewHeaderFooterView {
         }
         
         // Only consider the height for cells, because the contentView isn't anchored correctly sometimes.
-        var _fittingSize = fittingSize
-        _fittingSize.height = size.height
-        frame.size = _fittingSize
+        size.width = fittingSize.width
+        frame.size = size
         self.frame = frame
         
-        return _fittingSize
+        return size
     }
 }
