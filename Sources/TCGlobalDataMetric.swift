@@ -58,7 +58,6 @@ public struct TCGlobalDataMetric {
                 headerDataForSections.append(dataForHeader)
             }
         }
-        
         return headerDataForSections
     }
     
@@ -116,10 +115,10 @@ public extension TCGlobalDataMetric {
         var index = 0
         for sectionDataMetric in sectionDataMetrics {
             if sectionDataMetric.contains(data),
-                let item = sectionDataMetric.indexOf(data) {
+                let item = sectionDataMetric.indexOf(data)
+            {
                 return NSIndexPath(forItem: item, inSection: index)
             }
-            
             index += 1
         }
         
@@ -169,10 +168,8 @@ public extension TCGlobalDataMetric {
             if dataForHeader.isEqual(data) {
                 return index
             }
-            
             index += 1
         }
-        
         return nil
     }
     
@@ -184,11 +181,19 @@ public extension TCGlobalDataMetric {
             if dataForFooter.isEqual(data) {
                 return index
             }
-            
             index += 1
         }
-        
         return nil
+    }
+    
+    internal var sectionIndexTitles: [String]? {
+        var indexTitles: [String]? = []
+        for sectionDataMetric in sectionDataMetrics {
+            if let indexTitle = sectionDataMetric.indexTitle {
+                indexTitles?.append(indexTitle)
+            }
+        }
+        return indexTitles
     }
     
     /// UICollectionView only, the data for header at indexPath.
@@ -197,7 +202,6 @@ public extension TCGlobalDataMetric {
         if numberOfSections <= section {
             return nil
         }
-
         return sectionDataMetrics[section].dataForSupplementaryHeaderAtIndex(indexPath.item)
     }
     
@@ -208,19 +212,33 @@ public extension TCGlobalDataMetric {
         if numberOfSections <= section {
             return nil
         }
-        
         return sectionDataMetrics[section].dataForSupplementaryFooterAtIndex(indexPath.item)
     }
     
-    internal var sectionIndexTitles: [String]? {
-        var indexTitles: [String]? = []
+    public func indexPathOfSupplementaryHeaderData(data: TCDataType) -> NSIndexPath? {
+        var index = 0
         for sectionDataMetric in sectionDataMetrics {
-            if let indexTitle = sectionDataMetric.indexTitle {
-                indexTitles?.append(indexTitle)
+            if sectionDataMetric.containsSupplementaryHeaderData(data),
+                let item = sectionDataMetric.indexOfSupplementaryHeaderData(data)
+            {
+                return NSIndexPath(forItem: item, inSection: index)
             }
+            index += 1
         }
-        
-        return indexTitles
+        return nil
+    }
+    
+    public func indexPathOfSupplementaryFooterData(data: TCDataType) -> NSIndexPath? {
+        var index = 0
+        for sectionDataMetric in sectionDataMetrics {
+            if sectionDataMetric.containsSupplementaryFooterData(data),
+                let item = sectionDataMetric.indexOfSupplementaryFooterData(data)
+            {
+                return NSIndexPath(forItem: item, inSection: index)
+            }
+            index += 1
+        }
+        return nil
     }
 }
 

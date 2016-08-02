@@ -153,7 +153,6 @@ public extension TCSectionDataMetric {
                 return true
             }
         }
-        
         return false
     }
     
@@ -163,10 +162,60 @@ public extension TCSectionDataMetric {
             if element.isEqual(object) {
                 return index
             }
-
             index += 1
         }
+        return nil
+    }
+    
+    internal func containsSupplementaryHeaderData(object: TCDataType) -> Bool {
+        guard let elements = dataForSupplementaryHeader else {
+            return false
+        }
+        for element in elements {
+            if element.isEqual(object) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    internal func indexOfSupplementaryHeaderData(object: TCDataType) -> Int? {
+        guard let elements = dataForSupplementaryHeader else {
+            return nil
+        }
+        var index = 0
+        for element in elements {
+            if element.isEqual(object) {
+                return index
+            }
+            index += 1
+        }
+        return nil
+    }
 
+    internal func containsSupplementaryFooterData(object: TCDataType) -> Bool {
+        guard let elements = dataForSupplementaryFooter else {
+            return false
+        }
+        for element in elements {
+            if element.isEqual(object) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    internal func indexOfSupplementaryFooterData(object: TCDataType) -> Int? {
+        guard let elements = dataForSupplementaryFooter else {
+            return nil
+        }
+        var index = 0
+        for element in elements {
+            if element.isEqual(object) {
+                return index
+            }
+            index += 1
+        }
         return nil
     }
 }
