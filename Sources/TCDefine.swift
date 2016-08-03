@@ -88,6 +88,9 @@ public extension Reusable where Self: TCReusableViewType {
 
 public typealias TCDataType = AnyObject
 
+internal final class TCPlaceholder: TCDataType {
+    init() {}
+}
 
 // MARK: - Helper
 

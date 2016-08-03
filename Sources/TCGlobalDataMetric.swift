@@ -89,7 +89,7 @@ public extension TCGlobalDataMetric {
     public var numberOfSections: Int {
         return sectionDataMetrics.count
     }
-        
+    
     /// Return the all section data metrics.
     public func numberOfItemsInSection(section: Int) -> Int {
         return sectionDataMetrics[section].numberOfItems
@@ -347,6 +347,24 @@ public extension TCGlobalDataMetric {
         return sectionDataMetrics[section].removeAtIndex(indexPath.item)
     }
     
+    public mutating func removeAtIndexPaths(indexPaths: [NSIndexPath]) {
+        var sections = [Int]()
+        var placeholder: TCPlaceholder = TCPlaceholder()
+        for indexPath in indexPaths {
+            replaceWith(placeholder, atIndexPath: indexPath)
+            if !sections.contains(indexPath.section) {
+                sections.append(indexPath.section)
+            }
+        }
+        for section in sections {
+            let itemsData = sectionDataMetrics[section].itemsData.filter { (obj: AnyObject) -> Bool in
+                return !obj.isEqual(placeholder)
+            }
+            sectionDataMetrics[section].removeAll()
+            appendContentsOf(itemsData, inSection: section)
+        }
+    }
+    
     /// Remove all data.
     public mutating func removeAll() {
         sectionDataMetrics.removeAll()
@@ -366,9 +384,9 @@ public extension TCGlobalDataMetric {
             // Take out the source data.
             if let sourceData = sectionDataMetrics[sourceSection].removeAtIndex(sourceItem),
                 let destinationData = sectionDataMetrics[destinationSection].removeAtIndex(destinationItem) {
-                    // Exchange to desitination position.
-                    sectionDataMetrics[destinationSection].insert(sourceData, atIndex: destinationItem)
-                    sectionDataMetrics[sourceSection].insert(destinationData, atIndex: sourceItem)
+                // Exchange to desitination position.
+                sectionDataMetrics[destinationSection].insert(sourceData, atIndex: destinationItem)
+                sectionDataMetrics[sourceSection].insert(destinationData, atIndex: sourceItem)
             }
         }
     }
@@ -492,7 +510,7 @@ public extension TCGlobalDataMetric {
         validateNoneInsertElementArgumentSection(section)
         sectionDataMetrics[section].invalidateCachedCellSizeForIndex(indexPath.item)
     }
-
+    
     public mutating func invalidateCachedHeightForHeaderInSection(section: Int) {
         validateNoneInsertElementArgumentSection(section)
         sectionDataMetrics[section].invalidateCachedHeightForHeader()
@@ -524,7 +542,7 @@ private extension TCGlobalDataMetric {
             TCInvalidArgument("section \(section) extends beyond bounds \(bounds)", method: method, file: file, line: line)
         }
     }
-
+    
     private func validateNoneInsertElementArgumentSection(section: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfSections
         guard section < count else {
