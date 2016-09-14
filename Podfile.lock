@@ -1,6 +1,6 @@
 PODS:
   - Reveal-iOS-SDK (1.6.2)
-  - SnapKit (0.18.0)
+  - SnapKit (0.22.0)
 
 DEPENDENCIES:
   - Reveal-iOS-SDK
@@ -8,6 +8,6 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
-  SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
+  SnapKit: 0dd2fd157330f1ea11fd84da13e6be8a7a22bae0
 
 COCOAPODS: 0.39.0
