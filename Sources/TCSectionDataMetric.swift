@@ -25,31 +25,51 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 /// The UITableView/UICollectionView section data present.
 /// Note that, if you preferred inject data could modify keeep the same address as before,
 /// you should pass init params `NSObject` instance.
 public struct TCSectionDataMetric {
     /// The main cell data.
-    public private(set) var itemsData: [TCDataType]
+    public fileprivate(set) var itemsData: [TCDataType]
     /// UITableView only, the section header title.
-    public private(set) var titleForHeader: String?
+    public fileprivate(set) var titleForHeader: String?
     /// UITableView only, the section footer title.
-    public private(set) var titleForFooter: String?
+    public fileprivate(set) var titleForFooter: String?
     /// UITableView only, the section header data.
-    public private(set) var dataForHeader: TCDataType?
+    public fileprivate(set) var dataForHeader: TCDataType?
     /// UITableView only, the section footer data.
-    public private(set) var dataForFooter: TCDataType?
+    public fileprivate(set) var dataForFooter: TCDataType?
     /// UITableView only, the section index title.
-    public private(set) var indexTitle: String?
+    public fileprivate(set) var indexTitle: String?
     /// UICollectionView only, the flow layout section header data.
-    public private(set) var dataForSupplementaryHeader: [TCDataType]?
+    public fileprivate(set) var dataForSupplementaryHeader: [TCDataType]?
     /// UICollectionView only, the flow layout section footer data.
-    public private(set) var dataForSupplementaryFooter: [TCDataType]?
+    public fileprivate(set) var dataForSupplementaryFooter: [TCDataType]?
     
     /// Cached cell height.
     internal lazy var cachedHeightForCell: [CGFloat?] = {
-        [CGFloat?](count: self.numberOfItems, repeatedValue: nil)
+        [CGFloat?](repeating: nil, count: self.numberOfItems)
     }()
     /// Cached header height.
     internal var cachedHeightForHeader: CGFloat?
@@ -58,7 +78,7 @@ public struct TCSectionDataMetric {
     
     /// Cached cell size.
     internal lazy var cachedSizeForCell: [CGSize?] = {
-        [CGSize?](count: self.numberOfItems, repeatedValue: nil)
+        [CGSize?](repeating: nil, count: self.numberOfItems)
     }()
     /// Cached header size.
     internal var cachedSizeForHeader: CGSize?
@@ -121,7 +141,7 @@ public extension TCSectionDataMetric {
     }
     
     /// Return specific data.
-    public func dataAtIndex(index: Int) -> TCDataType? {
+    public func dataAtIndex(_ index: Int) -> TCDataType? {
         if numberOfItems <= index {
             return nil
         }
@@ -130,7 +150,7 @@ public extension TCSectionDataMetric {
     }
     
     /// UICollectionView only, return specific supplementary header element data.
-    public func dataForSupplementaryHeaderAtIndex(index: Int) -> TCDataType? {
+    public func dataForSupplementaryHeaderAtIndex(_ index: Int) -> TCDataType? {
         if dataForSupplementaryHeader?.count <= index {
             return nil
         }
@@ -139,7 +159,7 @@ public extension TCSectionDataMetric {
     }
 
     /// UICollectionView only, return specific supplementary footer element data.
-    public func dataForSupplementaryFooterAtIndex(index: Int) -> TCDataType? {
+    public func dataForSupplementaryFooterAtIndex(_ index: Int) -> TCDataType? {
         if dataForSupplementaryFooter?.count <= index {
             return nil
         }
@@ -147,7 +167,7 @@ public extension TCSectionDataMetric {
         return dataForSupplementaryFooter?[index]
     }
     
-    internal func contains(object: TCDataType) -> Bool {
+    internal func contains(_ object: TCDataType) -> Bool {
         for element in itemsData {
             if element.isEqual(object) {
                 return true
@@ -156,7 +176,7 @@ public extension TCSectionDataMetric {
         return false
     }
     
-    internal func indexOf(object: TCDataType) -> Int? {
+    internal func indexOf(_ object: TCDataType) -> Int? {
         var index = 0
         for element in itemsData {
             if element.isEqual(object) {
@@ -167,7 +187,7 @@ public extension TCSectionDataMetric {
         return nil
     }
     
-    internal func containsSupplementaryHeaderData(object: TCDataType) -> Bool {
+    internal func containsSupplementaryHeaderData(_ object: TCDataType) -> Bool {
         guard let elements = dataForSupplementaryHeader else {
             return false
         }
@@ -179,7 +199,7 @@ public extension TCSectionDataMetric {
         return false
     }
     
-    internal func indexOfSupplementaryHeaderData(object: TCDataType) -> Int? {
+    internal func indexOfSupplementaryHeaderData(_ object: TCDataType) -> Int? {
         guard let elements = dataForSupplementaryHeader else {
             return nil
         }
@@ -193,7 +213,7 @@ public extension TCSectionDataMetric {
         return nil
     }
 
-    internal func containsSupplementaryFooterData(object: TCDataType) -> Bool {
+    internal func containsSupplementaryFooterData(_ object: TCDataType) -> Bool {
         guard let elements = dataForSupplementaryFooter else {
             return false
         }
@@ -205,7 +225,7 @@ public extension TCSectionDataMetric {
         return false
     }
     
-    internal func indexOfSupplementaryFooterData(object: TCDataType) -> Int? {
+    internal func indexOfSupplementaryFooterData(_ object: TCDataType) -> Int? {
         guard let elements = dataForSupplementaryFooter else {
             return nil
         }
@@ -224,39 +244,39 @@ public extension TCSectionDataMetric {
 
 public extension TCSectionDataMetric {
     /// Append single data for current section data metric.
-    public mutating func append(newElement: TCDataType) {
+    public mutating func append(_ newElement: TCDataType) {
         itemsData.append(newElement)
         cachedHeightForCell.append(nil)
         cachedSizeForCell.append(nil)
     }
     
     /// Append new data for current section data metric.
-    public mutating func appendContentsOf(newElements: [TCDataType]) {
-        itemsData.appendContentsOf(newElements)
-        let height = [CGFloat?](count: newElements.count, repeatedValue: nil)
-        cachedHeightForCell.appendContentsOf(height)
-        let size = [CGSize?](count: newElements.count, repeatedValue: nil)
-        cachedSizeForCell.appendContentsOf(size)
+    public mutating func appendContentsOf(_ newElements: [TCDataType]) {
+        itemsData.append(contentsOf: newElements)
+        let height = [CGFloat?](repeating: nil, count: newElements.count)
+        cachedHeightForCell.append(contentsOf: height)
+        let size = [CGSize?](repeating: nil, count: newElements.count)
+        cachedSizeForCell.append(contentsOf: size)
     }
     
     /// Append single data for current setion data metric at specific index.
-    public mutating func insert(newElement: TCDataType, atIndex index: Int) {
+    public mutating func insert(_ newElement: TCDataType, atIndex index: Int) {
         validateInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
         insertContentsOf([newElement], atIndex: index)
     }
     
     /// Append new data for current setion data metric at specific index.
-    public mutating func insertContentsOf(newElements: [TCDataType], atIndex index: Int) {
+    public mutating func insertContentsOf(_ newElements: [TCDataType], atIndex index: Int) {
         validateInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
-        itemsData.insertContentsOf(newElements, at: index)
-        let height = [CGFloat?](count: newElements.count, repeatedValue: nil)
-        cachedHeightForCell.insertContentsOf(height, at: index)
-        let size = [CGSize?](count: newElements.count, repeatedValue: nil)
-        cachedSizeForCell.insertContentsOf(size, at: index)
+        itemsData.insert(contentsOf: newElements, at: index)
+        let height = [CGFloat?](repeating: nil, count: newElements.count)
+        cachedHeightForCell.insert(contentsOf: height, at: index)
+        let size = [CGSize?](repeating: nil, count: newElements.count)
+        cachedSizeForCell.insert(contentsOf: size, at: index)
     }
     
     /// Replace single new data for current setion data metric at specific index.
-    public mutating func replaceWith(newElement: TCDataType, atIndex index: Int) {
+    public mutating func replaceWith(_ newElement: TCDataType, atIndex index: Int) {
         validateNoneInsertElementArgumentIndex(index, method: #function, file: #file, line: #line)
         itemsData.replaceElementAtIndex(index, withElement: newElement)
         cachedHeightForCell.replaceElementAtIndex(index, withElement: nil)
@@ -264,14 +284,14 @@ public extension TCSectionDataMetric {
     }
     
     /// Replace multiple new data for current setion data metric at specific index.
-    public mutating func replaceWithContentsOf(newElements: [TCDataType], atIndex index: Int) {
+    public mutating func replaceWithContentsOf(_ newElements: [TCDataType], atIndex index: Int) {
         validateNoneInsertElementArgumentIndex(index, method: #function, file: #file
             , line: #line)
         let range = Range(index ..< index + 1)
         itemsData.replaceElementsRange(range, withElements: newElements)
-        let height = [CGFloat?](count: newElements.count, repeatedValue: nil)
+        let height = [CGFloat?](repeating: nil, count: newElements.count)
         cachedHeightForCell.replaceElementsRange(range, withElements: height)
-        let size = [CGSize?](count: newElements.count, repeatedValue: nil)
+        let size = [CGSize?](repeating: nil, count: newElements.count)
         cachedSizeForCell.replaceElementsRange(range, withElements: size)
     }
     
@@ -292,14 +312,14 @@ public extension TCSectionDataMetric {
     }
     
     /// Remove specific data at index.
-    public mutating func removeAtIndex(index: Int) -> TCDataType? {
+    public mutating func removeAtIndex(_ index: Int) -> TCDataType? {
         if numberOfItems <= index {
             return nil
         }
         
-        cachedHeightForCell.removeAtIndex(index)
-        cachedSizeForCell.removeAtIndex(index)
-        return itemsData.removeAtIndex(index)
+        cachedHeightForCell.remove(at: index)
+        cachedSizeForCell.remove(at: index)
+        return itemsData.remove(at: index)
     }
     
     /// Remove all data.
@@ -310,14 +330,14 @@ public extension TCSectionDataMetric {
     }
     
     /// Exchange data.
-    public mutating func exchangeElementAtIndex(index: Int, withElementAtIndex otherIndex: Int) {
+    public mutating func exchangeElementAtIndex(_ index: Int, withElementAtIndex otherIndex: Int) {
         itemsData.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
         cachedHeightForCell.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
         cachedSizeForCell.exchangeElementAtIndex(index, withElementAtIndex: otherIndex)
     }
     
     /// Move data.
-    public mutating func moveElementAtIndex(index: Int, toIndex otherIndex: Int) {
+    public mutating func moveElementAtIndex(_ index: Int, toIndex otherIndex: Int) {
         itemsData.moveElementAtIndex(index, toIndex: otherIndex)
         cachedHeightForCell.moveElementAtIndex(index, toIndex: otherIndex)
         cachedSizeForCell.moveElementAtIndex(index, toIndex: otherIndex)
@@ -327,32 +347,32 @@ public extension TCSectionDataMetric {
 // MARK: - Cached height
 
 public extension TCSectionDataMetric {
-    internal mutating func cacheHeight(height: CGFloat, forIndex index: Int) {
+    internal mutating func cacheHeight(_ height: CGFloat, forIndex index: Int) {
         validateNoneInsertElementArgumentIndex(index)
         cachedHeightForCell[index] = height
     }
     
-    internal mutating func cachedHeightForIndex(index: Int) -> CGFloat? {
+    internal mutating func cachedHeightForIndex(_ index: Int) -> CGFloat? {
         validateNoneInsertElementArgumentIndex(index)
         return cachedHeightForCell[index]
     }
     
-    internal mutating func cacheSize(size: CGSize, forIndex index: Int) {
+    internal mutating func cacheSize(_ size: CGSize, forIndex index: Int) {
         validateNoneInsertElementArgumentIndex(index)
         cachedSizeForCell[index] = size
     }
     
-    internal mutating func cachedSizeForIndex(index: Int) -> CGSize? {
+    internal mutating func cachedSizeForIndex(_ index: Int) -> CGSize? {
         validateNoneInsertElementArgumentIndex(index)
         return cachedSizeForCell[index]
     }
     
-    internal mutating func invalidateCachedCellHeightForIndex(index: Int) {
+    internal mutating func invalidateCachedCellHeightForIndex(_ index: Int) {
         validateNoneInsertElementArgumentIndex(index)
         cachedHeightForCell[index] = nil
     }
     
-    internal mutating func invalidateCachedCellSizeForIndex(index: Int) {
+    internal mutating func invalidateCachedCellSizeForIndex(_ index: Int) {
         validateNoneInsertElementArgumentIndex(index)
         cachedSizeForCell[index] = nil
     }
@@ -377,7 +397,7 @@ public extension TCSectionDataMetric {
 // MARK: - Helpers
 
 public extension TCSectionDataMetric {    
-    private func validateInsertElementArgumentIndex(index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
+    fileprivate func validateInsertElementArgumentIndex(_ index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfItems
         guard index <= count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
@@ -385,7 +405,7 @@ public extension TCSectionDataMetric {
         }
     }
     
-    private func validateNoneInsertElementArgumentIndex(index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
+    fileprivate func validateNoneInsertElementArgumentIndex(_ index: Int, method: String = #function, file: StaticString = #file, line: UInt = #line) {
         let count = numberOfItems
         guard index < count else {
             let bounds = count == 0 ? "for empty array" : "[0 .. \(count - 1)]"
@@ -417,6 +437,6 @@ extension TCSectionDataMetric: CustomDebugStringConvertible {
         output.append("dataForHeader: \(dataForHeader)")
         output.append("dataForFooter: \(dataForFooter)")
         output.append("-------------------------------------------------")
-        return output.joinWithSeparator("\n")
+        return output.joined(separator: "\n")
     }
 }

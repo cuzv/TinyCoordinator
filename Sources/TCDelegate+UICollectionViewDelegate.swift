@@ -28,12 +28,12 @@ import UIKit
 
 public extension TCDelegate {
     /// The helper func for compute size for cell using auto layout, you may implement you self by compute using frames and struct.    
-    public func sizeForItemAtIndexPath<T: UICollectionViewCell>(indexPath: NSIndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, takeFittingWidth: Bool = true, cellType: T.Type) -> CGSize {
+    public func sizeForItemAtIndexPath<T: UICollectionViewCell>(_ indexPath: IndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, takeFittingWidth: Bool = true, cellType: T.Type) -> CGSize {
         return dataSource.sizeForItemAtIndexPath(indexPath, preferredLayoutSizeFittingSize: fittingSize, takeFittingWidth: takeFittingWidth, cellType: cellType)
     }
 
     /// The helper func for compute size for supplementary view using auto layout, you may implement you self by compute using frames and struct.
-    public func sizeForSupplementaryElementOfKind<T: UICollectionReusableView>(kind: TCCollectionElementKind, atIndexPath indexPath: NSIndexPath,  preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
+    public func sizeForSupplementaryElementOfKind<T: UICollectionReusableView>(_ kind: TCCollectionElementKind, atIndexPath indexPath: IndexPath,  preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
         return dataSource.sizeForSupplementaryElementOfKind(kind, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: cellType)
     }
 

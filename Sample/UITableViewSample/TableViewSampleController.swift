@@ -11,15 +11,15 @@ import TinyCoordinator
 
 class TableViewSampleController: UIViewController {
     deinit {
-        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
+        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: CGRectZero, style: .Grouped)
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.alwaysBounceVertical = true
-        tableView.layoutMargins = UIEdgeInsetsZero
-        tableView.separatorInset = UIEdgeInsetsZero;
-        tableView.tableFooterView = UIView(frame: CGRectMake(0, 0, 0, CGFloat.min))
+        tableView.layoutMargins = UIEdgeInsets.zero
+        tableView.separatorInset = UIEdgeInsets.zero;
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
         
         return tableView
     }()
@@ -37,7 +37,7 @@ class TableViewSampleController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(tableView)
-        tableView.snp_makeConstraints { (make) -> Void in
+        tableView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
 
@@ -50,8 +50,8 @@ class TableViewSampleController: UIViewController {
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
 //        tableView.estimatedSectionFooterHeight = 60
         tableView.sectionFooterHeight = UITableViewAutomaticDimension
-        tableView.separatorInset = UIEdgeInsetsZero
-        tableView.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.layoutMargins = UIEdgeInsets.zero
         
         let data1: [CellDataItem] = {
             let item1 = CellDataItem(name: "Michael", pic: "nil")
@@ -78,7 +78,7 @@ class TableViewSampleController: UIViewController {
         
         let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
-        let secion1 = TCSectionDataMetric(itemsData: data1, dataForHeader: header, dataForFooter: footer)
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForHeader: header as TCDataType?, dataForFooter: footer as TCDataType?)
         let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
         
@@ -90,24 +90,25 @@ class TableViewSampleController: UIViewController {
 //            sectionDataMetric.append(item)
 //        }
 //        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [sectionDataMetric])
-//        
-        dispatch_after(NSEC_PER_MSEC * 20, dispatch_get_main_queue()) { () -> Void in
+
+        let time = DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) { () -> Void in
             self.dataSource.globalDataMetric = globalDataMetric
             self.tableView.reloadData()
         }
     }
     
     
-    @IBAction func handleInsert(sender: UIBarButtonItem) {
+    @IBAction func handleInsert(_ sender: UIBarButtonItem) {
         let item1 = CellDataItem2(name: "Inserted", pic: "nil")
-        dataSource.globalDataMetric.insert(item1, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))
+        dataSource.globalDataMetric.insert(item1, atIndexPath: IndexPath(item: 0, section: 0))
 //        dataSource.globalDataMetric.append(item1, inSection: 0)
         debugPrint(dataSource.globalDataMetric)
         tableView.reloadData()
     }
     
-    @IBAction func handleEdit(sender: AnyObject) {
-        tableView.editing = !tableView.editing
+    @IBAction func handleEdit(_ sender: AnyObject) {
+        tableView.isEditing = !tableView.isEditing
     }
 }
 

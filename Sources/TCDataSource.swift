@@ -35,18 +35,18 @@ import UIKit
 ///   UIKit objects can't see the methods inside our extensions.
 /// So we can not extension `TCDataSourceable` implement `UITableViewDataSource`.
 /// The only thing we can do is provide helper func for `UITableViewDataSource` implement instance.
-public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewDataSource {
-    public let tableView: UITableView!
-    public let collectionView: UICollectionView!
-    public var globalDataMetric: TCGlobalDataMetric
+open class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewDataSource {
+    open let tableView: UITableView!
+    open let collectionView: UICollectionView!
+    open var globalDataMetric: TCGlobalDataMetric
     
     #if DEBUG
     deinit {
-        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
+        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
     #endif
     
-    private override init() {
+    fileprivate override init() {
         fatalError("Use init(tableView:) or init(collectionView:) instead.")
     }
     
@@ -68,13 +68,13 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
         registereusableView()
     }
     
-    private func checkConforms() {
+    fileprivate func checkConforms() {
         guard self is TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
     }
     
-    private func registereusableView() {
+    fileprivate func registereusableView() {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
@@ -86,12 +86,12 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
         }
         else if let subclass = self as? TCCollectionSupplementaryViewibility {
             subclass.registerReusableSupplementaryView()
-            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .SectionHeader)
-            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .SectionFooter)
+            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .sectionHeader)
+            collectionView.tc_registerReusableSupplementaryViewClass(TCDefaultSupplementaryView.self, ofKind: .sectionFooter)
         }
     }
     
-    public var delegate: TCDelegate? {
+    open var delegate: TCDelegate? {
         if let tableView = tableView {
             return tableView.delegate as? TCDelegate
         }
@@ -99,11 +99,11 @@ public class TCDataSource: NSObject, UITableViewDataSource, UICollectionViewData
         return collectionView.delegate as? TCDelegate
     }
     
-    public var scrollingToTop: Bool? {
+    open var scrollingToTop: Bool? {
         return delegate?.scrollingToTop
     }
     
-    public var isEmpty: Bool {
+    open var isEmpty: Bool {
         return globalDataMetric.allData.count == 0
     }
 }

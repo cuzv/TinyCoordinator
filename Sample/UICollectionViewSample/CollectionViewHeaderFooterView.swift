@@ -13,8 +13,8 @@ import SnapKit
 class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(17)
-        label.lineBreakMode = .ByCharWrapping
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -22,12 +22,12 @@ class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.lightGrayColor()
-        nameLabel.layer.borderColor = UIColor.yellowColor().CGColor
+        backgroundColor = UIColor.lightGray
+        nameLabel.layer.borderColor = UIColor.yellow.cgColor
         nameLabel.layer.borderWidth = 1
         
         addSubview(nameLabel)
-        nameLabel.snp_makeConstraints { (make) -> Void in
+        nameLabel.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(self).inset(UIEdgeInsetsMake(8, 8, 8, 8))
         }
     }
@@ -41,7 +41,7 @@ class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
     }
     
     override func layoutSubviews() {
-        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(bounds) - 16
+        nameLabel.preferredMaxLayoutWidth = bounds.width - 16
         super.layoutSubviews()
     }
 }

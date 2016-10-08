@@ -40,21 +40,23 @@ import UIKit
 public extension TCDataSource {
     // MARK: - Cell
 
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    @objc(numberOfSectionsInTableView:)
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return globalDataMetric.numberOfSections
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return globalDataMetric.numberOfItemsInSection(section)
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    @objc(tableView:cellForRowAtIndexPath:)
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         let reusableIdentifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
-        guard let reusableCell = tableView.dequeueReusableCellWithIdentifier(reusableIdentifier) else {
+        guard let reusableCell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) else {
             fatalError("Dequeue reusable cell failed. Must register identifier `\(reusableIdentifier)` first.")
         }
 
@@ -63,7 +65,7 @@ public extension TCDataSource {
 
         if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
             var shouldLoadData = true
-            if let scrollingToTop = scrollingToTop where scrollingToTop {
+            if let scrollingToTop = scrollingToTop , scrollingToTop {
                 shouldLoadData = false
             }
             if shouldLoadData {
@@ -72,7 +74,7 @@ public extension TCDataSource {
                 if let subclass = self as? TCImageLazyLoadable {
                     // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
                     var shouldLoadImages = true
-                    if let targetRect = delegate?.targetRect where !CGRectIntersectsRect(targetRect, reusableCell.frame) {
+                    if let targetRect = delegate?.targetRect , !targetRect.intersects(reusableCell.frame) {
                         shouldLoadImages = false
                     }
                     if shouldLoadImages {
@@ -90,22 +92,24 @@ public extension TCDataSource {
     
     // MARK: - Section title
     
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return globalDataMetric.titleForHeaderInSection(section)
     }
     
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return globalDataMetric.titleForFooterInSection(section)
     }
     
     // MARK: - Index
     
-    public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    @objc(sectionIndexTitlesForTableView:)
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return globalDataMetric.sectionIndexTitles
     }
     
-    public func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
-        guard let section = globalDataMetric.sectionIndexTitles?.indexOf(title) else {
+    @objc(tableView:sectionForSectionIndexTitle:atIndex:)
+    public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        guard let section = globalDataMetric.sectionIndexTitles?.index(of: title) else {
             fatalError("Section index title data error.")
         }
         
@@ -114,7 +118,8 @@ public extension TCDataSource {
     
     // MARK: - Editing
     
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    @objc(tableView:canEditRowAtIndexPath:)
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if let subclass = self as? TCTableViewEditable {
             return subclass.canEditElementAtIndexPath(indexPath)
         } else {
@@ -122,26 +127,28 @@ public extension TCDataSource {
         }
     }
     
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    @objc(tableView:commitEditingStyle:forRowAtIndexPath:)
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard let subclass = self as? TCTableViewEditable else { return }
         guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return }
         
-        if .Delete == editingStyle {
+        if .delete == editingStyle {
             globalDataMetric.removeAtIndexPath(indexPath)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        else if .Insert == editingStyle {
+        else if .insert == editingStyle {
             // Duplicate last content item, in case reload data error, should not use it.
-            let newIndexPath = NSIndexPath(forItem: indexPath.item + 1, inSection: indexPath.section)
+            let newIndexPath = IndexPath(item: (indexPath as NSIndexPath).item + 1, section: (indexPath as NSIndexPath).section)
             globalDataMetric.insert(data, atIndexPath: newIndexPath)
-            tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.insertRows(at: [indexPath], with: .automatic)
         }
         subclass.commitEditingStyle(editingStyle, forData: data)
     }
     
     // MARK: - Move
     
-    public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    @objc(tableView:canMoveRowAtIndexPath:)
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         if let subclass = self as? TCTableViewCollectionViewMovable {
             return subclass.canMoveElementAtIndexPath(indexPath)
         } else {
@@ -149,7 +156,8 @@ public extension TCDataSource {
         }
     }
     
-    public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    @objc(tableView:moveRowAtIndexPath:toIndexPath:)
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
         globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
@@ -162,7 +170,7 @@ public extension TCDataSource {
 public extension TCDataSource {
     // MARK: - Cell height
     
-    internal func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
+    internal func heightForRowAtIndexPath(_ indexPath: IndexPath) -> CGFloat {
         guard let subclass = self as? TCDataSourceable else { return UITableViewAutomaticDimension }
         if let cachedHeight = globalDataMetric.cachedHeightForIndexPath(indexPath) {
             return cachedHeight
@@ -180,14 +188,14 @@ public extension TCDataSource {
     
     // MARK: - Header
 
-     internal func heightForHeaderInSection(section: Int) -> CGFloat {
+     internal func heightForHeaderInSection(_ section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
         if let cachedHeight = globalDataMetric.cachedHeightForHeaderInSection(section) {
             return cachedHeight
         }
         
         guard let data = globalDataMetric.dataForHeaderInSection(section) else { return 10 }
-        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
+        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) , 0 != identifier.length else { return 10 }
 
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableHeaderView: headerView)
@@ -197,10 +205,10 @@ public extension TCDataSource {
         return height
     }
     
-    internal func viewForHeaderInSection(section: Int) -> UIView? {
+    internal func viewForHeaderInSection(_ section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
-        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
-        guard let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
+        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) , 0 != identifier.length else { return nil }
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
         guard let data = globalDataMetric.dataForHeaderInSection(section) else { return nil }
@@ -208,7 +216,7 @@ public extension TCDataSource {
         headerView.prepareForReuse()
 
         var shouldLoadData = true
-        if let scrollingToTop = scrollingToTop where scrollingToTop {
+        if let scrollingToTop = scrollingToTop , scrollingToTop {
             shouldLoadData = false
         }
         if shouldLoadData {
@@ -223,14 +231,14 @@ public extension TCDataSource {
     
     // MARK: - Footer
     
-    internal func heightForFooterInSection(section: Int) -> CGFloat {
+    internal func heightForFooterInSection(_ section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
         if let cachedHeight = globalDataMetric.cachedHeightForFooterInSection(section) {
             return cachedHeight
         }
 
         guard let data = globalDataMetric.dataForFooterInSection(section) else { return 10 }
-        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return 10 }
+        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) , 0 != identifier.length else { return 10 }
         
         let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
             subclass.loadData(data, forReusableFooterView: headerView)
@@ -240,10 +248,10 @@ public extension TCDataSource {
         return height
     }
     
-    internal func viewForFooterInSection(section: Int) -> UIView? {
+    internal func viewForFooterInSection(_ section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
-        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) where 0 != identifier.length else { return nil }
-        guard let footerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
+        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) , 0 != identifier.length else { return nil }
+        guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
         guard let data = globalDataMetric.dataForFooterInSection(section) else { return nil }
@@ -251,7 +259,7 @@ public extension TCDataSource {
         footerView.prepareForReuse()
         
         var shouldLoadData = true
-        if let scrollingToTop = scrollingToTop where scrollingToTop {
+        if let scrollingToTop = scrollingToTop , scrollingToTop {
             shouldLoadData = false
         }
         if shouldLoadData {

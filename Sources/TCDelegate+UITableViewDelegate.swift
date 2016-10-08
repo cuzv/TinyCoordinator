@@ -41,31 +41,31 @@ public extension TCDelegate {
     /// }
     /// ```
     /// `estimatedRowHeight` will be invalid.
-    public func heightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
+    public func heightForRowAtIndexPath(_ indexPath: IndexPath) -> CGFloat {
         return dataSource.heightForRowAtIndexPath(indexPath)
     }
 
     /// The helper func for compute height for section header using auto layout, you may implement you self by compute using frames and struct.
     /// Genernal, you don't need this helper func, simply return UITableViewAutomaticDimension.
     /// **Note**: Do not set `estimatedSectionHeaderHeight` if you use this func for compute section header size.
-    public func heightForHeaderInSection(section: Int) -> CGFloat {
+    public func heightForHeaderInSection(_ section: Int) -> CGFloat {
         return dataSource.heightForHeaderInSection(section)
     }
     
     /// The helper func for get the resue section header view, in you subclass instance simply invoke this func.
-    public func viewForHeaderInSection(section: Int) -> UIView? {
+    public func viewForHeaderInSection(_ section: Int) -> UIView? {
         return dataSource.viewForHeaderInSection(section)
     }
 
     /// The helper func for compute height for section footer using auto layout, you may implement you self by compute using frames and struct.
     /// Genernal, you don't need this helper func, simply return UITableViewAutomaticDimension.
     /// **Note**: Do not set `estimatedSectionFooterHeight` if you use this func for compute section footer size.
-    public func heightForFooterInSection(section: Int) -> CGFloat {
+    public func heightForFooterInSection(_ section: Int) -> CGFloat {
         return dataSource.heightForFooterInSection(section)
     }
 
     /// The helper func for get the resue section footer view, in you subclass instance simply invoke this func.
-    public func viewForFooterInSection(section: Int) -> UIView? {
+    public func viewForFooterInSection(_ section: Int) -> UIView? {
         return dataSource.viewForFooterInSection(section)
     }
 }

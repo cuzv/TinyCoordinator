@@ -12,10 +12,10 @@ import TinyCoordinator
 
 final class CollectionViewSampleController: UIViewController {
     lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.backgroundColor = UIColor.white
         return collectionView
     }()
     
@@ -36,9 +36,9 @@ final class CollectionViewSampleController: UIViewController {
 }
 
 private extension CollectionViewSampleController {
-    private func setupUserInterface() {
+    func setupUserInterface() {
         view.addSubview(collectionView)
-        collectionView.snp_makeConstraints { (make) -> Void in
+        collectionView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
         
@@ -46,7 +46,7 @@ private extension CollectionViewSampleController {
         collectionView.delegate = delegate
     }
     
-    private func setupReactiveCocoa() {
+    func setupReactiveCocoa() {
         
         let data1: [CellDataItem] = {
             let item1 = CellDataItem(name: "Michael", pic: "nil")
@@ -75,7 +75,7 @@ private extension CollectionViewSampleController {
 //        let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
         let header = "header"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
-        let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header], dataForSupplementaryFooter: [footer])
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header as AnyObject], dataForSupplementaryFooter: [footer as AnyObject])
         let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
 

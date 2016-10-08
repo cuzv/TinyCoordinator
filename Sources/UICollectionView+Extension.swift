@@ -33,33 +33,33 @@ private struct AssociationKey {
 }
 
 private extension UICollectionView {
-    private var reusableViews: [String: UICollectionReusableView]? {
+    var reusableViews: [String: UICollectionReusableView]? {
         get { return objc_getAssociatedObject(self, &AssociationKey.reusableViews) as? [String: UICollectionReusableView] }
         set { objc_setAssociatedObject(self, &AssociationKey.reusableViews, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 }
 
 public extension UICollectionView {
-    private func initializeReusableViewsIfNeeded() {
+    fileprivate func initializeReusableViewsIfNeeded() {
         if nil == reusableViews {
             reusableViews = [String: UICollectionReusableView]()
         }
     }
     
     public func tc_sizeForReusableViewByClass<T: UICollectionReusableView>(
-        viewClass: T.Type,
+        _ viewClass: T.Type,
         preferredLayoutSizeFittingSize fittingSize: CGSize,
         takeFittingWidth: Bool = true,
         dataConfigurationHandler: (T) -> ()) -> CGSize
     {
         initializeReusableViewsIfNeeded()
         
-        let key = String(viewClass)
+        let key = String(describing: viewClass)
         var _reusableView: T!
         if let reusableView = reusableViews?[key] as? T {
             _reusableView = reusableView
         } else {
-            _reusableView = viewClass.init(frame: CGRectZero)
+            _reusableView = viewClass.init(frame: CGRect.zero)
             reusableViews?[key] = _reusableView
         }
         
@@ -73,27 +73,27 @@ public extension UICollectionView {
 // MARK: - Reusable
 
 public extension UICollectionView {
-    public func tc_registerReusableCellClass<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+    public func tc_registerReusableCellClass<T: UICollectionViewCell>(_: T.Type) where T: Reusable {
         if let nib = T.nib {
-            registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
+            register(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
         } else {
-            registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+            register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
         }
     }
     
-    public func tc_dequeueReusableCellForIndexPath<T: UICollectionViewCell where T: Reusable>(indexPath: NSIndexPath) -> T {
-        return dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    public func tc_dequeueReusableCellForIndexPath<T: UICollectionViewCell>(_ indexPath: IndexPath) -> T where T: Reusable {
+        return dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
     
     public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: TCCollectionElementKind) {
         if let nib = T.nib {
-            registerNib(nib, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
+            register(nib, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
         } else {
-            registerClass(T.self, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
+            register(T.self, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
         }
     }
     
-    public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(elementKind: String, indexPath: NSIndexPath) -> T {
-        return dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as! T
+    public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView>(_ elementKind: String, indexPath: IndexPath) -> T where T: Reusable {
+        return dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
 }

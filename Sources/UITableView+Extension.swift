@@ -30,64 +30,64 @@ import UIKit
 
 public extension UITableView {
     public func tc_heightForReusableCellByIdentifier<T: UITableViewCell>(
-        identifier: String,
+        _ identifier: String,
         dataConfigurationHandler: (T) -> ()) -> CGFloat
     {
-        guard let reusableCell = dequeueReusableCellWithIdentifier(identifier) as? T else {
+        guard let reusableCell = dequeueReusableCell(withIdentifier: identifier) as? T else {
             fatalError("Cell must be registered to tableView for identifier: \(identifier)")
         }
         
         reusableCell.prepareForReuse()
         dataConfigurationHandler(reusableCell)
         
-        let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
-        return reusableCell.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.mainScreen().scale
+        let fittingSize = CGSize(width: bounds.width, height: UILayoutFittingExpandedSize.height)
+        return reusableCell.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.main.scale
     }
     
     public func tc_heightForReusableHeaderFooterViewByIdentifier<T: UITableViewHeaderFooterView>(
-        identifier: String,
+        _ identifier: String,
         dataConfigurationHandler: (T) -> ()) -> CGFloat
     {
-        guard let reusableHeaderFooterView = dequeueReusableHeaderFooterViewWithIdentifier(identifier) as? T else {
+        guard let reusableHeaderFooterView = dequeueReusableHeaderFooterView(withIdentifier: identifier) as? T else {
             fatalError("HeaderFooterView must be registered to tableView for identifier: \(identifier)")
         }
         
         reusableHeaderFooterView.prepareForReuse()
         dataConfigurationHandler(reusableHeaderFooterView)
 
-        let fittingSize = CGSizeMake(CGRectGetWidth(bounds), UILayoutFittingExpandedSize.height)
-        return reusableHeaderFooterView.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.mainScreen().scale
+        let fittingSize = CGSize(width: bounds.width, height: UILayoutFittingExpandedSize.height)
+        return reusableHeaderFooterView.preferredLayoutSizeFittingSize(fittingSize).height + 1.0 / UIScreen.main.scale
     }
 }
 
 // MARK: - Reusable
 
 public extension UITableView {
-    public func tc_registerReusableCellClass<T: UITableViewCell where T: Reusable>(type: T.Type) {
+    public func tc_registerReusableCellClass<T: UITableViewCell>(_ type: T.Type) where T: Reusable {
         if let nib = T.nib {
-            registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
+            register(nib, forCellReuseIdentifier: T.reuseIdentifier)
         } else {
-            registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+            register(T.self, forCellReuseIdentifier: T.reuseIdentifier)
         }
     }
     
-    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
-        return dequeueReusableCellWithIdentifier(T.reuseIdentifier) as! T
+    public func tc_dequeueReusableCell<T: UITableViewCell>() -> T where T: Reusable {
+        return dequeueReusableCell(withIdentifier: T.reuseIdentifier) as! T
     }
     
-    public func tc_dequeueReusableCell<T: UITableViewCell where T: Reusable>(indexPath indexPath: NSIndexPath) -> T {
-        return dequeueReusableCellWithIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as! T
+    public func tc_dequeueReusableCell<T: UITableViewCell>(indexPath: IndexPath) -> T where T: Reusable {
+        return dequeueReusableCell(withIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
     
-    public func tc_registerReusableHeaderFooterViewClass<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+    public func tc_registerReusableHeaderFooterViewClass<T: UITableViewHeaderFooterView>(_: T.Type) where T: Reusable {
         if let nib = T.nib {
-            registerNib(nib, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+            register(nib, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
         } else {
-            registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+            register(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
         }
     }
         
-    public func tc_dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView where T: Reusable>() -> T? {
-        return dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as! T?
+    public func tc_dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T? where T: Reusable {
+        return dequeueReusableHeaderFooterView(withIdentifier: T.reuseIdentifier) as! T?
     }
 }

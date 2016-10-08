@@ -25,20 +25,40 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
-    public let tableView: UITableView!
-    public let collectionView: UICollectionView!
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+
+open class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
+    open let tableView: UITableView!
+    open let collectionView: UICollectionView!
     internal var scrollingToTop = false
     internal var targetRect: CGRect?
     
 #if DEBUG
     deinit {
-        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
+        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
 #endif
     
-    private override init() {
+    fileprivate override init() {
         fatalError("Use init(tableView:) or init(collectionView:) indtead.")
     }
     
@@ -54,7 +74,7 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
         super.init()
     }
     
-    public var dataSource: TCDataSource  {
+    open var dataSource: TCDataSource  {
         if let tableView = tableView {
             return tableView.dataSource as! TCDataSource
         }
@@ -62,45 +82,45 @@ public class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate
         return collectionView.dataSource as! TCDataSource
     }
     
-    public var globalDataMetric: TCGlobalDataMetric {
+    open var globalDataMetric: TCGlobalDataMetric {
         get { return dataSource.globalDataMetric }
         set { dataSource.globalDataMetric = newValue }
     }
 }
 
 public extension TCDelegate {
-    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         targetRect = nil
         loadImagesForVisibleElements()
     }
     
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        targetRect = CGRectMake(targetContentOffset.memory.x, targetContentOffset.memory.y, CGRectGetWidth(scrollView.frame), CGRectGetHeight(scrollView.frame))
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        targetRect = CGRect(x: targetContentOffset.pointee.x, y: targetContentOffset.pointee.y, width: scrollView.frame.width, height: scrollView.frame.height)
     }
     
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         targetRect = nil
         loadImagesForVisibleElements()
     }
     
-    public func scrollViewShouldScrollToTop(scrollView: UIScrollView) -> Bool {
+    public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         scrollingToTop = true
         return true
     }
     
-    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         scrollingToTop = false
         loadContent()
     }
     
-    public func scrollViewDidScrollToTop(scrollView: UIScrollView) {
+    public func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         scrollingToTop = false
         loadContent()
     }
 }
 
 private extension TCDelegate {
-    private func loadContent() {
+    func loadContent() {
         if scrollingToTop {
             return
         }
@@ -112,30 +132,30 @@ private extension TCDelegate {
         }
     }
     
-    private func loadContentForTableView() {
+    func loadContentForTableView() {
         if tableView.indexPathsForVisibleRows?.count <= 0 {
             return
         }
         tableView.reloadData()
     }
     
-    private func loadConentForCollectionView() {
-        if collectionView.indexPathsForVisibleItems().count <= 0 {
+    func loadConentForCollectionView() {
+        if collectionView.indexPathsForVisibleItems.count <= 0 {
             return
         }
         collectionView.reloadData()
     }
     
-    private func loadImagesForVisibleElements() {
+    func loadImagesForVisibleElements() {
         guard let _dataSource = dataSource as? TCImageLazyLoadable else { return }
-        guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems() else { return }
+        guard let visibleIndexPaths = nil != tableView ? tableView.indexPathsForVisibleRows : collectionView.indexPathsForVisibleItems else { return }
         
         for indexPath in visibleIndexPaths {
             var cell: TCCellType!
             if nil != tableView {
-                cell = tableView.cellForRowAtIndexPath(indexPath)
+                cell = tableView.cellForRow(at: indexPath)
             } else {
-                cell = collectionView.cellForItemAtIndexPath(indexPath)
+                cell = collectionView.cellForItem(at: indexPath)
             }
             if nil != cell, let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
                 _dataSource.lazyLoadImagesData(data, forReusableCell: cell)

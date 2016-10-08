@@ -13,8 +13,8 @@ import SnapKit
 class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
     let descLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.blackColor()
-        label.lineBreakMode = .ByCharWrapping
+        label.textColor = UIColor.black
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -29,11 +29,11 @@ class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
         setup()
     }
     
-    private func setup() {
-        contentView.backgroundColor = UIColor.greenColor()
+    fileprivate func setup() {
+        contentView.backgroundColor = UIColor.green
         
         contentView.addSubview(descLabel)
-        descLabel.snp_makeConstraints { (make) -> Void in
+        descLabel.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(8, 8, 8, 8))
         }
     }
@@ -46,6 +46,8 @@ class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        descLabel.preferredMaxLayoutWidth = CGRectGetWidth(descLabel.bounds)
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+        descLabel.preferredMaxLayoutWidth = descLabel.bounds.width
     }
 }

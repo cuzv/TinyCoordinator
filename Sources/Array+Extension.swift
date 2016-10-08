@@ -29,7 +29,7 @@ import UIKit
 // MARK: - Array
 
 internal extension Array {
-    internal mutating func moveElementAtIndex(sourceIndex: Int, toIndex destinationIndex: Int) {
+    internal mutating func moveElementAtIndex(_ sourceIndex: Int, toIndex destinationIndex: Int) {
         if count <= sourceIndex || count <= destinationIndex  {
             fatalError("Index beyond boundary.")
         }
@@ -37,10 +37,10 @@ internal extension Array {
             return
         }
         
-        insert(removeAtIndex(sourceIndex), atIndex: destinationIndex)
+        insert(remove(at: sourceIndex), at: destinationIndex)
     }
     
-    internal mutating func exchangeElementAtIndex(sourceIndex: Int, withElementAtIndex destinationIndex: Int) {
+    internal mutating func exchangeElementAtIndex(_ sourceIndex: Int, withElementAtIndex destinationIndex: Int) {
         if count <= sourceIndex || count <= destinationIndex  {
             fatalError("Index beyond boundary.")
         }
@@ -54,33 +54,33 @@ internal extension Array {
         let secondaryItemData = self[destinationIndex]
         let secondaryRange = Range(destinationIndex ..< destinationIndex + 1)
         
-        replaceRange(firstRange, with: [secondaryItemData])
-        replaceRange(secondaryRange, with: [firstItemData])
+        replaceSubrange(firstRange, with: [secondaryItemData])
+        replaceSubrange(secondaryRange, with: [firstItemData])
     }
     
-    internal mutating func replaceElementAtIndex(index: Int, withElement element: Element) {
+    internal mutating func replaceElementAtIndex(_ index: Int, withElement element: Element) {
         if count <= index {
             fatalError("Index beyond boundary.")
         }
         let range = Range(index ..< index + 1)
-        replaceRange(range, with: [element])
+        replaceSubrange(range, with: [element])
     }
     
-    internal mutating func replaceElementsRange(range: Range<Int>, withElements elements: [Element]) {
-        if count <= range.startIndex {
+    internal mutating func replaceElementsRange(_ range: Range<Int>, withElements elements: [Element]) {
+        if count <= range.lowerBound {
             fatalError("Range beyond boundary.")
         }
-        if count <= range.endIndex {
+        if count <= range.upperBound {
             fatalError("Range beyond boundary.")
         }
-        replaceRange(range, with: elements)
+        replaceSubrange(range, with: elements)
     }
     
-    internal mutating func replaceLast(element: Element) {
+    internal mutating func replaceLast(_ element: Element) {
         replaceElementAtIndex(count-1, withElement: element)
     }
     
-    internal mutating func replaceFirst(element: Element) {
+    internal mutating func replaceFirst(_ element: Element) {
         replaceElementAtIndex(0, withElement: element)
     }
     
@@ -91,6 +91,6 @@ internal extension Array {
             output.append("\(index): \(item)")
             index += 1
         }
-        return output.joinWithSeparator("\n")
+        return output.joined(separator: "\n")
     }
 }

@@ -17,11 +17,11 @@ extension TableViewDataSource: TCDataSourceable {
         tableView.tc_registerReusableCellClass(TableViewCell.self)
     }
     
-    func reusableCellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func reusableCellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return TableViewCell.reuseIdentifier
     }
     
-    func loadData(data: TCDataType, forReusableCell cell: TCCellType) {
+    func loadData(_ data: TCDataType, forReusableCell cell: TCCellType) {
         if let cell = cell as? TableViewCell {
             if let data = data as? CellDataItem {
                 cell.setupData(data.name)
@@ -34,22 +34,22 @@ extension TableViewDataSource: TCDataSourceable {
 }
 
 extension TableViewDataSource: TCTableViewEditable {
-    func canEditElementAtIndexPath(indexPath: NSIndexPath) -> Bool {
+    func canEditElementAtIndexPath(_ indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func commitEditingStyle(style: UITableViewCellEditingStyle, forData data: TCDataType) {
+    func commitEditingStyle(_ style: UITableViewCellEditingStyle, forData data: TCDataType) {
         debugPrint(globalDataMetric)
     }
 
 }
 
 extension TableViewDataSource: TCTableViewCollectionViewMovable {
-    func canMoveElementAtIndexPath(indexPath: NSIndexPath) -> Bool {
+    func canMoveElementAtIndexPath(_ indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func moveElementAtIndexPath(sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    func moveElementAtIndexPath(_ sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath) {
         debugPrint(globalDataMetric)
     }
 }
@@ -60,21 +60,21 @@ extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
         tableView.tc_registerReusableHeaderFooterViewClass(TableViewFooterView.self)
     }
     
-    func reusableHeaderViewIdentifierInSection(section: Int) -> String? {
+    func reusableHeaderViewIdentifierInSection(_ section: Int) -> String? {
         return TableViewHeaderView.reuseIdentifier
     }
     
-    func loadData(data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
+    func loadData(_ data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
         if let headerView = headerView as? TableViewHeaderView {
             headerView.text = data as! String
         }
     }
     
-    func reusableFooterViewIdentifierInSection(section: Int) -> String? {
+    func reusableFooterViewIdentifierInSection(_ section: Int) -> String? {
         return TableViewFooterView.reuseIdentifier
     }
     
-    func loadData(data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView) {
+    func loadData(_ data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView) {
         if let footerView = footerView as? TableViewFooterView {
             footerView.text = data as! String
         }
@@ -82,7 +82,7 @@ extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
 }
 
 extension TableViewDataSource: TCImageLazyLoadable {
-    func lazyLoadImagesData(data: TCDataType, forReusableCell cell: TCCellType) {
-        debugPrint("\(#file):\(#line):\(self.dynamicType):\(#function)")
+    func lazyLoadImagesData(_ data: TCDataType, forReusableCell cell: TCCellType) {
+        debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
 }

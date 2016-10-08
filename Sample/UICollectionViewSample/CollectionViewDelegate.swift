@@ -14,8 +14,8 @@ class CollectionViewDelegate: TCDelegate {
 }
 
 extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let fittingSize = CGSizeMake(CGFloat(ceil(CGRectGetWidth(collectionView.bounds) - 20)), UILayoutFittingExpandedSize.height)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let fittingSize = CGSize(width: CGFloat(ceil(collectionView.bounds.width - 20)), height: UILayoutFittingExpandedSize.height)
         let size = sizeForItemAtIndexPath(
             indexPath,
             preferredLayoutSizeFittingSize: fittingSize,
@@ -26,29 +26,29 @@ extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
         return size
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(8, 0, 8, 0)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let fittingSize = CGSizeMake(CGRectGetWidth(collectionView.bounds), UILayoutFittingExpandedSize.height)
-        let indexPath = NSIndexPath(forItem: 0, inSection: section)
-        let size = sizeForSupplementaryElementOfKind(.SectionHeader, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let fittingSize = CGSize(width: collectionView.bounds.width, height: UILayoutFittingExpandedSize.height)
+        let indexPath = IndexPath(item: 0, section: section)
+        let size = sizeForSupplementaryElementOfKind(.sectionHeader, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
         return size
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        let fittingSize = CGSizeMake(CGRectGetWidth(collectionView.bounds), UILayoutFittingExpandedSize.height)
-        let indexPath = NSIndexPath(forItem: 0, inSection: section)
-        let size = sizeForSupplementaryElementOfKind(.SectionFooter, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        let fittingSize = CGSize(width: collectionView.bounds.width, height: UILayoutFittingExpandedSize.height)
+        let indexPath = IndexPath(item: 0, section: section)
+        let size = sizeForSupplementaryElementOfKind(.sectionFooter, atIndexPath: indexPath, preferredLayoutSizeFittingSize: fittingSize, cellType: CollectionViewHeaderFooterView.self)
         return size
     }
 }

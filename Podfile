@@ -4,7 +4,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Sample' do
-    pod 'SnapKit', '~> 0.18'
+    pod 'SnapKit', '~> 3.0'
     pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 end
 

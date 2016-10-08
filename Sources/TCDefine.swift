@@ -27,16 +27,16 @@
 import UIKit
 
 public enum TCCollectionElementKind {
-    case SectionHeader
-    case SectionFooter
+    case sectionHeader
+    case sectionFooter
 }
 
 internal extension TCCollectionElementKind {
     internal var value: String {
         switch self {
-        case .SectionHeader:
+        case .sectionHeader:
             return UICollectionElementKindSectionHeader
-        case .SectionFooter:
+        case .sectionFooter:
             return UICollectionElementKindSectionFooter
         }
     }
@@ -45,10 +45,10 @@ internal extension TCCollectionElementKind {
 internal extension String {
     internal var value: TCCollectionElementKind {
         if self == UICollectionElementKindSectionHeader {
-            return .SectionHeader
+            return .sectionHeader
         }
         else if self == UICollectionElementKindSectionFooter {
-            return .SectionFooter
+            return .sectionFooter
         }
         else {
             fatalError("None value.")
@@ -56,11 +56,11 @@ internal extension String {
     }
 }
 
-@noreturn internal func TCUnimplemented(fn: String = #function, file: StaticString = #file, line: UInt = #line) {
+internal func TCUnimplemented(_ fn: String = #function, file: StaticString = #file, line: UInt = #line) -> Never  {
     fatalError("\(fn) is not yet implemented", file: file, line: line)
 }
 
-@noreturn internal func TCInvalidArgument(message: String, method: String = #function, file: StaticString = #file, line: UInt = #line) {
+internal func TCInvalidArgument(_ message: String, method: String = #function, file: StaticString = #file, line: UInt = #line) -> Never  {
     fatalError("\(method): \(message)", file: file, line: line)
 }
 
@@ -80,7 +80,7 @@ public protocol Reusable: class {
 }
 
 public extension Reusable where Self: TCReusableViewType {
-    public static var reuseIdentifier: String { return String(Self) }
+    public static var reuseIdentifier: String { return String(describing: self) }
     public static var nib: UINib? { return nil }
 }
 

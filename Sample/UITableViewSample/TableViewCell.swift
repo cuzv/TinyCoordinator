@@ -15,7 +15,7 @@ class TableViewCell: UITableViewCell, Reusable {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.lineBreakMode = .ByCharWrapping
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -33,17 +33,17 @@ class TableViewCell: UITableViewCell, Reusable {
 }
 
 extension TableViewCell {
-    private func setupUserInterface() {
-        separatorInset = UIEdgeInsetsZero
-        layoutMargins = UIEdgeInsetsZero
+    fileprivate func setupUserInterface() {
+        separatorInset = UIEdgeInsets.zero
+        layoutMargins = UIEdgeInsets.zero
         
         contentView.addSubview(nameLabel)
-        nameLabel.snp_makeConstraints { (make) -> Void in
+        nameLabel.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(8, 8, 8, 8))
         }
     }
     
-    private func setupReactiveCocoa() {
+    fileprivate func setupReactiveCocoa() {
         
     }
     
@@ -51,12 +51,12 @@ extension TableViewCell {
         super.layoutSubviews()
         contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
-        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
+        nameLabel.preferredMaxLayoutWidth = nameLabel.bounds.width
     }
 }
 
 extension TableViewCell {
-    func setupData(data: String) {
+    func setupData(_ data: String) {
         nameLabel.text = data
     }
 }

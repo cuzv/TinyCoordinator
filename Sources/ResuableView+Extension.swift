@@ -28,18 +28,10 @@ import UIKit
 // MARK: - ResuableView
 
 internal func isSupportedConstraintsProperty() -> Bool {
-    struct Static {
-        static var token: dispatch_once_t = 0
-        static var isSupported: Bool = false
+    if let version = UIDevice.current.systemVersion.components(separatedBy: ".").first, let systemVersion = Int(version) {
+        return systemVersion > 7
     }
-    
-    dispatch_once(&Static.token) { () -> Void in
-        if let version = UIDevice.currentDevice().systemVersion.componentsSeparatedByString(".").first, systemVersion = Int(version) {
-            Static.isSupported = systemVersion > 7
-        }
-    }
-    
-    return Static.isSupported
+    return false
 }
 
 /// Stolen from Apple's Demo `AdvancedCollectionView`
@@ -47,7 +39,7 @@ internal extension UICollectionReusableView {
     /// This is kind of a hack because cells don't have an intrinsic content size or any other way to constrain them to a size. As a result,
     /// labels that _should_ wrap at the bounds of a cell, don't.
     /// So by adding width and height constraints to the cell temporarily, we can make the labels wrap and the layout compute correctly.
-    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize, takeFittingWidth: Bool = true) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize, takeFittingWidth: Bool = true) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -55,15 +47,15 @@ internal extension UICollectionReusableView {
         var size: CGSize!
         if isSupportedConstraintsProperty() {
             layoutSubviews()
-             size = systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+             size = systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
-                NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
-                NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
+                NSLayoutConstraint(item: self, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: fittingSize.width),
+                NSLayoutConstraint(item: self, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
             addConstraints(constraints)
             updateConstraints()
-            size = systemLayoutSizeFittingSize(fittingSize)
+            size = systemLayoutSizeFitting(fittingSize)
             removeConstraints(constraints)
         }
     
@@ -88,7 +80,7 @@ internal extension UITableViewCell {
     ///    nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
     /// }
     /// ```
-    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -96,15 +88,15 @@ internal extension UITableViewCell {
         var size: CGSize!
         if isSupportedConstraintsProperty() {
             layoutSubviews()
-            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            size = contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
-                NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
-                NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
+                NSLayoutConstraint(item: self, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: fittingSize.width),
+                NSLayoutConstraint(item: self, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
             addConstraints(constraints)
             updateConstraints()
-            size = systemLayoutSizeFittingSize(fittingSize)
+            size = systemLayoutSizeFitting(fittingSize)
             removeConstraints(constraints)
         }
         
@@ -118,7 +110,7 @@ internal extension UITableViewCell {
 }
 
 internal extension UITableViewHeaderFooterView {
-    internal func preferredLayoutSizeFittingSize(fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -126,15 +118,15 @@ internal extension UITableViewHeaderFooterView {
         var size: CGSize!
         if isSupportedConstraintsProperty() {
             layoutSubviews()
-            size = contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+            size = contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         } else {
             let constraints = [
-                NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: fittingSize.width),
-                NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
+                NSLayoutConstraint(item: self, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: fittingSize.width),
+                NSLayoutConstraint(item: self, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: UILayoutFittingExpandedSize.height),
             ]
             addConstraints(constraints)
             updateConstraints()
-            size = systemLayoutSizeFittingSize(fittingSize)
+            size = systemLayoutSizeFitting(fittingSize)
             removeConstraints(constraints)
         }
         

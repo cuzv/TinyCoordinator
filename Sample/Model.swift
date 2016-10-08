@@ -28,7 +28,7 @@ class CellDataItem: NSObject {
         output.append("-------------------------------------------------")
         output.append("name: \(name)")
         output.append("-------------------------------------------------")
-        return output.joinWithSeparator("\n")
+        return output.joined(separator: "\n")
     }
 }
 
@@ -56,7 +56,7 @@ class CellDataItem2: NSObject {
         output.append("-------------------------------------------------")
         output.append("name: \(name)")
         output.append("-------------------------------------------------")
-        return output.joinWithSeparator("\n")
+        return output.joined(separator: "\n")
     }
 }
 

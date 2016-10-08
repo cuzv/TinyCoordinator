@@ -13,9 +13,9 @@ import SnapKit
 class CollectionViewCell: UICollectionViewCell, Reusable {
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.brownColor()
-        label.font = UIFont.systemFontOfSize(17)
-        label.lineBreakMode = .ByCharWrapping
+        label.textColor = UIColor.brown
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -23,12 +23,12 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.backgroundColor = UIColor.lightGrayColor()
-        nameLabel.layer.borderColor = UIColor.redColor().CGColor
+        contentView.backgroundColor = UIColor.lightGray
+        nameLabel.layer.borderColor = UIColor.red.cgColor
         nameLabel.layer.borderWidth = 1
         
         contentView.addSubview(nameLabel)
-        nameLabel.snp_makeConstraints { (make) -> Void in
+        nameLabel.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(8, 8, 8, 8))
         }
     }
@@ -42,7 +42,7 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     override func layoutSubviews() {
-        nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(bounds) - 16
+        nameLabel.preferredMaxLayoutWidth = bounds.width - 16
         super.layoutSubviews()
     }
 }
