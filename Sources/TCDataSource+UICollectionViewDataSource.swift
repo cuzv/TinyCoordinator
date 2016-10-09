@@ -35,7 +35,7 @@ public extension TCDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return globalDataMetric.numberOfItemsInSection(section)
+        return globalDataMetric.numberOfItems(in: section)
     }
     
     @objc(collectionView:cellForItemAtIndexPath:)
@@ -44,17 +44,17 @@ public extension TCDataSource {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
-        let reusableIdentifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
+        let reusableIdentifier = subclass.reusableCellIdentifier(for: indexPath)
         let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: reusableIdentifier, for: indexPath)
         reusableCell.prepareForReuse()
         
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+        if let data = globalDataMetric.dataForItem(at: indexPath) {
             var shouldLoadData = true
             if let scrollingToTop = scrollingToTop , scrollingToTop {
                 shouldLoadData = false
             }
             if shouldLoadData {
-                subclass.loadData(data, forReusableCell: reusableCell)
+                subclass.populateData(with: data, forReusableCell: reusableCell)
                 
                 if let subclass = self as? TCImageLazyLoadable {
                     // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
@@ -63,7 +63,7 @@ public extension TCDataSource {
                         shouldLoadImages = false
                     }
                     if shouldLoadImages {
-                        subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+                        subclass.lazyPopulateData(with: data, forReusableCell: reusableCell)
                     }
                 }
             }
@@ -80,7 +80,7 @@ public extension TCDataSource {
     @objc(collectionView:canMoveItemAtIndexPath:)
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         if let subclass = self as? TCTableViewCollectionViewMovable {
-            return subclass.canMoveElementAtIndexPath(indexPath)
+            return subclass.canMove(at: indexPath)
         } else {
             return false
         }
@@ -90,8 +90,8 @@ public extension TCDataSource {
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
-        globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
-        subclass.moveElementAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+        globalDataMetric.move(from: sourceIndexPath, to: destinationIndexPath)
+        subclass.move(from: sourceIndexPath, to: destinationIndexPath)
     }
 }
 
@@ -100,58 +100,59 @@ public extension TCDataSource {
 public extension TCDataSource {
     // MARK: - TCDelegate subclass cell size helper func
     
-    internal func sizeForItemAtIndexPath<T: UICollectionViewCell>(_ indexPath: IndexPath, preferredLayoutSizeFittingSize fittingSize: CGSize, takeFittingWidth: Bool = true, cellType: T.Type) -> CGSize {
+    internal func sizeForItem<T: UICollectionViewCell>(type: T.Type, at indexPath: IndexPath, fitting size: CGSize, takeFittingWidth flag: Bool = true) -> CGSize {
         guard let subclass = self as? TCDataSourceable else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
-        if let cachedSize = globalDataMetric.cachedSizeForIndexPath(indexPath) {
+        if let cachedSize = globalDataMetric.cachedItemSize(at: indexPath) {
             return cachedSize
         }
         
-        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return CGSize.zero }
-        let size = collectionView.tc_sizeForReusableViewByClass(
-            cellType,
-            preferredLayoutSizeFittingSize: fittingSize,
-            takeFittingWidth: takeFittingWidth) { (cell: T) in
-                subclass.loadData(data, forReusableCell: cell)
+        guard let data = globalDataMetric.dataForItem(at: indexPath) else { return CGSize.zero }
+        let size = collectionView.tc_sizeForReusableView(
+            class: type,
+            fitting: size,
+            takeFittingWidth: flag) { (reusableCell: T) in
+                subclass.populateData(with: data, forReusableCell: reusableCell)
             }
-        globalDataMetric.cacheSzie(size, forIndexPath: indexPath)
+        globalDataMetric.cacheItemSzie(size, forIndexPath: indexPath)
         
         return size
     }
     
-    internal func sizeForSupplementaryElementOfKind<T: UICollectionReusableView>(_ kind: TCCollectionElementKind, atIndexPath indexPath: IndexPath,  preferredLayoutSizeFittingSize fittingSize: CGSize, cellType: T.Type) -> CGSize {
+    internal func sizeForSupplementaryView<T: UICollectionReusableView>(of kind: TCCollectionElementKind, type: T.Type, at indexPath: IndexPath,  fitting fittingSize: CGSize) -> CGSize {
         guard let subclass = self as? TCCollectionSupplementaryViewibility else {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
         var cachedSize: CGSize!
         if kind == .sectionHeader {
-            cachedSize = globalDataMetric.cachedSzieForHeaderInSection(indexPath.section)
+            cachedSize = globalDataMetric.cachedHeaderSzie(in: indexPath.section)
         } else {
-            cachedSize = globalDataMetric.cachedSzieForFooterInSection(indexPath.section)
+            cachedSize = globalDataMetric.cachedFooterSzie(in: indexPath.section)
         }
         if let cachedSize = cachedSize {
             return cachedSize
         }
-        
-        let function: (_ indexPath: IndexPath) -> TCDataType? = kind == .sectionHeader ? globalDataMetric.dataForSupplementaryHeaderAtIndexPath : globalDataMetric.dataForSupplementaryFooterAtIndexPath
+
+        let function: (IndexPath) -> TCDataType? = kind == .sectionHeader ? globalDataMetric.dataForSupplementaryHeader(at:) : globalDataMetric.dataForSupplementaryFooter(at:)
         guard let data = function(indexPath) else {
             return CGSize.zero
         }
         
-        let size = collectionView.tc_sizeForReusableViewByClass(cellType, preferredLayoutSizeFittingSize: fittingSize) { (reusableView) -> () in
+        let size = collectionView.tc_sizeForReusableView(class: type, fitting: fittingSize) { (reusableView) -> () in
             if kind == .sectionHeader {
-                subclass.loadData(data, forReusableSupplementaryHeaderView: reusableView)
+                subclass.populateData(with: data, forReusableSupplementaryHeaderView: reusableView)
             } else {
-                subclass.loadData(data, forReusableSupplementaryFooterView: reusableView)
+                subclass.populateData(with: data, forReusableSupplementaryFooterView: reusableView)
             }
         }
         
         if kind == .sectionHeader {
-            globalDataMetric.cacheSize(size, forHeaderInSection: indexPath.section)
+            globalDataMetric.cacheHeaderSize(size, forSection: indexPath.section)
         } else {
-            globalDataMetric.cacheSize(size, forFooterInSection: indexPath.section)
+            globalDataMetric.cacheFooterSize(size, forSection: indexPath.section)
+
         }
         
         return size
@@ -161,15 +162,15 @@ public extension TCDataSource {
     
     /// TCDataSource Subclas UICollectionViewDataSource require supplementary view, simple return this method.
     /// **Note**: register first.
-    public func viewForSupplementaryElementOfKind(_ kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
+    open func viewForSupplementaryView(of kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let subclass = self as? TCCollectionSupplementaryViewibility else {
             fatalError("Must conforms protocol `TCCollectionSupplementaryViewibility`.")
         }
         if kind.value == .sectionHeader {
-            guard let identifier = subclass.reusableSupplementaryHeaderViewIdentifierForIndexPath(indexPath) else {
+            guard let identifier = subclass.reusableSupplementaryHeaderViewIdentifier(for: indexPath) else {
                 return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, for: indexPath)
             }
-            guard let data = globalDataMetric.dataForSupplementaryHeaderAtIndexPath(indexPath) else {
+            guard let data = globalDataMetric.dataForSupplementaryHeader(at: indexPath) else {
                return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, for: indexPath)
             }
             let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath)
@@ -178,16 +179,16 @@ public extension TCDataSource {
                 shouldLoadData = false
             }
             if shouldLoadData {
-                subclass.loadData(data, forReusableSupplementaryHeaderView: reusableView)
+                subclass.populateData(with: data, forReusableSupplementaryHeaderView: reusableView)
             }
             
             return reusableView
         }
         else {
-            guard let identifier = subclass.reusableSupplementaryFooterViewIdentifierForIndexPath(indexPath) else {
+            guard let identifier = subclass.reusableSupplementaryFooterViewIdentifier(for: indexPath) else {
                 return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, for: indexPath)
             }
-            guard let data = globalDataMetric.dataForSupplementaryFooterAtIndexPath(indexPath) else {
+            guard let data = globalDataMetric.dataForSupplementaryFooter(at: indexPath) else {
                 return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TCDefaultSupplementaryView.reuseIdentifier, for: indexPath)
             }
             let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath)
@@ -197,7 +198,7 @@ public extension TCDataSource {
                 shouldLoadData = false
             }
             if shouldLoadData {
-                subclass.loadData(data, forReusableSupplementaryFooterView: reusableView)
+                subclass.populateData(with: data, forReusableSupplementaryFooterView: reusableView)
             }
             
             return reusableView        

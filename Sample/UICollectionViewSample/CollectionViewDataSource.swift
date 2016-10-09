@@ -15,14 +15,14 @@ class CollectionViewDataSource: TCDataSource {
 
 extension CollectionViewDataSource: TCDataSourceable {
     func registerReusableCell() {
-        collectionView.tc_registerReusableCellClass(CollectionViewCell.self)
+        collectionView.tc_registerReusableCell(class: CollectionViewCell.self)
     }
     
-    func reusableCellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
+    func reusableCellIdentifier(for indexPath: IndexPath) -> String {
         return CollectionViewCell.reuseIdentifier
     }
     
-    func loadData(_ data: TCDataType, forReusableCell cell: TCCellType) {
+    func populateData(with data: TCDataType, forReusableCell cell: TCCellType) {
         if let cell = cell as? CollectionViewCell {
             if let data = data as? CellDataItem {
                 cell.nameLabel.text = data.name
@@ -36,36 +36,37 @@ extension CollectionViewDataSource: TCDataSourceable {
 
 extension CollectionViewDataSource: TCCollectionSupplementaryViewibility {
     func registerReusableSupplementaryView() {
-        collectionView.tc_registerReusableSupplementaryViewClass(CollectionViewHeaderFooterView.self, ofKind: .sectionHeader)
-        collectionView.tc_registerReusableSupplementaryViewClass(CollectionViewHeaderFooterView.self, ofKind: .sectionFooter)        
+        collectionView.tc_registerReusableSupplementaryView(class: CollectionViewHeaderFooterView.self, kind: .sectionHeader)
+        collectionView.tc_registerReusableSupplementaryView(class: CollectionViewHeaderFooterView.self, kind: .sectionFooter)
     }
-    
-    func reusableSupplementaryFooterViewIdentifierForIndexPath(_ indexPath: IndexPath) -> String? {
-        return CollectionViewHeaderFooterView.reuseIdentifier
-    }
-    func loadData(_ data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView) {
+
+    func populateData(with data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView) {
         if let supplementaryView = supplementaryHeaderView as? CollectionViewHeaderFooterView {
             supplementaryView.nameLabel.text = data as? String
         }
     }
     
-    func reusableSupplementaryHeaderViewIdentifierForIndexPath(_ indexPath: IndexPath) -> String? {
+    func reusableSupplementaryHeaderViewIdentifier(for indexPath: IndexPath) -> String? {
         return CollectionViewHeaderFooterView.reuseIdentifier
     }
-        
-    func loadData(_ data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView) {
+    
+    func reusableSupplementaryFooterViewIdentifier(for indexPath: IndexPath) -> String? {
+        return CollectionViewHeaderFooterView.reuseIdentifier
+    }
+    
+    func populateData(with data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView) {
         if let supplementaryView = supplementaryFooterView as? CollectionViewHeaderFooterView {
             supplementaryView.nameLabel.text = data as? String
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
-        return viewForSupplementaryElementOfKind(kind, atIndexPath: indexPath)
+        return viewForSupplementaryView(of: kind, at: indexPath)
     }
 }
 
 extension CollectionViewDataSource: TCImageLazyLoadable {
-    func lazyLoadImagesData(_ data: TCDataType, forReusableCell cell: TCCellType) {
+    func lazyPopulateData(with data: TCDataType, forReusableCell cell: TCCellType) {
         debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
 }

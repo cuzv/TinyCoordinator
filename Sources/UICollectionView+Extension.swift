@@ -46,11 +46,11 @@ public extension UICollectionView {
         }
     }
     
-    public func tc_sizeForReusableViewByClass<T: UICollectionReusableView>(
-        _ viewClass: T.Type,
-        preferredLayoutSizeFittingSize fittingSize: CGSize,
+    public func tc_sizeForReusableView<T: UICollectionReusableView>(
+        `class` viewClass: T.Type,
+        fitting fittingSize: CGSize,
         takeFittingWidth: Bool = true,
-        dataConfigurationHandler: (T) -> ()) -> CGSize
+        populateData: (T) -> ()) -> CGSize
     {
         initializeReusableViewsIfNeeded()
         
@@ -64,16 +64,16 @@ public extension UICollectionView {
         }
         
         _reusableView.prepareForReuse()
-        dataConfigurationHandler(_reusableView)
+        populateData(_reusableView)
 
-        return _reusableView.preferredLayoutSizeFittingSize(fittingSize, takeFittingWidth: takeFittingWidth)
+        return _reusableView.preferredLayoutSize(fitting: fittingSize, takeFittingWidth: takeFittingWidth)
     }
 }
 
 // MARK: - Reusable
 
 public extension UICollectionView {
-    public func tc_registerReusableCellClass<T: UICollectionViewCell>(_: T.Type) where T: Reusable {
+    public func tc_registerReusableCell<T: UICollectionViewCell>(`class`: T.Type) where T: Reusable {
         if let nib = T.nib {
             register(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
         } else {
@@ -81,11 +81,11 @@ public extension UICollectionView {
         }
     }
     
-    public func tc_dequeueReusableCellForIndexPath<T: UICollectionViewCell>(_ indexPath: IndexPath) -> T where T: Reusable {
+    public func tc_dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T where T: Reusable {
         return dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
     
-    public func tc_registerReusableSupplementaryViewClass<T: Reusable>(_: T.Type, ofKind elementKind: TCCollectionElementKind) {
+    public func tc_registerReusableSupplementaryView<T: Reusable>(`class`: T.Type, kind elementKind: TCCollectionElementKind) {
         if let nib = T.nib {
             register(nib, forSupplementaryViewOfKind: elementKind.value, withReuseIdentifier: T.reuseIdentifier)
         } else {
@@ -93,7 +93,7 @@ public extension UICollectionView {
         }
     }
     
-    public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView>(_ elementKind: String, indexPath: IndexPath) -> T where T: Reusable {
+    public func tc_dequeueReusableSupplementaryView<T: UICollectionReusableView>(with elementKind: String, for indexPath: IndexPath) -> T where T: Reusable {
         return dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
 }

@@ -34,9 +34,9 @@ public protocol TCDataSourceable {
     /// Regiseter the cell class for reuse.
     func registerReusableCell()
     /// Return the cell reuse identifier for indexpath.
-    func reusableCellIdentifierForIndexPath(_ indexPath: IndexPath) -> String
+    func reusableCellIdentifier(for indexPath: IndexPath) -> String
     /// load data for specific cell.
-    func loadData(_ data: TCDataType, forReusableCell cell: TCCellType)
+    func populateData(with data: TCDataType, forReusableCell cell: TCCellType)
 }
 
 // MARK: - Optional
@@ -46,13 +46,13 @@ public protocol TCTableViewHeaderFooterViewibility {
     /// UITableView only, register the reuse header or footer view.
     func registerReusableHeaderFooterView()
     /// UITableView only, return the HeaderFooterView header reuse identifier for section.
-    func reusableHeaderViewIdentifierInSection(_ section: Int) -> String?
+    func reusableHeaderViewIdentifier(in section: Int) -> String?
     /// UITableView only, return the HeaderFooterView footer reuse identifier for section.
-    func reusableFooterViewIdentifierInSection(_ section: Int) -> String?
+    func reusableFooterViewIdentifier(in section: Int) -> String?
     /// UITableView only, load data for specific UITableViewHeaderFooterView header.
-    func loadData(_ data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView)
+    func populateData(with data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView)
     /// UITableView only, load data for specific UITableViewHeaderFooterView footer.
-    func loadData(_ data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView)
+    func populateData(with data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView)
 }
 
 // MARK: TCCollectionSupplementaryViewibility
@@ -60,39 +60,33 @@ public protocol TCCollectionSupplementaryViewibility {
     /// UICollectionView only, regiseter the supplementary class for reuse.
     func registerReusableSupplementaryView()
     /// UICollectionView only, return the supplementary header view reuse identifier for indexPath.
-    func reusableSupplementaryHeaderViewIdentifierForIndexPath(_ indexPath: IndexPath) -> String?
+    func reusableSupplementaryHeaderViewIdentifier(for indexPath: IndexPath) -> String?
     /// UICollectionView only, load data for flow layout specific supplementary header view.
-    func loadData(_ data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView)
+    func populateData(with data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView)
     /// UICollectionView only, return the supplementary footer view reuse identifier for indexPath.
-    func reusableSupplementaryFooterViewIdentifierForIndexPath(_ indexPath: IndexPath) -> String?
+    func reusableSupplementaryFooterViewIdentifier(for indexPath: IndexPath) -> String?
     /// UICollectionView only, load data for flow layout specific supplementary footer view.
-    func loadData(_ data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView)
+    func populateData(with data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView)
 }
 
 // MARK: TCTableViewEditable
 public protocol TCTableViewEditable {
     /// Can edit the specific item.
-    func canEditElementAtIndexPath(_ indexPath: IndexPath) -> Bool
+    func canEdit(at indexPath: IndexPath) -> Bool
     /// Commit editing data behavior.
-    func commitEditingStyle(_ style: UITableViewCellEditingStyle, forData data: TCDataType)
+    func commitEditing(for style: UITableViewCellEditingStyle, with data: TCDataType)
 }
 
 // MARK: TCTableViewCollectionViewMovable
 public protocol TCTableViewCollectionViewMovable {
     /// Can move the specific item.
-    func canMoveElementAtIndexPath(_ indexPath: IndexPath) -> Bool
+    func canMove(at indexPath: IndexPath) -> Bool
     /// Move data position.
-    func moveElementAtIndexPath(_ sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
+    func move(from source: IndexPath, to destination: IndexPath)
 }
-
-//// MARK: - TCTableViewIndexable
-//public protocol TCTableViewIndexable {
-//    /// Return the section index title.
-//    func indexTitleForSection(section: Int) -> String
-//}
 
 // MARK: - TCImageLazyLoadable
 public protocol TCImageLazyLoadable {
     /// Lazy load images.
-    func lazyLoadImagesData(_ data: TCDataType, forReusableCell cell: TCCellType)
+    func lazyPopulateData(with data: TCDataType, forReusableCell cell: TCCellType)
 }

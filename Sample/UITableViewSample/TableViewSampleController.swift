@@ -101,7 +101,7 @@ class TableViewSampleController: UIViewController {
     
     @IBAction func handleInsert(_ sender: UIBarButtonItem) {
         let item1 = CellDataItem2(name: "Inserted", pic: "nil")
-        dataSource.globalDataMetric.insert(item1, atIndexPath: IndexPath(item: 0, section: 0))
+        dataSource.globalDataMetric.insert(item1, at: IndexPath(item: 0, section: 0))
 //        dataSource.globalDataMetric.append(item1, inSection: 0)
         debugPrint(dataSource.globalDataMetric)
         tableView.reloadData()

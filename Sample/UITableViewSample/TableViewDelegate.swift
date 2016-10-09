@@ -11,22 +11,22 @@ import TinyCoordinator
 
 open class TableViewDelegate: TCDelegate {
     open func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {        
-        return heightForRowAtIndexPath(indexPath)
+        return heightForRow(at: indexPath)
     }
     
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return heightForHeaderInSection(section)
+        return heightForHeader(in: section)
     }
     
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return viewForHeaderInSection(section)
+        return viewForHeader(in: section)
     }
     
     open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return heightForFooterInSection(section)
+        return heightForFooter(in: section)
     }
     
     open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return viewForFooterInSection(section)
+        return viewForFooter(in: section)
     }
 }

@@ -41,31 +41,31 @@ public extension TCDelegate {
     /// }
     /// ```
     /// `estimatedRowHeight` will be invalid.
-    public func heightForRowAtIndexPath(_ indexPath: IndexPath) -> CGFloat {
-        return dataSource.heightForRowAtIndexPath(indexPath)
+    public func heightForRow(at indexPath: IndexPath) -> CGFloat {
+        return dataSource.heightForRow(at: indexPath)
     }
 
     /// The helper func for compute height for section header using auto layout, you may implement you self by compute using frames and struct.
     /// Genernal, you don't need this helper func, simply return UITableViewAutomaticDimension.
     /// **Note**: Do not set `estimatedSectionHeaderHeight` if you use this func for compute section header size.
-    public func heightForHeaderInSection(_ section: Int) -> CGFloat {
-        return dataSource.heightForHeaderInSection(section)
+    public func heightForHeader(`in` section: Int) -> CGFloat {
+        return dataSource.heightForHeader(in: section)
     }
     
     /// The helper func for get the resue section header view, in you subclass instance simply invoke this func.
-    public func viewForHeaderInSection(_ section: Int) -> UIView? {
-        return dataSource.viewForHeaderInSection(section)
+    public func viewForHeader(`in` section: Int) -> UIView? {
+        return dataSource.viewForHeader(in: section)
     }
 
     /// The helper func for compute height for section footer using auto layout, you may implement you self by compute using frames and struct.
     /// Genernal, you don't need this helper func, simply return UITableViewAutomaticDimension.
     /// **Note**: Do not set `estimatedSectionFooterHeight` if you use this func for compute section footer size.
-    public func heightForFooterInSection(_ section: Int) -> CGFloat {
-        return dataSource.heightForFooterInSection(section)
+    public func heightForFooter(`in` section: Int) -> CGFloat {
+        return dataSource.heightForFooter(in: section)
     }
 
     /// The helper func for get the resue section footer view, in you subclass instance simply invoke this func.
-    public func viewForFooterInSection(_ section: Int) -> UIView? {
-        return dataSource.viewForFooterInSection(section)
+    public func viewForFooter(`in` section: Int) -> UIView? {
+        return dataSource.viewForFooter(in: section)
     }
 }

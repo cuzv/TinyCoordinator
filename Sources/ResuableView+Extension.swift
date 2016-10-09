@@ -39,7 +39,7 @@ internal extension UICollectionReusableView {
     /// This is kind of a hack because cells don't have an intrinsic content size or any other way to constrain them to a size. As a result,
     /// labels that _should_ wrap at the bounds of a cell, don't.
     /// So by adding width and height constraints to the cell temporarily, we can make the labels wrap and the layout compute correctly.
-    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize, takeFittingWidth: Bool = true) -> CGSize {
+    internal func preferredLayoutSize(fitting fittingSize: CGSize, takeFittingWidth: Bool = true) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -80,7 +80,7 @@ internal extension UITableViewCell {
     ///    nameLabel.preferredMaxLayoutWidth = CGRectGetWidth(nameLabel.bounds)
     /// }
     /// ```
-    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSize(fitting fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame
@@ -110,7 +110,7 @@ internal extension UITableViewCell {
 }
 
 internal extension UITableViewHeaderFooterView {
-    internal func preferredLayoutSizeFittingSize(_ fittingSize: CGSize) -> CGSize {
+    internal func preferredLayoutSize(fitting fittingSize: CGSize) -> CGSize {
         var frame = self.frame
         frame.size = fittingSize
         self.frame = frame

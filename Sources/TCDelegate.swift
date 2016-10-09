@@ -25,26 +25,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
-}
-
 
 open class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
     open let tableView: UITableView!
@@ -133,7 +113,7 @@ private extension TCDelegate {
     }
     
     func loadContentForTableView() {
-        if tableView.indexPathsForVisibleRows?.count <= 0 {
+        if let rows = tableView.indexPathsForVisibleRows, rows.count <= 0 {
             return
         }
         tableView.reloadData()
@@ -157,8 +137,8 @@ private extension TCDelegate {
             } else {
                 cell = collectionView.cellForItem(at: indexPath)
             }
-            if nil != cell, let data = dataSource.globalDataMetric.dataForItemAtIndexPath(indexPath) {
-                _dataSource.lazyLoadImagesData(data, forReusableCell: cell)
+            if nil != cell, let data = dataSource.globalDataMetric.dataForItem(at: indexPath) {
+                _dataSource.lazyPopulateData(with: data, forReusableCell: cell)
             }
         }
     }

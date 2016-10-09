@@ -46,7 +46,7 @@ public extension TCDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return globalDataMetric.numberOfItemsInSection(section)
+        return globalDataMetric.numberOfItems(in: section)
     }
     
     @objc(tableView:cellForRowAtIndexPath:)
@@ -55,7 +55,7 @@ public extension TCDataSource {
             fatalError("Must conforms protocol `TCDataSourceable`.")
         }
         
-        let reusableIdentifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
+        let reusableIdentifier = subclass.reusableCellIdentifier(for: indexPath)
         guard let reusableCell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) else {
             fatalError("Dequeue reusable cell failed. Must register identifier `\(reusableIdentifier)` first.")
         }
@@ -63,13 +63,13 @@ public extension TCDataSource {
         reusableCell.prepareForReuse()
         
 
-        if let data = globalDataMetric.dataForItemAtIndexPath(indexPath) {
+        if let data = globalDataMetric.dataForItem(at: indexPath) {
             var shouldLoadData = true
             if let scrollingToTop = scrollingToTop , scrollingToTop {
                 shouldLoadData = false
             }
             if shouldLoadData {
-                subclass.loadData(data, forReusableCell: reusableCell)
+                subclass.populateData(with: data, forReusableCell: reusableCell)
                 
                 if let subclass = self as? TCImageLazyLoadable {
                     // See: http://tech.glowing.com/cn/practice-in-uiscrollview/
@@ -78,7 +78,7 @@ public extension TCDataSource {
                         shouldLoadImages = false
                     }
                     if shouldLoadImages {
-                        subclass.lazyLoadImagesData(data, forReusableCell: reusableCell)
+                        subclass.lazyPopulateData(with: data, forReusableCell: reusableCell)
                     }
                 }
             }
@@ -93,11 +93,11 @@ public extension TCDataSource {
     // MARK: - Section title
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return globalDataMetric.titleForHeaderInSection(section)
+        return globalDataMetric.titleForHeader(in: section)
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return globalDataMetric.titleForFooterInSection(section)
+        return globalDataMetric.titleForFooter(in: section)
     }
     
     // MARK: - Index
@@ -121,7 +121,7 @@ public extension TCDataSource {
     @objc(tableView:canEditRowAtIndexPath:)
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if let subclass = self as? TCTableViewEditable {
-            return subclass.canEditElementAtIndexPath(indexPath)
+            return subclass.canEdit(at: indexPath)
         } else {
             return false
         }
@@ -130,19 +130,19 @@ public extension TCDataSource {
     @objc(tableView:commitEditingStyle:forRowAtIndexPath:)
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard let subclass = self as? TCTableViewEditable else { return }
-        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return }
+        guard let data = globalDataMetric.dataForItem(at: indexPath) else { return }
         
         if .delete == editingStyle {
-            globalDataMetric.removeAtIndexPath(indexPath)
+            globalDataMetric.remove(at: indexPath)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         else if .insert == editingStyle {
             // Duplicate last content item, in case reload data error, should not use it.
             let newIndexPath = IndexPath(item: indexPath.item + 1, section: indexPath.section)
-            globalDataMetric.insert(data, atIndexPath: newIndexPath)
+            globalDataMetric.insert(data, at: newIndexPath)
             tableView.insertRows(at: [indexPath], with: .automatic)
         }
-        subclass.commitEditingStyle(editingStyle, forData: data)
+        subclass.commitEditing(for: editingStyle, with: data)
     }
     
     // MARK: - Move
@@ -150,7 +150,7 @@ public extension TCDataSource {
     @objc(tableView:canMoveRowAtIndexPath:)
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         if let subclass = self as? TCTableViewCollectionViewMovable {
-            return subclass.canMoveElementAtIndexPath(indexPath)
+            return subclass.canMove(at: indexPath)
         } else {
             return false
         }
@@ -160,58 +160,60 @@ public extension TCDataSource {
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         guard let subclass = self as? TCTableViewCollectionViewMovable else { return }
         
-        globalDataMetric.moveAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
-        subclass.moveElementAtIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+        globalDataMetric.move(from: sourceIndexPath, to: destinationIndexPath)
+        subclass.move(from: sourceIndexPath, to: destinationIndexPath)
     }
 }
 
 // MARK: - TCDelegate subclass helper
 
 public extension TCDataSource {
+    
     // MARK: - Cell height
     
-    internal func heightForRowAtIndexPath(_ indexPath: IndexPath) -> CGFloat {
+    internal func heightForRow(at indexPath: IndexPath) -> CGFloat {
         guard let subclass = self as? TCDataSourceable else { return UITableViewAutomaticDimension }
-        if let cachedHeight = globalDataMetric.cachedHeightForIndexPath(indexPath) {
+        
+        if let cachedHeight = globalDataMetric.cachedItemHeight(at: indexPath) {
             return cachedHeight
         }
         
-        guard let data = globalDataMetric.dataForItemAtIndexPath(indexPath) else { return UITableViewAutomaticDimension }
-        let identifier = subclass.reusableCellIdentifierForIndexPath(indexPath)
-        let height = tableView.tc_heightForReusableCellByIdentifier(identifier) { (cell) -> () in
-            subclass.loadData(data, forReusableCell: cell)
+        guard let data = globalDataMetric.dataForItem(at: indexPath) else { return UITableViewAutomaticDimension }
+        let identifier = subclass.reusableCellIdentifier(for: indexPath)
+        let height = tableView.tc_heightForReusableCell(byIdentifier: identifier) { (reusableCell) -> () in
+            subclass.populateData(with: data, forReusableCell: reusableCell)
         }
-        globalDataMetric.cacheHeight(height, forIndexPath: indexPath)
+        globalDataMetric.cacheItemHeight(height, forIndexPath: indexPath)
         
         return height
     }
     
     // MARK: - Header
 
-     internal func heightForHeaderInSection(_ section: Int) -> CGFloat {
+     internal func heightForHeader(`in` section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
-        if let cachedHeight = globalDataMetric.cachedHeightForHeaderInSection(section) {
+        if let cachedHeight = globalDataMetric.cachedHeaderHeight(In: section) {
             return cachedHeight
         }
         
-        guard let data = globalDataMetric.dataForHeaderInSection(section) else { return 10 }
-        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) , 0 != identifier.length else { return 10 }
+        guard let data = globalDataMetric.dataForHeader(in: section) else { return 10 }
+        guard let identifier = subclass.reusableHeaderViewIdentifier(in: section) , 0 != identifier.length else { return 10 }
 
-        let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
-            subclass.loadData(data, forReusableHeaderView: headerView)
+        let height = tableView.tc_heightForReusableHeaderFooterView(byIdentifier: identifier) { (headerView) -> () in
+            subclass.populateData(with: data, forReusableFooterView: headerView)
         }
-        globalDataMetric.cacheHeight(height, forHeaderInSection: section)
+        globalDataMetric.cacheHeaderHeight(height, forSection: section)
 
         return height
     }
     
-    internal func viewForHeaderInSection(_ section: Int) -> UIView? {
+    internal func viewForHeader(`in` section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
-        guard let identifier = subclass.reusableHeaderViewIdentifierInSection(section) , 0 != identifier.length else { return nil }
+        guard let identifier = subclass.reusableHeaderViewIdentifier(in: section) , 0 != identifier.length else { return nil }
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        guard let data = globalDataMetric.dataForHeaderInSection(section) else { return nil }
+        guard let data = globalDataMetric.dataForHeader(in: section) else { return nil }
         
         headerView.prepareForReuse()
 
@@ -220,7 +222,7 @@ public extension TCDataSource {
             shouldLoadData = false
         }
         if shouldLoadData {
-            subclass.loadData(data, forReusableHeaderView: headerView)
+            subclass.populateData(with: data, forReusableFooterView: headerView)
         }
         
         headerView.setNeedsUpdateConstraints()
@@ -231,30 +233,30 @@ public extension TCDataSource {
     
     // MARK: - Footer
     
-    internal func heightForFooterInSection(_ section: Int) -> CGFloat {
+    internal func heightForFooter(`in` section: Int) -> CGFloat {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return 10 }
-        if let cachedHeight = globalDataMetric.cachedHeightForFooterInSection(section) {
+        if let cachedHeight = globalDataMetric.cachedFooterHeight(in: (section)) {
             return cachedHeight
         }
 
-        guard let data = globalDataMetric.dataForFooterInSection(section) else { return 10 }
-        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) , 0 != identifier.length else { return 10 }
+        guard let data = globalDataMetric.dataForFooter(in: section) else { return 10 }
+        guard let identifier = subclass.reusableFooterViewIdentifier(in: section) , 0 != identifier.length else { return 10 }
         
-        let height = tableView.tc_heightForReusableHeaderFooterViewByIdentifier(identifier) { (headerView) -> () in
-            subclass.loadData(data, forReusableFooterView: headerView)
+        let height = tableView.tc_heightForReusableHeaderFooterView(byIdentifier: identifier) { (headerView) -> () in
+            subclass.populateData(with: data, forReusableFooterView: headerView)
         }
-        globalDataMetric.cacheHeight(height, forFooterInSection: section)
+        globalDataMetric.cacheFooterHeight(height, forSection: section)
 
         return height
     }
     
-    internal func viewForFooterInSection(_ section: Int) -> UIView? {
+    internal func viewForFooter(`in` section: Int) -> UIView? {
         guard let subclass = self as? TCTableViewHeaderFooterViewibility else { return nil }
-        guard let identifier = subclass.reusableFooterViewIdentifierInSection(section) , 0 != identifier.length else { return nil }
+        guard let identifier = subclass.reusableFooterViewIdentifier(in: section) , 0 != identifier.length else { return nil }
         guard let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else {
             fatalError("Must register reuse identifier `\(identifier)`.")
         }
-        guard let data = globalDataMetric.dataForFooterInSection(section) else { return nil }
+        guard let data = globalDataMetric.dataForFooter(in: section) else { return nil }
         
         footerView.prepareForReuse()
         
@@ -263,7 +265,7 @@ public extension TCDataSource {
             shouldLoadData = false
         }
         if shouldLoadData {
-            subclass.loadData(data, forReusableFooterView: footerView)
+            subclass.populateData(with: data, forReusableFooterView: footerView)
         }
         
         footerView.setNeedsUpdateConstraints()
