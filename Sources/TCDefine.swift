@@ -86,12 +86,11 @@ public extension Reusable where Self: TCReusableViewType {
 
 // MARK: -
 
+public typealias TCDataType = AnyHashable
 
-public typealias TCDataType = AnyObject
-
-internal final class TCPlaceholder: TCDataType {
-    init() {} 
+internal final class TCPlaceholder: NSObject {
 }
+
 
 // MARK: - Helper
 

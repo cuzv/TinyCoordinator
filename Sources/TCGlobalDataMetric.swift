@@ -102,12 +102,12 @@ public extension TCGlobalDataMetric {
     
     /// The data which should configure for the indexPath.
     public func dataForItemAtIndexPath(_ indexPath: IndexPath) -> TCDataType? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         if sectionDataMetrics.count <= section {
             return nil
         }
         
-        return sectionDataMetrics[section].dataAtIndex((indexPath as IndexPath).item)
+        return sectionDataMetrics[section].dataAtIndex(indexPath.item)
     }
     
     /// Return the data indexPath in UITableview/UICollection.
@@ -163,27 +163,13 @@ public extension TCGlobalDataMetric {
     
     /// UITableView only, return the specific header index.
     public func indexOfHeaderData(_ data: TCDataType) -> Int? {
-        var index = 0
-        for dataForHeader in headerDataForSections {
-            if dataForHeader.isEqual(data) {
-                return index
-            }
-            index += 1
-        }
-        return nil
+        return headerDataForSections.index(of: data)
     }
     
     
     /// UITableView only, return the specific footer index.
     public func indexOfFooterData(_ data: TCDataType) -> Int? {
-        var index = 0
-        for dataForFooter in footerDataForSections {
-            if dataForFooter.isEqual(data) {
-                return index
-            }
-            index += 1
-        }
-        return nil
+        return footerDataForSections.index(of: data)
     }
     
     internal var sectionIndexTitles: [String]? {
@@ -198,21 +184,21 @@ public extension TCGlobalDataMetric {
     
     /// UICollectionView only, the data for header at indexPath.
     public func dataForSupplementaryHeaderAtIndexPath(_ indexPath: IndexPath) -> TCDataType? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         if numberOfSections <= section {
             return nil
         }
-        return sectionDataMetrics[section].dataForSupplementaryHeaderAtIndex((indexPath as IndexPath).item)
+        return sectionDataMetrics[section].dataForSupplementaryHeaderAtIndex(indexPath.item)
     }
     
     
     /// UICollectionView only, the data for footer at indexPath.
     public func dataForSupplementaryFooterAtIndexPath(_ indexPath: IndexPath) -> TCDataType? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         if numberOfSections <= section {
             return nil
         }
-        return sectionDataMetrics[section].dataForSupplementaryFooterAtIndex((indexPath as IndexPath).item)
+        return sectionDataMetrics[section].dataForSupplementaryFooterAtIndex(indexPath.item)
     }
     
     public func indexPathOfSupplementaryHeaderData(_ data: TCDataType) -> IndexPath? {
@@ -298,30 +284,30 @@ public extension TCGlobalDataMetric {
     
     /// Insert single data to specific section & item data metric.
     public mutating func insert(_ newElement: TCDataType, atIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].insert(newElement, atIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].insert(newElement, atIndex: indexPath.item)
     }
     
     /// Insert multiple data to specific section & item data metric.
     public mutating func insertContentsOf(_ newElements: [TCDataType], atIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].insertContentsOf(newElements, atIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].insertContentsOf(newElements, atIndex: indexPath.item)
     }
     
     /// Replace single data to specific section data metric.
     public mutating func replaceWith(_ newElement: TCDataType, atIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].replaceWith(newElement, atIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].replaceWith(newElement, atIndex: indexPath.item)
     }
     
     /// Replace multiple data to specific section data metric.
     public mutating func replaceWithContentsOf(_ newElements: [TCDataType], atIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].replaceWithContentsOf(newElements, atIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].replaceWithContentsOf(newElements, atIndex: indexPath.item)
     }
     
     /// Remove the first section data metric.
@@ -343,9 +329,9 @@ public extension TCGlobalDataMetric {
     /// Remove specific data for indexPath.
     @discardableResult
     public mutating func removeAtIndexPath(_ indexPath: IndexPath) -> TCDataType? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        return sectionDataMetrics[section].removeAtIndex((indexPath as IndexPath).item)
+        return sectionDataMetrics[section].removeAtIndex(indexPath.item)
     }
     
     public mutating func removeAtIndexPaths(_ indexPaths: [IndexPath]) {
@@ -353,14 +339,13 @@ public extension TCGlobalDataMetric {
         let placeholder: TCPlaceholder = TCPlaceholder()
         for indexPath in indexPaths {
             replaceWith(placeholder, atIndexPath: indexPath)
-            if !sections.contains((indexPath as IndexPath).section) {
-                sections.append((indexPath as IndexPath).section)
+            if !sections.contains(indexPath.section) {
+                sections.append(indexPath.section)
             }
         }
+        
         for section in sections {
-            let itemsData = sectionDataMetrics[section].itemsData.filter { (obj: AnyObject) -> Bool in
-                return !obj.isEqual(placeholder)
-            }
+            let itemsData = sectionDataMetrics[section].itemsData.filter { return $0 == (placeholder as AnyHashable) }
             sectionDataMetrics[section].removeAll()
             appendContentsOf(itemsData, inSection: section)
         }
@@ -418,17 +403,17 @@ internal extension TCGlobalDataMetric {
     // MARK: - UITableView
     
     internal mutating func cacheHeight(_ height: CGFloat, forIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].cacheHeight(height, forIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].cacheHeight(height, forIndex: indexPath.item)
     }
     
     internal func cachedHeightForIndexPath(_ indexPath: IndexPath) -> CGFloat? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         var sectionDataMetric = sectionDataMetrics[section]
-        return sectionDataMetric.cachedHeightForIndex((indexPath as IndexPath).item)
+        return sectionDataMetric.cachedHeightForIndex(indexPath.item)
     }
     
     internal mutating func cacheHeight(_ height: CGFloat, forHeaderInSection section: Int) {
@@ -457,17 +442,17 @@ internal extension TCGlobalDataMetric {
     
     // UICollectionView
     internal mutating func cacheSzie(_ size: CGSize, forIndexPath indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
-        sectionDataMetrics[section].cacheSize(size, forIndex: (indexPath as IndexPath).item)
+        sectionDataMetrics[section].cacheSize(size, forIndex: indexPath.item)
     }
     
     internal func cachedSizeForIndexPath(_ indexPath: IndexPath) -> CGSize? {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section, method: #function, file: #file, line: #line)
         
         var sectionDataMetric = sectionDataMetrics[section]
-        return sectionDataMetric.cachedSizeForIndex((indexPath as IndexPath).item)
+        return sectionDataMetric.cachedSizeForIndex(indexPath.item)
     }
     
     internal mutating func cacheSize(_ size: CGSize, forHeaderInSection section: Int) {
@@ -499,17 +484,17 @@ public extension TCGlobalDataMetric {
     /// UITableView only.
     /// Invalidate the cached cell height when you edit content will change the cell height.
     public mutating func invalidateCachedHeightForIndexPath(_ indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section)
-        sectionDataMetrics[section].invalidateCachedCellHeightForIndex((indexPath as IndexPath).item)
+        sectionDataMetrics[section].invalidateCachedCellHeightForIndex(indexPath.item)
     }
     
     /// UICollectionView only.
     /// Invalidate the cached cell height when you edit content will change the cell size.
     public mutating func invalidateCachedSizeForIndexPath(_ indexPath: IndexPath) {
-        let section = (indexPath as IndexPath).section
+        let section = indexPath.section
         validateNoneInsertElementArgumentSection(section)
-        sectionDataMetrics[section].invalidateCachedCellSizeForIndex((indexPath as IndexPath).item)
+        sectionDataMetrics[section].invalidateCachedCellSizeForIndex(indexPath.item)
     }
     
     public mutating func invalidateCachedHeightForHeaderInSection(_ section: Int) {

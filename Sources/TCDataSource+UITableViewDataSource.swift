@@ -138,7 +138,7 @@ public extension TCDataSource {
         }
         else if .insert == editingStyle {
             // Duplicate last content item, in case reload data error, should not use it.
-            let newIndexPath = IndexPath(item: (indexPath as IndexPath).item + 1, section: (indexPath as IndexPath).section)
+            let newIndexPath = IndexPath(item: indexPath.item + 1, section: indexPath.section)
             globalDataMetric.insert(data, atIndexPath: newIndexPath)
             tableView.insertRows(at: [indexPath], with: .automatic)
         }

@@ -127,9 +127,9 @@ public extension TCDataSource {
         
         var cachedSize: CGSize!
         if kind == .sectionHeader {
-            cachedSize = globalDataMetric.cachedSzieForHeaderInSection((indexPath as IndexPath).section)
+            cachedSize = globalDataMetric.cachedSzieForHeaderInSection(indexPath.section)
         } else {
-            cachedSize = globalDataMetric.cachedSzieForFooterInSection((indexPath as IndexPath).section)
+            cachedSize = globalDataMetric.cachedSzieForFooterInSection(indexPath.section)
         }
         if let cachedSize = cachedSize {
             return cachedSize
@@ -149,9 +149,9 @@ public extension TCDataSource {
         }
         
         if kind == .sectionHeader {
-            globalDataMetric.cacheSize(size, forHeaderInSection: (indexPath as IndexPath).section)
+            globalDataMetric.cacheSize(size, forHeaderInSection: indexPath.section)
         } else {
-            globalDataMetric.cacheSize(size, forFooterInSection: (indexPath as IndexPath).section)
+            globalDataMetric.cacheSize(size, forFooterInSection: indexPath.section)
         }
         
         return size

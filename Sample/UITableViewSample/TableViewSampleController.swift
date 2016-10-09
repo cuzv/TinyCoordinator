@@ -78,7 +78,7 @@ class TableViewSampleController: UIViewController {
         
         let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
-        let secion1 = TCSectionDataMetric(itemsData: data1, dataForHeader: header as TCDataType?, dataForFooter: footer as TCDataType?)
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForHeader: header, dataForFooter: footer)
         let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
         

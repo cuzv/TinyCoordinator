@@ -71,11 +71,10 @@ private extension CollectionViewSampleController {
             return [item1, item2, item3, item4]
         }()
         
-        
 //        let header = "Section header text!  Section header text! Section header text! Section header text Section header text!  Section header text! Section header text! Section header text"
         let header = "header"
         let footer = "Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! Section footer text! "
-        let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header as AnyObject], dataForSupplementaryFooter: [footer as AnyObject])
+        let secion1 = TCSectionDataMetric(itemsData: data1, dataForSupplementaryHeader: [header], dataForSupplementaryFooter: [footer])
         let secion2 = TCSectionDataMetric(itemsData: data2)
         let secion3 = TCSectionDataMetric(itemsData: data3)
 

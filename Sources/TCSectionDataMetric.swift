@@ -168,75 +168,43 @@ public extension TCSectionDataMetric {
     }
     
     internal func contains(_ object: TCDataType) -> Bool {
-        for element in itemsData {
-            if element.isEqual(object) {
-                return true
-            }
-        }
-        return false
+        return itemsData.contains(object)
     }
     
     internal func indexOf(_ object: TCDataType) -> Int? {
-        var index = 0
-        for element in itemsData {
-            if element.isEqual(object) {
-                return index
-            }
-            index += 1
-        }
-        return nil
+        return itemsData.index(of: object)
     }
     
     internal func containsSupplementaryHeaderData(_ object: TCDataType) -> Bool {
         guard let elements = dataForSupplementaryHeader else {
             return false
         }
-        for element in elements {
-            if element.isEqual(object) {
-                return true
-            }
-        }
-        return false
+        
+        return elements.contains(object)
     }
     
     internal func indexOfSupplementaryHeaderData(_ object: TCDataType) -> Int? {
         guard let elements = dataForSupplementaryHeader else {
             return nil
         }
-        var index = 0
-        for element in elements {
-            if element.isEqual(object) {
-                return index
-            }
-            index += 1
-        }
-        return nil
+        
+        return elements.index(of: object)
     }
 
     internal func containsSupplementaryFooterData(_ object: TCDataType) -> Bool {
         guard let elements = dataForSupplementaryFooter else {
             return false
         }
-        for element in elements {
-            if element.isEqual(object) {
-                return true
-            }
-        }
-        return false
+        
+        return elements.contains(object)
     }
     
     internal func indexOfSupplementaryFooterData(_ object: TCDataType) -> Int? {
         guard let elements = dataForSupplementaryFooter else {
             return nil
         }
-        var index = 0
-        for element in elements {
-            if element.isEqual(object) {
-                return index
-            }
-            index += 1
-        }
-        return nil
+        
+        return elements.index(of: object)
     }
 }
 
