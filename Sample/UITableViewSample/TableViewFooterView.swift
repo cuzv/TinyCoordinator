@@ -25,7 +25,7 @@ import UIKit
 import TinyCoordinator
 import SnapKit
 
-class TableViewFooterView: UITableViewHeaderFooterView, Reusable {
+class TableViewFooterView: UITableViewHeaderFooterView, TCReusableViewSupport {
     let descLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -62,5 +62,11 @@ class TableViewFooterView: UITableViewHeaderFooterView, Reusable {
     override func layoutSubviews() {
         super.layoutSubviews()
         descLabel.preferredMaxLayoutWidth = descLabel.bounds.width
+    }
+    
+    func populate(data: TCDataType) {
+        if let data = data as? String {
+            text = data
+        }
     }
 }

@@ -47,7 +47,7 @@ public extension TCDataSource {
         
         if let data = globalDataMetric.dataForItem(at: indexPath) {
             var shouldLoadData = true
-            if let scrollingToTop = scrollingToTop , scrollingToTop {
+            if let scrollingToTop = scrollingToTop, scrollingToTop {
                 shouldLoadData = false
             }
             if shouldLoadData {

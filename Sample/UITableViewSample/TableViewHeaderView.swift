@@ -25,7 +25,7 @@ import UIKit
 import TinyCoordinator
 import SnapKit
 
-class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
+class TableViewHeaderView: UITableViewHeaderFooterView, TCReusableViewSupport {
     let descLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -64,5 +64,11 @@ class TableViewHeaderView: UITableViewHeaderFooterView, Reusable {
         contentView.setNeedsLayout()
         contentView.layoutIfNeeded()
         descLabel.preferredMaxLayoutWidth = descLabel.bounds.width
+    }
+    
+    func populate(data: TCDataType) {
+        if let data = data as? String {
+            text = data
+        }
     }
 }

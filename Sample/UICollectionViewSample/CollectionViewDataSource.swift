@@ -38,13 +38,8 @@ extension CollectionViewDataSource: TCDataSourceable {
     }
     
     func populateData(with data: TCDataType, forReusableCell cell: TCCellType) {
-        if let cell = cell as? CollectionViewCell {
-            if let data = data as? CellDataItem {
-                cell.nameLabel.text = data.name
-            }
-            else if let data = data as? CellDataItem2 {
-                cell.nameLabel.text = data.name
-            }
+        if let reusableCell = cell as? TCReusableViewSupport {
+            reusableCell.populate(data: data)
         }
     }
 }
@@ -56,8 +51,8 @@ extension CollectionViewDataSource: TCCollectionSupplementaryViewibility {
     }
 
     func populateData(with data: TCDataType, forReusableSupplementaryHeaderView supplementaryHeaderView: UICollectionReusableView) {
-        if let supplementaryView = supplementaryHeaderView as? CollectionViewHeaderFooterView {
-            supplementaryView.nameLabel.text = data as? String
+        if let supplementaryView = supplementaryHeaderView as? TCReusableViewSupport {
+            supplementaryView.populate(data: data)
         }
     }
     
@@ -70,8 +65,8 @@ extension CollectionViewDataSource: TCCollectionSupplementaryViewibility {
     }
     
     func populateData(with data: TCDataType, forReusableSupplementaryFooterView supplementaryFooterView: UICollectionReusableView) {
-        if let supplementaryView = supplementaryFooterView as? CollectionViewHeaderFooterView {
-            supplementaryView.nameLabel.text = data as? String
+        if let supplementaryView = supplementaryFooterView as? TCReusableViewSupport {
+            supplementaryView.populate(data: data)
         }
     }
 

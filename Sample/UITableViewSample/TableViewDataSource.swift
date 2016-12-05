@@ -37,13 +37,8 @@ extension TableViewDataSource: TCDataSourceable {
     }
     
     func populateData(with data: TCDataType, forReusableCell cell: TCCellType) {
-        if let cell = cell as? TableViewCell {
-            if let data = data as? CellDataItem {
-                cell.setupData(data.name)
-            }
-            else if let data = data as? CellDataItem2 {
-                cell.setupData(data.name)
-            }
+        if let reusableCell = cell as? TCReusableViewSupport {
+            reusableCell.populate(data: data)
         }
     }
 }
@@ -80,8 +75,8 @@ extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
     }
     
     func populateData(with data: TCDataType, forReusableHeaderView headerView: UITableViewHeaderFooterView) {
-        if let headerView = headerView as? TableViewHeaderView {
-            headerView.text = data as! String
+        if let reusableView = headerView as? TCReusableViewSupport {
+            reusableView.populate(data: data)
         }
     }
     
@@ -90,8 +85,8 @@ extension TableViewDataSource: TCTableViewHeaderFooterViewibility {
     }
     
     func populateData(with data: TCDataType, forReusableFooterView footerView: UITableViewHeaderFooterView) {
-        if let footerView = footerView as? TableViewFooterView {
-            footerView.text = data as! String
+        if let reusableView = footerView as? TCReusableViewSupport {
+            reusableView.populate(data: data)
         }
     }
 }

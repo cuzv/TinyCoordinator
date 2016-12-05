@@ -25,7 +25,8 @@ import UIKit
 import UIKit
 import TinyCoordinator
 
-class TableViewCell: UITableViewCell, Reusable {
+class TableViewCell: UITableViewCell, TCReusableViewSupport {
+
     static let fixedHeight: CGFloat = 44
     
     let nameLabel: UILabel = {
@@ -45,9 +46,7 @@ class TableViewCell: UITableViewCell, Reusable {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension TableViewCell {
+ 
     fileprivate func setupUserInterface() {
         separatorInset = UIEdgeInsets.zero
         layoutMargins = UIEdgeInsets.zero
@@ -68,10 +67,13 @@ extension TableViewCell {
         contentView.layoutIfNeeded()
         nameLabel.preferredMaxLayoutWidth = nameLabel.bounds.width
     }
-}
-
-extension TableViewCell {
-    func setupData(_ data: String) {
-        nameLabel.text = data
+    
+    func populate(data: TCDataType) {
+        if let data = data as? CellDataItem {
+            nameLabel.text = data.name
+        } else if let data = data as? CellDataItem2 {
+            nameLabel.text = data.name
+        }
     }
+
 }

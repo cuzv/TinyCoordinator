@@ -25,7 +25,7 @@ import UIKit
 import TinyCoordinator
 import SnapKit
 
-class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
+class CollectionViewHeaderFooterView: UICollectionReusableView, TCReusableViewSupport {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
@@ -57,5 +57,9 @@ class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
     override func layoutSubviews() {
         nameLabel.preferredMaxLayoutWidth = bounds.width - 16
         super.layoutSubviews()
+    }
+    
+    func populate(data: TCDataType) {
+        nameLabel.text = data as? String
     }
 }

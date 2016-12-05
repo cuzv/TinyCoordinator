@@ -20,6 +20,7 @@
 		463CCDBD1C47E9E2008C7BDB /* CollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CCDBC1C47E9E2008C7BDB /* CollectionViewDelegate.swift */; };
 		463CCDBF1C47E9F4008C7BDB /* CollectionViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CCDBE1C47E9F4008C7BDB /* CollectionViewHeaderFooterView.swift */; };
 		463CCDC31C47EC94008C7BDB /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463CCDC21C47EC94008C7BDB /* CollectionViewCell.swift */; };
+		46B067901DF54466005BCAF1 /* TinyCoordinator+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B0678F1DF54466005BCAF1 /* TinyCoordinator+Extension.swift */; };
 		46D975531C47E8B6000006AE /* TableViewSampleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9754D1C47E8B6000006AE /* TableViewSampleController.swift */; };
 		46D975541C47E8B6000006AE /* TableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9754E1C47E8B6000006AE /* TableViewHeaderView.swift */; };
 		46D975551C47E8B6000006AE /* TableViewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9754F1C47E8B6000006AE /* TableViewFooterView.swift */; };
@@ -61,6 +62,7 @@
 		463CCDBC1C47E9E2008C7BDB /* CollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDelegate.swift; sourceTree = "<group>"; };
 		463CCDBE1C47E9F4008C7BDB /* CollectionViewHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CollectionViewHeaderFooterView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		463CCDC21C47EC94008C7BDB /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CollectionViewCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		46B0678F1DF54466005BCAF1 /* TinyCoordinator+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TinyCoordinator+Extension.swift"; sourceTree = "<group>"; };
 		46D9754D1C47E8B6000006AE /* TableViewSampleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TableViewSampleController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		46D9754E1C47E8B6000006AE /* TableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TableViewHeaderView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		46D9754F1C47E8B6000006AE /* TableViewFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TableViewFooterView.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -202,6 +204,7 @@
 				8C16BBDE0AF8F6496E94E68A92582925 /* LaunchScreen.storyboard */,
 				5F0544899E67061C18DB9548B0ECD591 /* Main.storyboard */,
 				0426EC1025A2CD50D8E8C27220199F07 /* Model.swift */,
+				46B0678F1DF54466005BCAF1 /* TinyCoordinator+Extension.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				46D975531C47E8B6000006AE /* TableViewSampleController.swift in Sources */,
 				46D975581C47E8B6000006AE /* TableViewCell.swift in Sources */,
 				463CCDC31C47EC94008C7BDB /* CollectionViewCell.swift in Sources */,
+				46B067901DF54466005BCAF1 /* TinyCoordinator+Extension.swift in Sources */,
 				46D975571C47E8B6000006AE /* TableViewDataSource.swift in Sources */,
 				46D975551C47E8B6000006AE /* TableViewFooterView.swift in Sources */,
 				463CCDB71C47E925008C7BDB /* CollectionViewSampleController.swift in Sources */,

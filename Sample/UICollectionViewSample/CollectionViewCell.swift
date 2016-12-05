@@ -25,7 +25,7 @@ import UIKit
 import TinyCoordinator
 import SnapKit
 
-class CollectionViewCell: UICollectionViewCell, Reusable {
+class CollectionViewCell: UICollectionViewCell, TCReusableViewSupport {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.brown
@@ -59,5 +59,13 @@ class CollectionViewCell: UICollectionViewCell, Reusable {
     override func layoutSubviews() {
         nameLabel.preferredMaxLayoutWidth = bounds.width - 16
         super.layoutSubviews()
+    }
+    
+    func populate(data: TCDataType) {
+        if let data = data as? CellDataItem {
+            nameLabel.text = data.name
+        } else if let data = data as? CellDataItem2 {
+            nameLabel.text = data.name
+        }
     }
 }
