@@ -63,37 +63,38 @@ open class TCDelegate: NSObject, UITableViewDelegate, UICollectionViewDelegate {
         get { return dataSource.globalDataMetric }
         set { dataSource.globalDataMetric = newValue }
     }
-}
-
-public extension TCDelegate {
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    
+    // MARK: - 
+    
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         targetRect = nil
         loadImagesForVisibleElements()
     }
     
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         targetRect = CGRect(x: targetContentOffset.pointee.x, y: targetContentOffset.pointee.y, width: scrollView.frame.width, height: scrollView.frame.height)
     }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         targetRect = nil
         loadImagesForVisibleElements()
     }
     
-    public func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+    open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         scrollingToTop = true
         return true
     }
     
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         scrollingToTop = false
         loadContent()
     }
     
-    public func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         scrollingToTop = false
         loadContent()
     }
+
 }
 
 private extension TCDelegate {

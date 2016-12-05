@@ -160,13 +160,12 @@ public extension TCGlobalDataMetric {
     
     /// UITableView only, return the specific header index.
     public func indexForHeader(of data: TCDataType) -> Int? {
-        return headerDataForSections.index(of: data)
+        return headerDataForSections.index(where: data.isEqual)
     }
-    
     
     /// UITableView only, return the specific footer index.
     public func indexForFooter(of data: TCDataType) -> Int? {
-        return footerDataForSections.index(of: data)
+        return footerDataForSections.index(where: data.isEqual)
     }
     
     internal var sectionIndexTitles: [String]? {
@@ -340,9 +339,9 @@ public extension TCGlobalDataMetric {
                 sections.append(indexPath.section)
             }
         }
-        
+
         for section in sections {
-            let itemsData = sectionDataMetrics[section].itemsData.filter { return $0 == (placeholder as AnyHashable) }
+            let itemsData = sectionDataMetrics[section].itemsData.filter((placeholder as TCDataType).isEqual)
             sectionDataMetrics[section].removeAll()
             append(contentsOf: itemsData, in: section)
         }

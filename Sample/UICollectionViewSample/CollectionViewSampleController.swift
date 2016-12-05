@@ -63,7 +63,7 @@ private extension CollectionViewSampleController {
     
     func setupReactiveCocoa() {
         
-        let data1: [CellDataItem] = {
+        let data1: [TCDataType] = {
             let item1 = CellDataItem(name: "Michael", pic: "nil")
             let item2 = CellDataItem(name: "Moch", pic: "nil")
             let item3 = CellDataItem(name: text3, pic: "nil")
@@ -94,12 +94,18 @@ private extension CollectionViewSampleController {
         let secion3 = TCSectionDataMetric(itemsData: data3)
 
         
-        let globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion1, secion2, secion3])
+        var globalDataMetric = TCGlobalDataMetric(sectionDataMetrics: [secion1, secion2, secion3, secion1, secion2, secion3])
+        
+        dump(globalDataMetric)
+        
+        globalDataMetric.exchage(at: IndexPath(item: 0, section: 0), to: IndexPath(item: 1, section: 0))
+        dump(globalDataMetric)
+        
+        globalDataMetric.remove(at: IndexPath(item: 0, section: 0))
+        dump(globalDataMetric)
         
         dataSource.globalDataMetric = globalDataMetric
         collectionView.reloadData()
-        
-        dump(globalDataMetric)
     }
 }
 

@@ -51,6 +51,13 @@ class TableViewSampleController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let item1 = DataItem()
+        let item2 = DataItem()
+        
+        let sec = TCSectionDataMetric(itemsData: [item1, item2])
+        let data = sec.data(at: 0)
+        debugPrint(data)
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
@@ -126,6 +133,13 @@ class TableViewSampleController: UIViewController {
         tableView.isEditing = !tableView.isEditing
     }
 }
+
+
+class DataItem: NSObject {
+
+}
+
+
 
 
 

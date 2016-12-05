@@ -23,3 +23,8 @@
 ### 0.5.0
 
 -   add `takeFittingWidth` when compute `UICollectionReusableView` size.
+
+
+### 2.1.1
+
+- redefine TCDataType.

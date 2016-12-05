@@ -145,11 +145,11 @@ public extension TCSectionDataMetric {
     }
     
     internal func contains(_ object: TCDataType) -> Bool {
-        return itemsData.contains(object)
+        return itemsData.contains(where: object.isEqual)
     }
     
     internal func index(of object: TCDataType) -> Int? {
-        return itemsData.index(of: object)
+        return itemsData.index(where: object.isEqual)
     }
     
     internal func containsSupplementaryHeaderData(_ object: TCDataType) -> Bool {
@@ -157,7 +157,7 @@ public extension TCSectionDataMetric {
             return false
         }
         
-        return elements.contains(object)
+        return elements.contains(where: object.isEqual)
     }
     
     internal func indexForSupplementaryHeader(of object: TCDataType) -> Int? {
@@ -165,7 +165,7 @@ public extension TCSectionDataMetric {
             return nil
         }
         
-        return elements.index(of: object)
+        return elements.index(where: object.isEqual)
     }
 
     internal func containsSupplementaryFooterData(_ object: TCDataType) -> Bool {
@@ -173,7 +173,7 @@ public extension TCSectionDataMetric {
             return false
         }
         
-        return elements.contains(object)
+        return elements.contains(where: object.isEqual)
     }
     
     internal func indexForSupplementaryFooter(of object: TCDataType) -> Int? {
@@ -181,7 +181,7 @@ public extension TCSectionDataMetric {
             return nil
         }
         
-        return elements.index(of: object)
+        return elements.index(where: object.isEqual)
     }
 }
 

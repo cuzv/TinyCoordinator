@@ -40,7 +40,6 @@ class CollectionViewHeaderFooterView: UICollectionReusableView, Reusable {
         backgroundColor = UIColor.lightGray
         nameLabel.layer.borderColor = UIColor.yellow.cgColor
         nameLabel.layer.borderWidth = 1
-        
         addSubview(nameLabel)
         nameLabel.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(self).inset(UIEdgeInsetsMake(8, 8, 8, 8))

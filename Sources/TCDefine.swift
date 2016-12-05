@@ -83,11 +83,43 @@ public extension Reusable where Self: TCReusableViewType {
 
 // MARK: -
 
-public typealias TCDataType = AnyHashable
+public protocol TCDataType {
+    func isEqual(_ object: Any?) -> Bool
+}
+
+extension NSObject: TCDataType {
+}
+
+extension String: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let str = object as? String {
+            return str == self
+        } else {
+            return false
+        }
+    }
+}
+
+extension Array: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let arr = object as? NSArray {
+            return arr.isEqual(self)
+        }
+        return false
+    }
+}
+
+extension Dictionary: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let dict = object as? NSDictionary {
+            return dict.isEqual(self)
+        }
+        return false
+    }
+}
 
 internal final class TCPlaceholder: NSObject {
 }
-
 
 // MARK: - Helper
 

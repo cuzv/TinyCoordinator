@@ -265,7 +265,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Moch;
 				TargetAttributes = {
 					1A62055DA3225A079931B1AE7DD78BDC = {

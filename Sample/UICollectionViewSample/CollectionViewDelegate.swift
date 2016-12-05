@@ -25,7 +25,9 @@ import UIKit
 import TinyCoordinator
 
 class CollectionViewDelegate: TCDelegate {
-
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+    }
 }
 
 extension CollectionViewDelegate: UICollectionViewDelegateFlowLayout {
