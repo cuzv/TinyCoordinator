@@ -92,18 +92,72 @@ extension NSObject: TCDataType {
 
 extension String: TCDataType {
     public func isEqual(_ object: Any?) -> Bool {
-        if let str = object as? String {
-            return str == self
+        if let value = object as? String {
+            return value == self
         } else {
             return false
         }
     }
 }
 
+extension Int: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? Int {
+            return value == self
+        }
+        return false
+    }
+}
+
+extension Float: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? Float {
+            return value == self
+        }
+        return false
+    }
+}
+
+extension Double: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? Double {
+            return value == self
+        }
+        return false
+    }
+}
+
+extension Date: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? Date {
+            return value == self
+        }
+        return false
+    }
+}
+
+extension Data: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? Data {
+            return value == self
+        }
+        return false
+    }
+}
+
 extension Array: TCDataType {
     public func isEqual(_ object: Any?) -> Bool {
-        if let arr = object as? NSArray {
-            return arr.isEqual(self)
+        if let value = object as? NSArray {
+            return value.isEqual(self)
+        }
+        return false
+    }
+}
+
+extension Set: TCDataType {
+    public func isEqual(_ object: Any?) -> Bool {
+        if let value = object as? NSSet {
+            return value.isEqual(self)
         }
         return false
     }
