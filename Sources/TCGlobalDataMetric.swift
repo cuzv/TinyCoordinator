@@ -307,16 +307,19 @@ public extension TCGlobalDataMetric {
     }
     
     /// Remove the first section data metric.
+    @discardableResult
     public mutating func removeFirst() -> TCSectionDataMetric {
         return sectionDataMetrics.removeFirst()
     }
     
     /// Remove the last section data metric.
+    @discardableResult
     public mutating func removeLast() -> TCSectionDataMetric {
         return sectionDataMetrics.removeLast()
     }
     
     /// Remove specific section data metric.
+    @discardableResult
     public mutating func remove(at index: Int) -> TCSectionDataMetric {
         validateNoneInsertElementArgument(in: index, method: #function, file: #file, line: #line)
         return sectionDataMetrics.remove(at: index)
