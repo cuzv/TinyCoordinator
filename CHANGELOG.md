@@ -31,6 +31,8 @@
 
 ### 2.1.3
 
-- @discardableResult
+- ​@discardableResult .
 
-  ​
+### 2.1.4
+
+- Fix remove data bug.

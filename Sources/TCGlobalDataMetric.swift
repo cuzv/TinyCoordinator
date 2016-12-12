@@ -344,7 +344,9 @@ public extension TCGlobalDataMetric {
         }
 
         for section in sections {
-            let itemsData = sectionDataMetrics[section].itemsData.filter((placeholder as TCDataType).isEqual)
+            let itemsData = sectionDataMetrics[section].itemsData.filter { (data: TCDataType) -> Bool in
+                return !data.isEqual(placeholder)
+            }
             sectionDataMetrics[section].removeAll()
             append(contentsOf: itemsData, in: section)
         }
