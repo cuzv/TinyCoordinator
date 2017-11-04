@@ -1,6 +1,6 @@
 //
 //  TableViewDelegate.swift
-//  Copyright (c) 2016 Moch Xiao (http://mochxiao.com).
+//  Copyright (c) 2016 Red Rain (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -43,5 +43,10 @@ open class TableViewDelegate: TCDelegate {
     
     open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return viewForFooter(in: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        let value = UITableViewCellEditingStyle.delete.rawValue | UITableViewCellEditingStyle.insert.rawValue
+        return UITableViewCellEditingStyle(rawValue: value)!
     }
 }

@@ -2,8 +2,8 @@
 //  TinyCoordinator+Extension.swift
 //  TinyCoordinator
 //
-//  Created by Moch Xiao on 12/5/16.
-//  Copyright © 2016 Moch. All rights reserved.
+//  Created by Roy Shaw on 12/5/16.
+//  Copyright © 2016 Red Rain. All rights reserved.
 //
 
 import Foundation

@@ -1,6 +1,6 @@
 //
 //  TableViewSampleController.swift
-//  Copyright (c) 2016 Moch Xiao (http://mochxiao.com).
+//  Copyright (c) 2016 Red Rain (https://github.com/cuzv).
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,13 @@ class TableViewSampleController: UIViewController {
         debugPrint("\(#file):\(#line):\(type(of: self)):\(#function)")
     }
     
-    lazy var tableView: UITableView = {
+    let tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.alwaysBounceVertical = true
         tableView.layoutMargins = UIEdgeInsets.zero
         tableView.separatorInset = UIEdgeInsets.zero;
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
-        
+        tableView.allowsSelectionDuringEditing = true
         return tableView
     }()
 
